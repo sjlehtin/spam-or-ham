@@ -16,6 +16,5 @@ function g=classify_with_naive_bayes(unknown, p_hat, p_c)
   p1 = p1 ./ s;
   p2 = p2 ./ s;
 
-  %g = p1;
   g = g1 > g2;
 end
