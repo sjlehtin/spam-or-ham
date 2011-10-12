@@ -12,6 +12,12 @@ class TreeNode(object):
         self.id = TreeNode.cur_id
         TreeNode.cur_id += 1
 
+    def is_leaf(self):
+        if not self.right and not self.left:
+            return True
+
+        return False
+
 DEBUG = True
 def verbose(msg):
     if DEBUG:
@@ -98,12 +104,6 @@ def generate_tree(data, theta, min_row_ratio):
         if min_impurity < theta:
             return node
 
-        # If other leaf would be None, coalesce it with this node.
-        if not numpy.size(tagged, 0):
-            return tree_node(untagged)
-        if not numpy.size(untagged, 0):
-            return tree_node(tagged)
-
         node.right = tree_node(untagged)
         node.left = tree_node(tagged)
 
@@ -130,18 +130,15 @@ def dump_tree(dt):
         print >> fp, "n%s -> n%s;\n" % (n1.id, n2.id)
 
     def dump_node(cur):
-        if not cur.left:
-            return
+        if cur.left:
+            output_node(cur.left)
+            output_edge(cur, cur.left)
+            dump_node(cur.left)
 
-        assert cur.right and cur.left
-
-        output_node(cur.left)
-        output_node(cur.right)
-        output_edge(cur, cur.left)
-        output_edge(cur, cur.right)
-
-        dump_node(cur.left)
-        dump_node(cur.right)
+        if cur.right:
+            output_edge(cur, cur.right)
+            output_node(cur.right)
+            dump_node(cur.right)
 
     output_header()
     output_node(dt)
@@ -152,9 +149,28 @@ def dump_tree(dt):
 def classify(dt, data):
     classified = numpy.zeros((numpy.size(data, 0), 3), dtype=object)
 
+    cols = range(numpy.size(data, 1))
 
+    def recurse(node, data, columns):
+        if node.is_leaf():
+            return node.ratio
 
-    return classified
+        param_is_set = (data[node.col] == 1)
+
+        data = data[:]
+        columns = columns[:]
+        data = numpy.delete(data, node.col)
+        del columns[node.col]
+
+        if param_is_set:
+            return recurse(node.left, data, columns)
+        else:
+            return recurse(node.right, data, columns)
+
+    res = [[data[row, 0], recurse(dt, data[row, :], cols)]
+           for row in range(numpy.size(data, 0))]
+    res = [[xx[0], (1 if xx[1] > 0.50 else 0), xx[1]] for xx in res]
+    return res
 
 
 if __name__ == "__main__":
@@ -166,10 +182,15 @@ if __name__ == "__main__":
     training_data = data[0:1000, :]
     indices = numpy.random.permutation(numpy.size(data, 1) - 2)
     training_data[:,2:] = training_data[:,2:][:,indices]
-    dt = generate_tree(training_data, 0.3, 0.05)
+    dt = generate_tree(training_data, 0.35, 0.05)
 
     dump_tree(dt)
 
     classified = classify(dt, data[1000:, :])
 
-    numpy.savetxt("classified.txt", classified, fmt=["%d", "%d", "%f"])
+    fp = open("classified.txt", "w")
+    for xx in classified:
+        print >> fp, "%d %d %.4f" % (xx[0], xx[1], xx[2])
+    fp.close()
+
+    # numpy.savetxt("classified.txt", classified, fmt=["%d", "%d", "%f"])
