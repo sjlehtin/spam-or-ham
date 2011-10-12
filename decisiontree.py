@@ -158,7 +158,7 @@ def classify(dt, data):
 
     def recurse(node, parent, data, columns):
         if node.is_leaf():
-            return (parent.name, node)
+            return (("ROOT" if not parent else parent.name), node)
 
         param_is_set = (data[node.col] == 1)
 
@@ -184,12 +184,22 @@ if __name__ == "__main__":
                                       (xx if xx != "nan" else 0)})
     column_names = open("column_names.txt").read().strip().split()
 
-    training_data = data[0:1000, :]
+    validation_set_size = 100
+    validation_set = data[0:validation_set_size]
+    training_data = data[validation_set_size:1000, :]
     indices = numpy.random.permutation(numpy.size(data, 1) - 2)
     training_data[:,2:] = training_data[:,2:][:,indices]
-    dt = generate_tree(training_data, column_names, 0.30, 0.05)
+    dt = generate_tree(training_data, column_names, 0.07, 0.02)
 
     dump_tree(dt)
+
+    validated = classify(dt, validation_set)
+    validated = numpy.array([(1 if node.ratio > 0.5 else 0)
+                             for (row, (split, node)) in validated])
+    from_data = validation_set[:, 1]
+
+    print "Correctness: %.3f" % (float(sum(((validated != from_data)) * 1))
+                                 / validation_set_size)
 
     classified = classify(dt, data[1000:, :])
 
