@@ -24,7 +24,7 @@
 \parskip 3mm
 
 % add your student number in parenthesis
-\title{T-61.3050 Preliminary report}
+\title{T-61.3050 Preliminary report: Decision trees in mail classification}
 \author{Jori Bomanson (ZZZZZW) \\
   {\tt jori.bomanson@aalto.fi} \\
   \\
@@ -40,6 +40,23 @@
 
 \maketitle
 
+XXX stuff about decision trees
+
+XXX why numpy (tree structure representation, ease of use)?
+
+
+
+Correctness: 0.920
+
+We did some manual classification checks.  Basically, looks into the
+test data with R and checking the set flags visually with command
+
+\begin{log}
+sort(colSums(data[<row>,]))
+\end{log}
+
+There were no obvious flukes with a handful of tries, although there
+were some very unsure cases.
 
 \begin{thebibliography}{9}
 \bibitem{alpaydin2004}
