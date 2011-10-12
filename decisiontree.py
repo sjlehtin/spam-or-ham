@@ -60,15 +60,14 @@ def impurity(data, m):
     #                          p_ham_untagged,
     #                          p_ham_tagged))
 
-    impurity = - (num_tagged * (numpy.nan_to_num(p_spam_tagged *
-                                            numpy.log(p_spam_tagged))
-                                + numpy.nan_to_num(p_ham_tagged *
-                                              numpy.log(p_ham_tagged)))
-                  + num_untagged *
-                  (numpy.nan_to_num(p_spam_untagged *
-                                    numpy.log(p_spam_untagged))
-                   + numpy.nan_to_num(p_ham_untagged *
-                                      numpy.log(p_ham_untagged))))
+    def log_prod(pp):
+        if not pp:
+            return 0
+        return pp * numpy.log(pp)
+    impurity = - (num_tagged * (log_prod(p_spam_tagged)
+                                + log_prod(p_ham_tagged))
+                  + num_untagged * (log_prod(p_spam_untagged) +
+                                    log_prod(p_ham_untagged)))
 
     return impurity/numpy.size(data, 0)
 
@@ -182,7 +181,7 @@ if __name__ == "__main__":
     training_data = data[0:1000, :]
     indices = numpy.random.permutation(numpy.size(data, 1) - 2)
     training_data[:,2:] = training_data[:,2:][:,indices]
-    dt = generate_tree(training_data, 0.35, 0.05)
+    dt = generate_tree(training_data, 0.30, 0.05)
 
     dump_tree(dt)
 
