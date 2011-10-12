@@ -9,6 +9,10 @@ class TreeNode(object):
         self.left = None
         self.right = None
         self.ratio = 0
+        self.name = ""
+        self.col = -1
+
+
         self.id = TreeNode.cur_id
         TreeNode.cur_id += 1
 
@@ -55,11 +59,6 @@ def impurity(data, m):
     p_ham_untagged = prob_calc(num_untagged_ham, num_untagged)
     p_ham_tagged = prob_calc(num_tagged_ham, num_tagged)
 
-    # verbose("%s %s %s %s" % (p_spam_untagged,
-    #                          p_spam_tagged,
-    #                          p_ham_untagged,
-    #                          p_ham_tagged))
-
     def log_prod(pp):
         if not pp:
             return 0
@@ -71,11 +70,12 @@ def impurity(data, m):
 
     return impurity/numpy.size(data, 0)
 
-def generate_tree(data, theta, min_row_ratio):
+def generate_tree(data, column_names, theta, min_row_ratio):
 
     min_rows = min_row_ratio * numpy.size(data, 0)
+    names = column_names[:]
 
-    def tree_node(data):
+    def tree_node(data, names):
         node = TreeNode()
 
         rows = numpy.size(data, 0)
@@ -100,16 +100,19 @@ def generate_tree(data, theta, min_row_ratio):
         [tagged, untagged] = split(data, column)
 
         node.col = column
+        node.name = names[column]
+        names = names[:]
+        del names[column]
+
         if min_impurity < theta:
             return node
 
-        node.right = tree_node(untagged)
-        node.left = tree_node(tagged)
+        node.right = tree_node(untagged, names)
+        node.left = tree_node(tagged, names)
 
         return node
 
-    return tree_node(data)
-
+    return tree_node(data, names)
 
 def dump_tree(dt):
 
@@ -123,19 +126,20 @@ def dump_tree(dt):
          print >> fp, "}"
 
     def output_node(node):
-        print >> fp, "n%s;\n" % (node.id)
+        print >> fp, "n%s [label=\"%s (%d)\\nratio=%.4f\"];\n" % (
+            node.id, node.name, node.col, node.ratio)
 
-    def output_edge(n1, n2):
-        print >> fp, "n%s -> n%s;\n" % (n1.id, n2.id)
+    def output_edge(n1, n2, label=""):
+        print >> fp, "n%s -> n%s [label=%s];\n" % (n1.id, n2.id, label)
 
     def dump_node(cur):
         if cur.left:
             output_node(cur.left)
-            output_edge(cur, cur.left)
+            output_edge(cur, cur.left, label="Yes")
             dump_node(cur.left)
 
         if cur.right:
-            output_edge(cur, cur.right)
+            output_edge(cur, cur.right, label="No")
             output_node(cur.right)
             dump_node(cur.right)
 
@@ -152,7 +156,7 @@ def classify(dt, data):
 
     def recurse(node, data, columns):
         if node.is_leaf():
-            return node.ratio
+            return node
 
         param_is_set = (data[node.col] == 1)
 
@@ -168,7 +172,6 @@ def classify(dt, data):
 
     res = [[data[row, 0], recurse(dt, data[row, :], cols)]
            for row in range(numpy.size(data, 0))]
-    res = [[xx[0], (1 if xx[1] > 0.50 else 0), xx[1]] for xx in res]
     return res
 
 
@@ -177,19 +180,21 @@ if __name__ == "__main__":
     data = numpy.loadtxt("data.txt", comments="%", dtype=int,
                          converters={ 1 : lambda xx:
                                       (xx if xx != "nan" else 0)})
+    column_names = open("column_names.txt").read().strip().split()
 
     training_data = data[0:1000, :]
     indices = numpy.random.permutation(numpy.size(data, 1) - 2)
     training_data[:,2:] = training_data[:,2:][:,indices]
-    dt = generate_tree(training_data, 0.30, 0.05)
+    dt = generate_tree(training_data, column_names, 0.30, 0.05)
 
     dump_tree(dt)
 
     classified = classify(dt, data[1000:, :])
 
     fp = open("classified.txt", "w")
-    for xx in classified:
-        print >> fp, "%d %d %.4f" % (xx[0], xx[1], xx[2])
+    for (row, node) in classified:
+        print >> fp, "%d %d %.4f # %s" % (row, (1 if node.ratio > 0.5 else 0),
+                                          node.ratio, node.name)
     fp.close()
 
     # numpy.savetxt("classified.txt", classified, fmt=["%d", "%d", "%f"])
