@@ -80,6 +80,8 @@ def generate_tree(data, column_names, theta, min_row_ratio):
 
         rows = numpy.size(data, 0)
 
+        # number of elements marked as spam divided by total number of
+        # elements leading here.
         node.ratio = float(sum(data[:, 1])) / rows
 
         cols = numpy.size(data, 1)
@@ -154,9 +156,9 @@ def classify(dt, data):
 
     cols = range(numpy.size(data, 1))
 
-    def recurse(node, data, columns):
+    def recurse(node, parent, data, columns):
         if node.is_leaf():
-            return node
+            return (parent.name, node)
 
         param_is_set = (data[node.col] == 1)
 
@@ -166,11 +168,11 @@ def classify(dt, data):
         del columns[node.col]
 
         if param_is_set:
-            return recurse(node.left, data, columns)
+            return recurse(node.left, node, data, columns)
         else:
-            return recurse(node.right, data, columns)
+            return recurse(node.right, node, data, columns)
 
-    res = [[data[row, 0], recurse(dt, data[row, :], cols)]
+    res = [[data[row, 0], recurse(dt, None, data[row, :], cols)]
            for row in range(numpy.size(data, 0))]
     return res
 
@@ -192,9 +194,9 @@ if __name__ == "__main__":
     classified = classify(dt, data[1000:, :])
 
     fp = open("classified.txt", "w")
-    for (row, node) in classified:
+    for (row, (last_split, node)) in classified:
         print >> fp, "%d %d %.4f # %s" % (row, (1 if node.ratio > 0.5 else 0),
-                                          node.ratio, node.name)
+                                          node.ratio, last_split)
     fp.close()
 
     # numpy.savetxt("classified.txt", classified, fmt=["%d", "%d", "%f"])
