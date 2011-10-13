@@ -44,9 +44,9 @@ Our goal in this exercise project is to compare a naive Bayes classifier
 with decision trees.  We will compare learning speed and classification
 accuracy, among other characteristics.
 
-Decision trees are easy to visualize graphically and following a graphed
-tree allows to see exactly what steps the classifier takes when it
-processes a sample.
+Decision trees are easy to visualize graphically and following a graph
+of the tree allows to see exactly what steps the classifier takes when
+it processes a sample.
 
 The implementation of the decision tree is done with Numpy.  This
 approach was chosen because we felt that Python would be better suited
@@ -55,10 +55,10 @@ in manipulating the necessary data structures.
 The predictions were created with a decision tree classifier, chosen
 manually from a few runs based on the accuracy of the classifier (ratio
 of correctly classified samples from the validation set)\footnote{In the
-  project, the aim is to perform cross-validation to choose best
-  classifiers with the training data.}.  The tree was prepruned with
-threshold values in impurity and the number of columns and rows left
-after splitting.
+  project, we will perform cross-validation to choose best classifiers
+  with the training data.}.  The tree was prepruned with threshold
+values in impurity and the number of columns and rows left after
+splitting.
 
 We did some manual classification checks based on the classifier output
 of the test set.  Looking into the test data with \texttt{R} and
