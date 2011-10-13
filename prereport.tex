@@ -24,7 +24,7 @@
 \parskip 3mm
 
 % add your student number in parenthesis
-\title{Decision trees versus naive Baies in mail classification}
+\title{Decision trees versus naive Bayes in mail classification}
 \author{Jori Bomanson (ZZZZZW) \\
   {\tt jori.bomanson@aalto.fi} \\
   \\
@@ -41,36 +41,29 @@
 \maketitle
 
 Our goal in this exercise project is to compare a naive Bayes classifier
-with decision trees.  
+with decision trees.  We will compare learning speed and classification
+accuracy, among other characteristics.
 
-Decision trees are easy to visualize graphically.
+Decision trees are easy to visualize graphically and following a graphed
+tree allows to see exactly what steps the classifier takes when it
+processes a sample.
 
 The implementation of the decision tree is done with Numpy.  This
 approach was chosen because we felt that Python would be better suited
 in manipulating the necessary data structures.
 
-The preliminary data was created with a decision tree classifier, chosen
-manually from a few runs on the command-line based on the accuracy of
-the classifier (ratio of correctly classified samples from the
-validation set).  In the project, the aim is to cross-validation to
-choose best classifiers with the training data.  Cross-validation will
-be performed by splitting the training data in, e.g., 10 chunks
-randomly, and using each chunk in turn as the validation set and the
-rest as the training set.  Part of the training data needs to be set
-aside for postpruning, which is done to avoid overfitting.  Prepruning
-is done with treshold values in impurity and the number of columns and
-rows left after splitting.  
+The predictions were created with a decision tree classifier, chosen
+manually from a few runs based on the accuracy of the classifier (ratio
+of correctly classified samples from the validation set)\footnote{In the
+  project, the aim is to perform cross-validation to choose best
+  classifiers with the training data.}.  The tree was prepruned with
+threshold values in impurity and the number of columns and rows left
+after splitting.
 
 We did some manual classification checks based on the classifier output
 of the test set.  Looking into the test data with \texttt{R} and
-checking the set flags visually with command
-
-\begin{log}
-sort(colSums(data[<row>,]))
-\end{log}
-
-there were no obvious flukes with a handful of tries, although there
-were some very unsure cases.
+checking the flags set in the set, there were no obvious flukes with a
+dozen or so rows.  Better validation procedures are necessary.
 
 \begin{thebibliography}{9}
 \bibitem{alpaydin2004}
