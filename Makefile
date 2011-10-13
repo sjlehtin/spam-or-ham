@@ -1,4 +1,4 @@
-all: prereport.pdf tree.pdf
+all: prereport.pdf classified.pdf
 
 %.pdf %.aux %.log %.out %.toc %.lol %.lof: %.tex
 	-pdflatex -interaction nonstopmode -halt-on-error $<
@@ -9,3 +9,6 @@ all: prereport.pdf tree.pdf
 
 %.eps: %.dot
 	dot -Teps $< > $@
+
+classified.dot: decisiontree.py
+	python decisiontree.py
