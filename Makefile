@@ -1,4 +1,4 @@
-all: mlmethods_44814P.pdf classified.pdf
+all: mlmethods_44814P.pdf classified.pdf best.pdf
 
 %.pdf %.aux %.log %.out %.toc %.lol %.lof: %.tex
 	-pdflatex -interaction nonstopmode -halt-on-error $<
