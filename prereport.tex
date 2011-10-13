@@ -24,7 +24,7 @@
 \parskip 3mm
 
 % add your student number in parenthesis
-\title{T-61.3050 Preliminary report: Decision trees in mail classification}
+\title{Decision trees versus naive Baies in mail classification}
 \author{Jori Bomanson (ZZZZZW) \\
   {\tt jori.bomanson@aalto.fi} \\
   \\
@@ -40,22 +40,36 @@
 
 \maketitle
 
-XXX stuff about decision trees
+Our goal in this exercise project is to compare a naive Bayes classifier
+with decision trees.  
 
-XXX why numpy (tree structure representation, ease of use)?
+Decision trees are easy to visualize graphically.
 
+The implementation of the decision tree is done with Numpy.  This
+approach was chosen because we felt that Python would be better suited
+in manipulating the necessary data structures.
 
+The preliminary data was created with a decision tree classifier, chosen
+manually from a few runs on the command-line based on the accuracy of
+the classifier (ratio of correctly classified samples from the
+validation set).  In the project, the aim is to cross-validation to
+choose best classifiers with the training data.  Cross-validation will
+be performed by splitting the training data in, e.g., 10 chunks
+randomly, and using each chunk in turn as the validation set and the
+rest as the training set.  Part of the training data needs to be set
+aside for postpruning, which is done to avoid overfitting.  Prepruning
+is done with treshold values in impurity and the number of columns and
+rows left after splitting.  
 
-Correctness: 0.920
-
-We did some manual classification checks.  Basically, looks into the
-test data with R and checking the set flags visually with command
+We did some manual classification checks based on the classifier output
+of the test set.  Looking into the test data with \texttt{R} and
+checking the set flags visually with command
 
 \begin{log}
 sort(colSums(data[<row>,]))
 \end{log}
 
-There were no obvious flukes with a handful of tries, although there
+there were no obvious flukes with a handful of tries, although there
 were some very unsure cases.
 
 \begin{thebibliography}{9}
