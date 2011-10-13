@@ -65,10 +65,6 @@ def split(data, m):
 
 def impurity(data, m):
 
-    ## No data samples, useless as a split.
-    #if sum(data[:, m]) == 0:
-    #    return 0
-
     [tagged, untagged] = split(data, m)
 
     num_tagged = numpy.size(tagged, 0)
@@ -145,12 +141,6 @@ def generate_tree(data, column_names, theta, min_row_ratio):
         names = names[:]
         names = numpy.delete(names, column)
 
-        #if numpy.size(tagged, 0) < min_rows:
-        #    print ("Stopping recursion due to too few rows (%d) tagged "
-        #           "after split with %s." % (numpy.size(tagged, 0),
-        #                                     node.name))
-        #    return node
-        #
         if  min_impurity < theta:
             print ("Stopping recursion due to minimimum impurity (%.5f) "
                    "reached with %s." % (min_impurity, node.name))
