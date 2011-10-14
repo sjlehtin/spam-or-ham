@@ -54,14 +54,14 @@ in manipulating the necessary data structures.
 The predictions were created with a decision tree classifier, chosen
 manually from a few runs based on the accuracy of the classifier (ratio
 of correctly classified samples from the validation set)\footnote{In the
-  project, we will perform cross-validation to choose best classifiers
-  with the training data.}.  The tree was prepruned with threshold
-values in impurity and the number of columns and rows left after
-splitting.
+  project, we will perform cross-validation to choose the best
+  classifiers with the training data.}.  The tree was prepruned with
+threshold values in impurity and the number of columns and rows left
+after splitting.
 
 We did some manual classification checks based on the classifier output
 of the test set.  Looking into the test data with \texttt{R} and
-checking the flags set in the set, there were no obvious flukes with a
+checking the flags set in the data, there were no obvious errors with a
 dozen or so rows.  Better validation procedures are necessary.
 
 \begin{thebibliography}{9}
