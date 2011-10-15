@@ -104,7 +104,7 @@ def generate_tree(data, column_names, column_ids, theta, min_row_ratio):
 
     min_rows = min_row_ratio * numpy.size(data, 0)
 
-    def tree_node(data, names, ids, parent):
+    def tree_node(data, ids, parent):
         node = TreeNode()
         rows = numpy.size(data, 0)
 
@@ -131,7 +131,6 @@ def generate_tree(data, column_names, column_ids, theta, min_row_ratio):
                                              numpy.size(data, 1))
 
         data = data[:, columns_to_retain]
-        #names = names[:, columns_to_retain]
         ids = ids[:, columns_to_retain]
 
         cols = numpy.size(data, 1)
@@ -151,28 +150,26 @@ def generate_tree(data, column_names, column_ids, theta, min_row_ratio):
                                      key=lambda xx: xx[1])
         real_column = ids[column]
         print "Min impurity: %f, column %s (%d)." % \
-            (min_impurity, names[real_column], real_column)
+            (min_impurity, column_names[real_column], real_column)
 
         [tagged, untagged] = split(data, column)
 
         node.col = real_column
-        node.name = names[real_column]
-        # names = numpy.delete(names, column)
+        node.name = column_names[real_column]
 
         if  min_impurity < theta:
             print ("Stopping recursion due to minimimum impurity (%.5f) "
                    "reached with %s." % (min_impurity, node.name))
             return node
 
-        node.left = tree_node(tagged, names, ids, node)
-        node.right = tree_node(untagged, names, ids, node)
+        node.left = tree_node(tagged, ids, node)
+        node.right = tree_node(untagged, ids, node)
 
         assert(node.left.can_decide() or node.right.can_decide())
 
         return node
 
-    return tree_node(data, column_names, column_ids,
-                     NullTreeNode.get_instance())
+    return tree_node(data, column_ids, NullTreeNode.get_instance())
 
 def dump_tree(dt):
 
@@ -217,23 +214,28 @@ def classify(dt, data):
 
     cols = range(numpy.size(data, 1))
 
-    def recurse(node, parent, data, columns):
+    def recurse(node, parent, data, columns, used_columns):
         if node.is_leaf():
             return (("ROOT" if not parent else parent.name), node)
 
+        if node in used_columns:
+            raise RuntimeError("Node %s used twice! (parent %s)" % (
+                    node.name, parent.name))
+        used_columns[node] = True
         param_is_set = (data[node.col] == 1)
 
-        data = data[:]
-        columns = columns[:]
-        data = numpy.delete(data, node.col)
-        del columns[node.col]
+        #data = data[:]
+        #columns = columns[:]
+        #data = numpy.delete(data, node.col)
+        #del columns[node.col]
 
         if node.left.can_decide() and param_is_set:
-            return recurse(node.left, node, data, columns)
+            return recurse(node.left, node, data, columns, used_columns.copy())
         else:
-            return recurse(node.right, node, data, columns)
+            return recurse(node.right, node, data, columns, used_columns.copy())
 
-    res = [[data[row, 0], recurse(dt, None, data[row, :], cols)]
+    res = [[data[row, 0], recurse(dt, None, data[row, :], cols,
+                                  {})]
            for row in range(numpy.size(data, 0))]
     return res
 
