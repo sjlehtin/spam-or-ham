@@ -214,28 +214,24 @@ def classify(dt, data):
 
     cols = range(numpy.size(data, 1))
 
-    def recurse(node, parent, data, columns, used_columns):
-        if node.is_leaf():
-            return (("ROOT" if not parent else parent.name), node)
+    def classify_row(dt, row):
+        def recurse(node, parent, used_columns):
+            if node.is_leaf():
+                return (("ROOT" if not parent else parent.name), node)
 
-        if node in used_columns:
-            raise RuntimeError("Node %s used twice! (parent %s)" % (
-                    node.name, parent.name))
-        used_columns[node] = True
-        param_is_set = (data[node.col] == 1)
+            if node in used_columns:
+                raise RuntimeError("Node %s used twice! (parent %s)" % (
+                        node.name, parent.name))
+            used_columns[node] = True
+            param_is_set = (row[node.col] == 1)
 
-        #data = data[:]
-        #columns = columns[:]
-        #data = numpy.delete(data, node.col)
-        #del columns[node.col]
+            if node.left.can_decide() and param_is_set:
+                return recurse(node.left, node, used_columns.copy())
+            else:
+                return recurse(node.right, node, used_columns.copy())
+        return recurse(dt, None, {})
 
-        if node.left.can_decide() and param_is_set:
-            return recurse(node.left, node, data, columns, used_columns.copy())
-        else:
-            return recurse(node.right, node, data, columns, used_columns.copy())
-
-    res = [[data[row, 0], recurse(dt, None, data[row, :], cols,
-                                  {})]
+    res = [[data[row, 0], classify_row(dt, data[row,:])]
            for row in range(numpy.size(data, 0))]
     return res
 
