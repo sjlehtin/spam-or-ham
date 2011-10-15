@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import numpy
 import sys
 import math
@@ -130,6 +132,7 @@ def generate_tree(data, column_names, column_ids, theta, min_row_ratio):
                                              sum(columns_to_retain * 1),
                                              numpy.size(data, 1))
 
+        assert(numpy.size(ids) == numpy.size(data, 1))
         data = data[:, columns_to_retain]
         ids = ids[:, columns_to_retain]
 
@@ -153,6 +156,8 @@ def generate_tree(data, column_names, column_ids, theta, min_row_ratio):
             (min_impurity, column_names[real_column], real_column)
 
         [tagged, untagged] = split(data, column)
+
+        ids = numpy.delete(ids, column)
 
         node.col = real_column
         node.name = column_names[real_column]
