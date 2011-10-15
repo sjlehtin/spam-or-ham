@@ -39,18 +39,6 @@ class TreeNode(object):
     def can_decide(self):
         return self.num_elements > 0
 
-class NullTreeNode(TreeNode):
-    __instance = None
-    def __init__(self):
-        TreeNode.__init__(self)
-        self.name = "ROOT"
-
-    @classmethod
-    def get_instance(cls):
-        if not cls.__instance:
-            cls.__instance = NullTreeNode()
-        return cls.__instance
-
 DEBUG = True
 def verbose(msg):
     if DEBUG:
@@ -174,7 +162,7 @@ def generate_tree(data, column_names, column_ids, theta, min_row_ratio):
 
         return node
 
-    return tree_node(data, column_ids, NullTreeNode.get_instance())
+    return tree_node(data, column_ids, None)
 
 def dump_tree(dt):
 
