@@ -100,12 +100,11 @@ def impurity(data, m):
     assert impurity <= 1.0
     return impurity
 
-def generate_tree(data, column_names, theta, min_row_ratio):
+def generate_tree(data, column_names, column_ids, theta, min_row_ratio):
 
     min_rows = min_row_ratio * numpy.size(data, 0)
-    names = column_names[:]
 
-    def tree_node(data, names, parent):
+    def tree_node(data, names, ids, parent):
         node = TreeNode()
         rows = numpy.size(data, 0)
 
@@ -115,14 +114,33 @@ def generate_tree(data, column_names, theta, min_row_ratio):
         node.num_elements = rows
         node.num_tagged = sum(data[:, 1])
 
-        cols = numpy.size(data, 1)
-
         if  rows < min_rows:
             print ("Stopping recursion due to too few rows (%d) untagged "
                    "after split with %s." % (rows, parent.name))
             return node
 
+
+        # Get the columns that have meaningful data.  If a parameter does
+        # not have any instances in the training set, we cannot classify
+        # based on that.
+        columns_to_retain = sum(data) > 1
+        columns_to_retain[0:2] = True
+
+        print "Dropping %d / %d columns." % (numpy.size(data, 1) -
+                                             sum(columns_to_retain * 1),
+                                             numpy.size(data, 1))
+
+        data = data[:, columns_to_retain]
+        names = names[:, columns_to_retain]
+        ids = ids[:, columns_to_retain]
+
+        cols = numpy.size(data, 1)
+
+        # First 2 columns are bookkeeping, so 3 columns are needed to
+        # have at least one business column.
         if cols < 3:
+            print ("Stopping recursion due to too few cols (%d) "
+                   "after split with %s." % (cols, parent.name))
             return node
 
         print ("Starting impurity calculation, number of rows %d, "
@@ -131,14 +149,14 @@ def generate_tree(data, column_names, theta, min_row_ratio):
         (column, min_impurity) = min([(mm, impurity(data, mm))
                                       for mm in range(2, cols)],
                                      key=lambda xx: xx[1])
+        real_column = ids[column]
         print "Min impurity: %f, column %d." % \
-            (min_impurity, column)
+            (min_impurity, real_column)
 
         [tagged, untagged] = split(data, column)
 
-        node.col = column
+        node.col = real_column
         node.name = names[column]
-        names = names[:]
         names = numpy.delete(names, column)
 
         if  min_impurity < theta:
@@ -146,14 +164,15 @@ def generate_tree(data, column_names, theta, min_row_ratio):
                    "reached with %s." % (min_impurity, node.name))
             return node
 
-        node.left = tree_node(tagged, names, node)
-        node.right = tree_node(untagged, names, node)
+        node.left = tree_node(tagged, names, ids, node)
+        node.right = tree_node(untagged, names, ids, node)
 
         assert(node.left.can_decide() or node.right.can_decide())
 
         return node
 
-    return tree_node(data, names, NullTreeNode.get_instance())
+    return tree_node(data, column_names, column_ids,
+                     NullTreeNode.get_instance())
 
 def dump_tree(dt):
 
@@ -170,8 +189,8 @@ def dump_tree(dt):
         name = ""
         if node.col >= 0:
             name = "%s (%d)" % (node.name, node.col)
-        print >> fp, "n%s [label=\"ratio=%.4f\\n%s\"];\n" % (
-            node.id, node.ratio(), name)
+        print >> fp, "n%s [label=\"ratio=%.4f (%d/%d)\\n%s\"];\n" % (
+            node.id, node.ratio(), node.num_tagged, node.num_elements, name)
 
     def output_edge(n1, n2, label=""):
         print >> fp, "n%s -> n%s [label=%s];\n" % (n1.id, n2.id, label)
@@ -229,10 +248,13 @@ if __name__ == "__main__":
 
     validation_set_size = 100
     training_data = data[0:1000, :]
+
+    column_ids = numpy.array(range(0, numpy.size(data, 1)))
+
     # Shuffle columns so as not to run the algorithm with the columns
     # always in a set order.
     indices = numpy.random.permutation(numpy.size(data, 1) - 2)
-    training_data[:,2:] = training_data[:,2:][:,indices]
+    data[:,2:] = data[:,2:][:,indices]
     column_names[2:] = column_names[2:][indices]
 
     # Shuffle rows before separating the validation set.
@@ -242,7 +264,7 @@ if __name__ == "__main__":
     validation_set = training_data[0:validation_set_size, :]
     training_data = training_data[validation_set_size:, :]
 
-    dt = generate_tree(training_data, column_names, 0.08, 0.005)
+    dt = generate_tree(training_data, column_names, column_ids, 0.08, 0.005)
 
     dump_tree(dt)
 
@@ -259,20 +281,22 @@ if __name__ == "__main__":
                                                           numpy.size(validated))
     print " Correctness: %.3f" % (float(sum(((validated == from_data)) * 1))
                                   / validation_set_size)
+    print "Index:\tgot,\texpected"
     for (ii, got, exp) in zip(range(1, numpy.size(validated, 0)),
                               validated, from_data):
         if got != exp:
-            print "%d: %d, %d" % (ii, got, exp)
+            print "%d:\t%d,\t%d" % (ii, got, exp)
     classified = classify(dt, data[1000:, :])
 
     num_spam = 0
     fp = open("classified.txt", "w")
     for (row, (last_split, node)) in classified:
-        print >> fp, "%d %d %.4f # %s" % (row, node.is_spam(), node.ratio(),
-                                          last_split)
+        comment = ""
+        if False:
+            comment = " # %s" % last_split
+        print >> fp, "%d %d %.4f%s" % (row, node.is_spam(), node.ratio(),
+                                       comment)
         if node.is_spam():
             num_spam += 1
     print "Classified as spam: %d / %d" % (num_spam, len(classified))
     fp.close()
-
-    # numpy.savetxt("classified.txt", classified, fmt=["%d", "%d", "%f"])
