@@ -131,7 +131,7 @@ def generate_tree(data, column_names, column_ids, theta, min_row_ratio):
                                              numpy.size(data, 1))
 
         data = data[:, columns_to_retain]
-        names = names[:, columns_to_retain]
+        #names = names[:, columns_to_retain]
         ids = ids[:, columns_to_retain]
 
         cols = numpy.size(data, 1)
@@ -150,14 +150,14 @@ def generate_tree(data, column_names, column_ids, theta, min_row_ratio):
                                       for mm in range(2, cols)],
                                      key=lambda xx: xx[1])
         real_column = ids[column]
-        print "Min impurity: %f, column %d." % \
-            (min_impurity, real_column)
+        print "Min impurity: %f, column %s (%d)." % \
+            (min_impurity, names[real_column], real_column)
 
         [tagged, untagged] = split(data, column)
 
         node.col = real_column
-        node.name = names[column]
-        names = numpy.delete(names, column)
+        node.name = names[real_column]
+        # names = numpy.delete(names, column)
 
         if  min_impurity < theta:
             print ("Stopping recursion due to minimimum impurity (%.5f) "
@@ -264,7 +264,7 @@ if __name__ == "__main__":
     validation_set = training_data[0:validation_set_size, :]
     training_data = training_data[validation_set_size:, :]
 
-    dt = generate_tree(training_data, column_names, column_ids, 0.08, 0.005)
+    dt = generate_tree(training_data, column_names, column_ids, 0.04, 0.002)
 
     dump_tree(dt)
 
@@ -277,8 +277,9 @@ if __name__ == "__main__":
     print "Validation:"
     print " Classified as spam: %d / %d" % (sum(validated),
                                             numpy.size(validated))
-    print " Classified as spam in validation: %d / %d" % (sum(from_data),
-                                                          numpy.size(validated))
+    print " Classified as spam in validation set: %d / %d" % (
+        sum(from_data),
+        numpy.size(validated))
     print " Correctness: %.3f" % (float(sum(((validated == from_data)) * 1))
                                   / validation_set_size)
     print "Index:\tgot,\texpected"
@@ -292,7 +293,7 @@ if __name__ == "__main__":
     fp = open("classified.txt", "w")
     for (row, (last_split, node)) in classified:
         comment = ""
-        if False:
+        if True:
             comment = " # %s" % last_split
         print >> fp, "%d %d %.4f%s" % (row, node.is_spam(), node.ratio(),
                                        comment)
