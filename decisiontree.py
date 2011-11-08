@@ -4,6 +4,7 @@ import numpy
 import sys
 import math
 import optparse
+from numpy import size # For conveniency.
 
 class TreeNode(object):
     cur_id = 0
@@ -47,7 +48,7 @@ def verbose(msg):
         sys.stderr.write("%s\n" % msg)
 
 def split(data, m):
-    assert numpy.size(data, 0) > 1
+    assert size(data, 0) > 1
     cols = data[:, m]
     tagged = data[cols == 1]
     untagged = data[cols == 0]
@@ -59,8 +60,8 @@ def impurity(data, m):
 
     [tagged, untagged] = split(data, m)
 
-    num_tagged = numpy.size(tagged, 0)
-    num_untagged = numpy.size(untagged, 0)
+    num_tagged = size(tagged, 0)
+    num_untagged = size(untagged, 0)
 
     num_tagged_spam = sum(tagged[:, 1])
     num_tagged_ham = num_tagged - num_tagged_spam
@@ -87,18 +88,18 @@ def impurity(data, m):
                   + num_untagged * (log_prod(p_spam_untagged) +
                                     log_prod(p_ham_untagged)))
 
-    impurity = impurity/numpy.size(data, 0)
+    impurity = impurity/size(data, 0)
     assert impurity >= 0
     assert impurity <= 1.0
     return impurity
 
 def generate_tree(data, column_names, column_ids, theta, min_row_ratio):
 
-    min_rows = min_row_ratio * numpy.size(data, 0)
+    min_rows = min_row_ratio * size(data, 0)
 
     def tree_node(data, ids, parent):
         node = TreeNode()
-        rows = numpy.size(data, 0)
+        rows = size(data, 0)
 
         if not rows:
             return node
@@ -118,15 +119,15 @@ def generate_tree(data, column_names, column_ids, theta, min_row_ratio):
         columns_to_retain = sum(data) > 1
         columns_to_retain[0:2] = True
 
-        print "Dropping %d / %d columns." % (numpy.size(data, 1) -
+        print "Dropping %d / %d columns." % (size(data, 1) -
                                              sum(columns_to_retain * 1),
-                                             numpy.size(data, 1))
+                                             size(data, 1))
 
-        assert(numpy.size(ids) == numpy.size(data, 1))
+        assert(size(ids) == size(data, 1))
         data = data[:, columns_to_retain]
         ids = ids[:, columns_to_retain]
 
-        cols = numpy.size(data, 1)
+        cols = size(data, 1)
 
         # First 2 columns are bookkeeping, so 3 columns are needed to
         # have at least one business column.
@@ -137,7 +138,7 @@ def generate_tree(data, column_names, column_ids, theta, min_row_ratio):
 
         print ("Starting impurity calculation, number of rows %d, "
                "columns %d." %
-               (rows, numpy.size(data, 1)))
+               (rows, size(data, 1)))
         (column, min_impurity) = min([(mm, impurity(data, mm))
                                       for mm in range(2, cols)],
                                      key=lambda xx: xx[1])
@@ -205,9 +206,9 @@ def dump_tree(dt):
     fp.close()
 
 def classify(dt, data):
-    classified = numpy.zeros((numpy.size(data, 0), 3), dtype=object)
+    classified = numpy.zeros((size(data, 0), 3), dtype=object)
 
-    cols = range(numpy.size(data, 1))
+    cols = range(size(data, 1))
 
     def classify_row(dt, row):
         def recurse(node, parent, used_columns):
@@ -227,7 +228,7 @@ def classify(dt, data):
         return recurse(dt, None, {})
 
     res = [[data[row, 0], classify_row(dt, data[row,:])]
-           for row in range(numpy.size(data, 0))]
+           for row in range(size(data, 0))]
     return res
 
 
@@ -272,36 +273,36 @@ error.
     training_data = data[0:1000, :]
     data = data[1000:,:]
 
-    verbose("training set possible size: %s" % numpy.size(training_data, 0))
-    verbose("data set possible size: %s" % numpy.size(data, 0))
+    verbose("training set possible size: %s" % size(training_data, 0))
+    verbose("data set possible size: %s" % size(data, 0))
 
     # Shuffle rows before separating the validation set.
-    indices = numpy.random.permutation(numpy.size(training_data, 0))
+    indices = numpy.random.permutation(size(training_data, 0))
     training_data = training_data[indices, :]
 
     data = numpy.append(data, training_data[opts.training_data_size:,:], axis=0)
     training_data = training_data[0:opts.training_data_size, :]
 
-    verbose("training set size after: %s,%s" % (numpy.size(training_data, 0),
-                                             numpy.size(training_data, 1)))
-    verbose("data size after: %s,%s" % (numpy.size(data, 0),
-                                        numpy.size(data, 1)))
+    verbose("training set size after: %s,%s" % (size(training_data, 0),
+                                             size(training_data, 1)))
+    verbose("data size after: %s,%s" % (size(data, 0),
+                                        size(data, 1)))
 
-    column_ids = numpy.array(range(0, numpy.size(data, 1)))
+    column_ids = numpy.array(range(0, size(data, 1)))
 
     # Shuffle columns so as not to run the algorithm with the columns
     # always in a set order.
-    indices = numpy.random.permutation(numpy.size(data, 1) - 2)
+    indices = numpy.random.permutation(size(data, 1) - 2)
     data[:,2:] = data[:,2:][:,indices]
     training_data[:,2:] = training_data[:,2:][:,indices]
     column_names[2:] = column_names[2:][indices]
 
-    validation_set_size = numpy.size(training_data, 0)/opts.k
-    assert validation_set_size < numpy.size(training_data, 0)/2
+    validation_set_size = size(training_data, 0)/opts.k
+    assert validation_set_size < size(training_data, 0)/2
 
     def train_one(training_data, validation_data):
-        verbose("training data size: %s" % (numpy.size(training_data, 0)))
-        verbose("validation data size: %s" % (numpy.size(validation_data, 0)))
+        verbose("training data size: %s" % (size(training_data, 0)))
+        verbose("validation data size: %s" % (size(validation_data, 0)))
         dt = generate_tree(training_data, column_names, column_ids, 0.04, 0.002)
 
         if 'original' in opts.dump_trees:
@@ -315,15 +316,15 @@ error.
 
         print "Validation:"
         print " Classified as spam: %d / %d" % (sum(validated),
-                                                numpy.size(validated))
+                                                size(validated))
         print " Classified as spam in validation set: %d / %d" % (
             sum(from_data),
-            numpy.size(validated))
+            size(validated))
         correctness = (float(sum((validated == from_data) * 1))
-                       / numpy.size(validation_data, 0))
+                       / size(validation_data, 0))
         print " Correctness: %.3f" % (correctness)
         print "Index:\tgot,\texpected"
-        for (ii, got, exp) in zip(range(1, numpy.size(validated, 0)),
+        for (ii, got, exp) in zip(range(1, size(validated, 0)),
                                   validated, from_data):
             if got != exp:
                 print "%d:\t%d,\t%d" % (ii, got, exp)
