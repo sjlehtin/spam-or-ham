@@ -297,16 +297,7 @@ error.
     training_data[:,2:] = training_data[:,2:][:,indices]
     column_names[2:] = column_names[2:][indices]
 
-    def train_one(training_data, validation_data):
-        verbose("training data size: %s" % (size(training_data, 0)))
-        verbose("validation data size: %s" % (size(validation_data, 0)))
-        dt = generate_tree(training_data, column_names, column_ids, 0.04, 0.002)
-
-        if 'original' in opts.dump_trees:
-            dump_tree(dt)
-
-        validated = classify(dt, validation_data)
-
+    def check_results(validated, validation_data, give_diff=True):
         validated = numpy.array([node.is_spam()
                                  for (row, (split, node)) in validated])
         from_data = validation_data[:, 1]
@@ -317,16 +308,32 @@ error.
         print " Classified as spam in validation set: %d / %d" % (
             sum(from_data),
             size(validated))
-        correctness = (float(sum((validated == from_data) * 1))
+        correctly_classified = sum((validated == from_data) * 1)
+        print " Correctly classified:",  correctly_classified
+        accuracy = (float(correctly_classified)
                        / size(validation_data, 0))
-        print " Correctness: %.3f" % (correctness)
-        print "Index:\tgot,\texpected"
-        for (ii, got, exp) in zip(range(1, size(validated, 0)),
-                                  validated, from_data):
-            if got != exp:
-                print "%d:\t%d,\t%d" % (ii, got, exp)
+        print " Accuracy: %.3f" % (accuracy)
+        if give_diff:
+            print "Index:\tgot,\texpected"
+            for (ii, got, exp) in zip(range(1, size(validated, 0)),
+                                      validated, from_data):
+                if got != exp:
+                    print "%d:\t%d,\t%d" % (ii, got, exp)
+        return accuracy
 
-        return [correctness, dt]
+    def train_one(training_data, validation_data):
+        verbose("training data size: %s" % (size(training_data, 0)))
+        verbose("validation data size: %s" % (size(validation_data, 0)))
+        dt = generate_tree(training_data, column_names, column_ids, 0.04, 0.002)
+
+        if 'original' in opts.dump_trees:
+            dump_tree(dt)
+
+        validated = classify(dt, validation_data)
+
+        accuracy = check_results(validated, validation_data)
+
+        return [accuracy, dt]
 
     def training_set_split(training_data):
         validation_set_size = size(training_data, 0)/opts.k
@@ -343,20 +350,23 @@ error.
             yield (train, validation)
 
     trees = [train_one(*train) for train in training_set_split(training_data)]
-    (correctness, dt) = max(trees, key=lambda xx: xx[0])
+    (accuracy, dt) = max(trees, key=lambda xx: xx[0])
 
-    print "Chosen classifier has correctness of %s." % correctness
-    classified = classify(dt, data)
+    print "Chosen classifier has accuracy of %s." % accuracy
 
-    num_spam = 0
-    fp = open("classified.txt", "w")
-    for (row, (last_split, node)) in classified:
-        comment = ""
-        if True:
-            comment = " # %s" % last_split
-        print >> fp, "%d %d %.4f%s" % (row, node.is_spam(), node.ratio(),
-                                       comment)
-        if node.is_spam():
-            num_spam += 1
-    print "Classified as spam: %d / %d" % (num_spam, len(classified))
-    fp.close()
+    if size(data, 0) > 0:
+        classified = classify(dt, data)
+
+        num_spam = 0
+        fp = open("classified.txt", "w")
+        for (row, (last_split, node)) in classified:
+            comment = ""
+            if True:
+                comment = " # %s" % last_split
+            print >> fp, "%d %d %.4f%s" % (row, node.is_spam(), node.ratio(),
+                                           comment)
+            if node.is_spam():
+                num_spam += 1
+        print "Classified as spam: %d / %d" % (num_spam, len(classified))
+        check_results(classified, data, give_diff=False)
+        fp.close()
