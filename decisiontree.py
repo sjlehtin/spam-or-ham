@@ -256,7 +256,7 @@ error.
                       "classifier will be trained K times and the one "
                       "performing best against the validation set is chosen.")
     parser.add_option("--data-file", dest="data_file",
-                      default="data.txt", help="Data source to use.")
+                      default="full_data.txt", help="Data source to use.")
     (opts, args) = parser.parse_args()
 
     if opts.verbose:
