@@ -297,9 +297,6 @@ error.
     training_data[:,2:] = training_data[:,2:][:,indices]
     column_names[2:] = column_names[2:][indices]
 
-    validation_set_size = size(training_data, 0)/opts.k
-    assert validation_set_size < size(training_data, 0)/2
-
     def train_one(training_data, validation_data):
         verbose("training data size: %s" % (size(training_data, 0)))
         verbose("validation data size: %s" % (size(validation_data, 0)))
@@ -332,13 +329,23 @@ error.
         return [correctness, dt]
 
     def training_set_split(training_data):
-        validation_set = training_data[0:validation_set_size, :]
-        training_data = training_data[validation_set_size:, :]
-        yield (training_data, validation_set)
+        validation_set_size = size(training_data, 0)/opts.k
+        assert validation_set_size < size(training_data, 0)/2
+
+        for ii in range(opts.k):
+            validation = training_data[
+                ii * validation_set_size :
+                    ii * validation_set_size + validation_set_size, :]
+            train = numpy.append(
+                training_data[0:ii * validation_set_size, :],
+                training_data[ii * validation_set_size + validation_set_size:,
+                              :], axis=0)
+            yield (train, validation)
 
     trees = [train_one(*train) for train in training_set_split(training_data)]
     (correctness, dt) = max(trees, key=lambda xx: xx[0])
 
+    print "Chosen classifier has correctness of %s." % correctness
     classified = classify(dt, data)
 
     num_spam = 0
