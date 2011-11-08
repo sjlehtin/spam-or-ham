@@ -299,33 +299,45 @@ error.
     validation_set_size = numpy.size(training_data, 0)/opts.k
     assert validation_set_size < numpy.size(training_data, 0)/2
 
-    validation_set = training_data[0:validation_set_size, :]
-    training_data = training_data[validation_set_size:, :]
+    def train_one(training_data, validation_data):
+        verbose("training data size: %s" % (numpy.size(training_data, 0)))
+        verbose("validation data size: %s" % (numpy.size(validation_data, 0)))
+        dt = generate_tree(training_data, column_names, column_ids, 0.04, 0.002)
 
-    dt = generate_tree(training_data, column_names, column_ids, 0.04, 0.002)
+        if 'original' in opts.dump_trees:
+            dump_tree(dt)
 
-    if 'original' in opts.dump_trees:
-        dump_tree(dt)
+        validated = classify(dt, validation_data)
 
-    validated = classify(dt, validation_set)
+        validated = numpy.array([node.is_spam()
+                                 for (row, (split, node)) in validated])
+        from_data = validation_data[:, 1]
 
-    validated = numpy.array([node.is_spam()
-                             for (row, (split, node)) in validated])
-    from_data = validation_set[:, 1]
+        print "Validation:"
+        print " Classified as spam: %d / %d" % (sum(validated),
+                                                numpy.size(validated))
+        print " Classified as spam in validation set: %d / %d" % (
+            sum(from_data),
+            numpy.size(validated))
+        correctness = (float(sum((validated == from_data) * 1))
+                       / numpy.size(validation_data, 0))
+        print " Correctness: %.3f" % (correctness)
+        print "Index:\tgot,\texpected"
+        for (ii, got, exp) in zip(range(1, numpy.size(validated, 0)),
+                                  validated, from_data):
+            if got != exp:
+                print "%d:\t%d,\t%d" % (ii, got, exp)
 
-    print "Validation:"
-    print " Classified as spam: %d / %d" % (sum(validated),
-                                            numpy.size(validated))
-    print " Classified as spam in validation set: %d / %d" % (
-        sum(from_data),
-        numpy.size(validated))
-    print " Correctness: %.3f" % (float(sum(((validated == from_data)) * 1))
-                                  / validation_set_size)
-    print "Index:\tgot,\texpected"
-    for (ii, got, exp) in zip(range(1, numpy.size(validated, 0)),
-                              validated, from_data):
-        if got != exp:
-            print "%d:\t%d,\t%d" % (ii, got, exp)
+        return [correctness, dt]
+
+    def training_set_split(training_data):
+        validation_set = training_data[0:validation_set_size, :]
+        training_data = training_data[validation_set_size:, :]
+        yield (training_data, validation_set)
+
+    trees = [train_one(*train) for train in training_set_split(training_data)]
+    (correctness, dt) = max(trees, key=lambda xx: xx[0])
+
     classified = classify(dt, data)
 
     num_spam = 0
