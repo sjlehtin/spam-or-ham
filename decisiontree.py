@@ -3,6 +3,7 @@
 import numpy
 import sys
 import math
+import optparse
 
 class TreeNode(object):
     cur_id = 0
@@ -39,7 +40,8 @@ class TreeNode(object):
     def can_decide(self):
         return self.num_elements > 0
 
-DEBUG = True
+DEBUG = False
+
 def verbose(msg):
     if DEBUG:
         sys.stderr.write("%s\n" % msg)
@@ -231,14 +233,59 @@ def classify(dt, data):
 
 if __name__ == "__main__":
 
-    data = numpy.loadtxt("data.txt", comments="%", dtype=int,
+    parser = optparse.OptionParser(
+        usage="""%prog [options] [file ..]
+
+Generate a decision tree and validate using a training set.  Output
+classified test set, which can be used to calculate generalization
+error.
+
+""")
+    parser.add_option("--verbose", dest="verbose", action="store_true",
+                      help="Enable verbose mode.")
+    parser.add_option("--dump-tree", dest="dump_trees",
+                      action="append", default=[], help="Unit-test option.")
+    parser.add_option("--training-data-size", dest="training_data_size",
+                      type="int",
+                      default=1000, help="Training set size, chosen at "
+                      "random from the given training data.")
+    parser.add_option("--k-fold", dest="k", type="int",
+                      default=10, help="Perform K-fold validation.  "
+                      "Training data will be split K pieces, and the "
+                      "classifier will be trained K times and the one "
+                      "performing best against the validation set is chosen.")
+    parser.add_option("--data-file", dest="data_file",
+                      default="data.txt", help="Data source to use.")
+    (opts, args) = parser.parse_args()
+
+    if opts.verbose:
+        DEBUG = True
+
+    data = numpy.loadtxt(opts.data_file, comments="%", dtype=int,
                          converters={ 1 : lambda xx:
                                       (xx if xx != "nan" else 0)})
     column_names = open("data_column_names.txt").read().strip().split()
     column_names = numpy.array(column_names)
 
-    validation_set_size = 100
+    # Rows which have unknown spam-ham status cannot be used in
+    # training.
     training_data = data[0:1000, :]
+    data = data[1000:,:]
+
+    verbose("training set possible size: %s" % numpy.size(training_data, 0))
+    verbose("data set possible size: %s" % numpy.size(data, 0))
+
+    # Shuffle rows before separating the validation set.
+    indices = numpy.random.permutation(numpy.size(training_data, 0))
+    training_data = training_data[indices, :]
+
+    data = numpy.append(data, training_data[opts.training_data_size:,:], axis=0)
+    training_data = training_data[0:opts.training_data_size, :]
+
+    verbose("training set size after: %s,%s" % (numpy.size(training_data, 0),
+                                             numpy.size(training_data, 1)))
+    verbose("data size after: %s,%s" % (numpy.size(data, 0),
+                                        numpy.size(data, 1)))
 
     column_ids = numpy.array(range(0, numpy.size(data, 1)))
 
@@ -246,18 +293,19 @@ if __name__ == "__main__":
     # always in a set order.
     indices = numpy.random.permutation(numpy.size(data, 1) - 2)
     data[:,2:] = data[:,2:][:,indices]
+    training_data[:,2:] = training_data[:,2:][:,indices]
     column_names[2:] = column_names[2:][indices]
 
-    # Shuffle rows before separating the validation set.
-    indices = numpy.random.permutation(numpy.size(training_data, 0))
-    training_data = training_data[indices, :]
+    validation_set_size = numpy.size(training_data, 0)/opts.k
+    assert validation_set_size < numpy.size(training_data, 0)/2
 
     validation_set = training_data[0:validation_set_size, :]
     training_data = training_data[validation_set_size:, :]
 
     dt = generate_tree(training_data, column_names, column_ids, 0.04, 0.002)
 
-    dump_tree(dt)
+    if 'original' in opts.dump_trees:
+        dump_tree(dt)
 
     validated = classify(dt, validation_set)
 
@@ -278,7 +326,7 @@ if __name__ == "__main__":
                               validated, from_data):
         if got != exp:
             print "%d:\t%d,\t%d" % (ii, got, exp)
-    classified = classify(dt, data[1000:, :])
+    classified = classify(dt, data)
 
     num_spam = 0
     fp = open("classified.txt", "w")

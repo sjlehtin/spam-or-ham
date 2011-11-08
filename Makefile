@@ -11,4 +11,4 @@ all: mlmethods_44814P.pdf classified.pdf best.pdf
 	dot -Teps $< > $@
 
 classified.dot: decisiontree.py
-	python decisiontree.py
+	python decisiontree.py --dump-tree $<
