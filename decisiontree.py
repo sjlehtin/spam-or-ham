@@ -18,6 +18,8 @@ class TreeNode(object):
         self.num_tagged = 0
         self.num_elements = 0
 
+        self.pruned = False
+
         self.id = TreeNode.cur_id
         TreeNode.cur_id += 1
 
@@ -28,6 +30,9 @@ class TreeNode(object):
         return self.num_tagged / float(self.num_elements)
 
     def is_leaf(self):
+        if self.pruned:
+            return True
+
         if not self.right and not self.left:
             return True
 
@@ -40,6 +45,9 @@ class TreeNode(object):
 
     def can_decide(self):
         return self.num_elements > 0
+
+    def __str__(self):
+        return self.name
 
 DEBUG = False
 
@@ -155,7 +163,7 @@ def generate_tree(data, column_names, column_ids, theta, min_row_ratio):
 
         if  min_impurity < theta:
             print ("Stopping recursion due to minimimum impurity (%.5f) "
-                   "reached with %s." % (min_impurity, node.name))
+                   "reached with %s." % (min_impurity, node))
             return node
 
         node.left = tree_node(tagged, ids, node)
@@ -181,7 +189,7 @@ def dump_tree(dt):
     def output_node(node):
         name = ""
         if node.col >= 0:
-            name = "%s (%d)" % (node.name, node.col)
+            name = "%s (%d)" % (node, node.col)
         print >> fp, "n%s [label=\"ratio=%.4f (%d/%d)\\n%s\"];\n" % (
             node.id, node.ratio(), node.num_tagged, node.num_elements, name)
 
@@ -217,7 +225,7 @@ def classify(dt, data):
 
             if node in used_columns:
                 raise RuntimeError("Node %s used twice! (parent %s)" % (
-                        node.name, parent.name))
+                        node, parent))
             used_columns[node] = True
             param_is_set = (row[node.col] == 1)
 
@@ -297,31 +305,73 @@ error.
     training_data[:,2:] = training_data[:,2:][:,indices]
     column_names[2:] = column_names[2:][indices]
 
-    def check_results(validated, validation_data, give_diff=True):
+    def check_results(validated, validation_data):
         validated = numpy.array([node.is_spam()
                                  for (row, (split, node)) in validated])
         from_data = validation_data[:, 1]
+        results = {}
+        results['num_samples'] = size(validated)
+        results['classified_as_spam'] = sum(validated)
+        results['really_spam'] = sum(from_data)
+        results['correctly_classified'] = sum((validated == from_data) * 1)
+        results['accuracy'] = (float(results['correctly_classified'])
+                               / results['num_samples'])
+        diff = []
+        for (ii, got, exp) in zip(range(1, results['num_samples']),
+                                  validated, from_data):
+            if got != exp:
+                diff.append((ii, got, exp))
+        results['differences'] = diff
+        return results
 
+    def dump_results(results):
         print "Validation:"
-        print " Classified as spam: %d / %d" % (sum(validated),
-                                                size(validated))
+        print " Classified as spam: %d / %d" % (results['classified_as_spam'],
+                                                results['num_samples'])
         print " Classified as spam in validation set: %d / %d" % (
-            sum(from_data),
-            size(validated))
-        correctly_classified = sum((validated == from_data) * 1)
-        print " Correctly classified:",  correctly_classified
-        accuracy = (float(correctly_classified)
-                       / size(validation_data, 0))
-        print " Accuracy: %.3f" % (accuracy)
-        if give_diff:
-            print "Index:\tgot,\texpected"
-            for (ii, got, exp) in zip(range(1, size(validated, 0)),
-                                      validated, from_data):
-                if got != exp:
-                    print "%d:\t%d,\t%d" % (ii, got, exp)
-        return accuracy
+            results['really_spam'],
+            results['num_samples'])
+        print " Correctly classified:",  results['correctly_classified']
+        print " Accuracy: %.3f" % (results['accuracy'])
+        print "Index:\tgot,\texpected"
+        if results['differences']:
+            for (ii, got, exp) in results['differences']:
+                print "%d:\t%d,\t%d" % (ii, got, exp)
 
-    def train_one(training_data, validation_data):
+    def calculate_accuracy(dt, validation_data):
+        validated = classify(dt, validation_data)
+        res = check_results(validated, validation_data)
+        return res['accuracy']
+
+    def prune(tree, pruning_data):
+        # The list here is a kludge to get around python scoping.
+        max_accuracy = [calculate_accuracy(tree, pruning_data)]
+        def prune_one(node):
+            if node.is_leaf():
+                return
+            def prune_child(child):
+                if not child:
+                    return
+
+                node.pruned = True
+                current_accuracy = calculate_accuracy(tree, pruning_data)
+                verbose("Got accurace %s, maximum %s." % (current_accuracy,
+                                                          max_accuracy[0]))
+                if current_accuracy > max_accuracy[0]:
+                    max_accuracy[0] = current_accuracy
+                    verbose("Pruning node %s." % node)
+                    node.left = None
+                    node.right = None
+                else:
+                    node.pruned = False
+                    prune_one(node.left)
+            prune_child(node.left)
+            prune_child(node.right)
+
+        prune_one(tree)
+        return tree
+
+    def train_one(training_data, pruning_data, validation_data):
         verbose("training data size: %s" % (size(training_data, 0)))
         verbose("validation data size: %s" % (size(validation_data, 0)))
         dt = generate_tree(training_data, column_names, column_ids, 0.04, 0.002)
@@ -329,10 +379,9 @@ error.
         if 'original' in opts.dump_trees:
             dump_tree(dt)
 
-        validated = classify(dt, validation_data)
+        dt = prune(dt, pruning_data)
 
-        accuracy = check_results(validated, validation_data)
-
+        accuracy = calculate_accuracy(dt, validation_data)
         return [accuracy, dt]
 
     def training_set_split(training_data):
@@ -347,7 +396,10 @@ error.
                 training_data[0:ii * validation_set_size, :],
                 training_data[ii * validation_set_size + validation_set_size:,
                               :], axis=0)
-            yield (train, validation)
+            prune = train[0:validation_set_size, :]
+            train = train[validation_set_size:, :]
+
+            yield (train, prune, validation)
 
     trees = [train_one(*train) for train in training_set_split(training_data)]
     (accuracy, dt) = max(trees, key=lambda xx: xx[0])
@@ -368,5 +420,6 @@ error.
             if node.is_spam():
                 num_spam += 1
         print "Classified as spam: %d / %d" % (num_spam, len(classified))
-        check_results(classified, data, give_diff=False)
+        res = check_results(classified, data)
+        dump_results(res)
         fp.close()
