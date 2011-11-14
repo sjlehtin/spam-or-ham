@@ -278,8 +278,8 @@ error.
 
     # Rows which have unknown spam-ham status cannot be used in
     # training.
-    training_data = data[0:1000, :]
-    data = data[1000:,:]
+    training_data = data[0:opts.training_data_size, :]
+    data = data[opts.training_data_size:,:]
 
     verbose("training set possible size: %s" % size(training_data, 0))
     verbose("data set possible size: %s" % size(data, 0))
