@@ -87,18 +87,39 @@ We implemented 10-fold cross validation to our classifier.
 
 \section{Results with different training set sizes}
 
+1000 items.
+
+Chosen classifier has accuracy of 1.0.
+Classified as spam: 5777 / 9000
+Validation:
+ Classified as spam: 5777 / 9000
+ Classified as spam in validation set: 6134 / 9000
+ Correctly classified: 8475
+ Correctly classified as spam: 5693
+ Accuracy: 0.942
+ Precision: 0.985
+ Recall: 0.928
+
+real	0m44.221s
+user	0m44.040s
+sys	0m0.150s
+
 4000 items in training set.
 
-Chosen classifier has accuracy of 0.9775.
-Classified as spam: 4035 / 6000
+Chosen classifier has accuracy of 0.9725.
+Classified as spam: 3984 / 6000
 Validation:
- Classified as spam: 4035 / 6000
+ Classified as spam: 3984 / 6000
  Classified as spam in validation set: 4064 / 6000
- Correctly classified: 5819
- Correctly classified as spam: 3959
- Accuracy: 0.970
- Precision: 0.981
- Recall: 0.974
+ Correctly classified: 5798
+ Correctly classified as spam: 3923
+ Accuracy: 0.966
+ Precision: 0.985
+ Recall: 0.965
+
+real	9m41.857s
+user	9m40.900s
+sys	0m0.520s
 
 6000 items in training set.
 
@@ -118,7 +139,7 @@ user	19m37.980s
 sys	0m1.100s
 
 \newpage
-\section*{Comments on Project Difficulty}
+\section*{Comments on project difficulty}
 
 
 
