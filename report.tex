@@ -10,6 +10,12 @@
 
 \usepackage{fancyvrb}
 
+\pdfinfo{            
+          /Title      (T-61.3050 Machine Learning: Basic Principles)
+          /Author     ()
+          /Keywords   ()          
+}
+
 \DefineVerbatimEnvironment {code}{Verbatim}
    {%numbers=left,numbersep=2mm,
      %frame=lines,framerule=0.1mm, 
@@ -23,10 +29,18 @@
 \parindent 0mm
 \parskip 3mm
 
+%------------------------------------------------------------------------------
+% First page
+%------------------------------------------------------------------------------
+
 % add your student number in parenthesis
-\title{T-61.3050 Exercise session 6/2011}
-\author{Sami J. Lehtinen (44814P)\\ 
-       {\tt sjl@iki.fi}}
+\title{T-61.3050 Term Project, final report} % Dictated in instructions.
+\author{Jori Bomanson (81819F) \\
+  {\tt jori.bomanson@aalto.fi} \\
+  \\
+  Sami J. Lehtinen (44814P)\\ 
+  {\tt sjl@iki.fi} \\
+}
 \begin{document}
 
 \floatstyle{plain}
@@ -34,6 +48,28 @@
 \floatname{Listing}{Listing}
 
 \maketitle
+
+\section*{Abstract}
+% Include the key points of your work in a few sentences (including methods
+% used and conclusions).
+
+\section*{}
+
+\section*{Why did we select Decision Trees}
+
+The choice of using decision trees to solve a task with boolean variables
+seemed natural. They could definitely match whatever complexity there would
+be in the data. %, as opposed to the naive Bayesian classifier. tai ei.
+In fact we figured our success would be determined mainly by how we would
+manage to avoid overfitting, which seemed like a plausible task to do once
+we would have a pure tree working.
+
+
+\section*{Principles of the Method (Decision Trees)}
+
+\section*{Validation of our Approach}
+
+\section*{}
 
 XXX prepruning
 
@@ -47,6 +83,12 @@ Lessons learned:
 
 Check that classifying against a test set converges, i.e., doesn't
 fluctuate too much, after a stable algorithm is found.
+
+\newpage
+\section*{Comments on Project Difficulty}
+
+
+
 
 \begin{thebibliography}{9}
 \bibitem{alpaydin2004}
