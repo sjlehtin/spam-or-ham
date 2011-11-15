@@ -231,8 +231,10 @@ def classify(dt, data):
 
             if node.left.can_decide() and param_is_set:
                 return recurse(node.left, node, used_columns.copy())
-            else:
+            elif node.right.can_decide():
                 return recurse(node.right, node, used_columns.copy())
+            else:
+                return (("ROOT" if not parent else parent.name), node)
         return recurse(dt, None, {})
 
     res = [[data[row, 0], classify_row(dt, data[row,:])]
