@@ -288,8 +288,9 @@ error.
     # load the whole matrix as floats (unless a converter is used to
     # force the nan to some integer value), which isn't very convenient
     # with this type of data.
-    training_data = data[0:opts.training_data_size, :]
-    data = data[opts.training_data_size:,:]
+    ind = numpy.random.permutation(size(data, 0))
+    training_data = data[ind[0:opts.training_data_size], :]
+    data = data[ind[opts.training_data_size:],:]
 
     verbose("training set possible size: %s" % size(training_data, 0))
     verbose("data set possible size: %s" % size(data, 0))
@@ -417,8 +418,9 @@ error.
                 training_data[0:ii * validation_set_size, :],
                 training_data[ii * validation_set_size + validation_set_size:,
                               :], axis=0)
-            prune = train[0:validation_set_size, :]
-            train = train[validation_set_size:, :]
+            ind = numpy.random.permutation(size(train, 0))
+            prune = train[ind[0:validation_set_size], :]
+            train = train[ind[validation_set_size:], :]
 
             yield (train, prune, validation)
 
