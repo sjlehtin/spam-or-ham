@@ -265,6 +265,11 @@ error.
                       "performing best against the validation set is chosen.")
     parser.add_option("--data-file", dest="data_file",
                       default="full_data.txt", help="Data source to use.")
+    parser.add_option("--disable-pruning", dest="prune", action="store_false",
+                      default=True, help="Disable post pruning.")
+    parser.add_option("--diff", dest="diff", action="store_true",
+                      default=False, help="Output list of misclassified "
+                      "entries on the test set.")
     (opts, args) = parser.parse_args()
 
     if opts.verbose:
@@ -324,7 +329,7 @@ error.
         results['differences'] = diff
         return results
 
-    def dump_results(results):
+    def dump_results(results, give_diff=False):
         print "Validation:"
         print " Classified as spam: %d / %d" % (results['classified_as_spam'],
                                                 results['num_samples'])
@@ -334,9 +339,10 @@ error.
         print " Correctly classified:",  results['correctly_classified']
         print " Accuracy: %.3f" % (results['accuracy'])
         print "Index:\tgot,\texpected"
-        if results['differences']:
-            for (ii, got, exp) in results['differences']:
-                print "%d:\t%d,\t%d" % (ii, got, exp)
+        if give_diff:
+            if results['differences']:
+                for (ii, got, exp) in results['differences']:
+                    print "%d:\t%d,\t%d" % (ii, got, exp)
 
     def calculate_accuracy(dt, validation_data):
         validated = classify(dt, validation_data)
@@ -347,26 +353,25 @@ error.
         # The list here is a kludge to get around python scoping.
         max_accuracy = [calculate_accuracy(tree, pruning_data)]
         def prune_one(node):
+            if not node:
+                return
+
             if node.is_leaf():
                 return
-            def prune_child(child):
-                if not child:
-                    return
 
-                node.pruned = True
-                current_accuracy = calculate_accuracy(tree, pruning_data)
-                verbose("Got accurace %s, maximum %s." % (current_accuracy,
-                                                          max_accuracy[0]))
-                if current_accuracy > max_accuracy[0]:
-                    max_accuracy[0] = current_accuracy
-                    verbose("Pruning node %s." % node)
-                    node.left = None
-                    node.right = None
-                else:
-                    node.pruned = False
-                    prune_one(node.left)
-            prune_child(node.left)
-            prune_child(node.right)
+            node.pruned = True
+            current_accuracy = calculate_accuracy(tree, pruning_data)
+            verbose("Got accurace %s, maximum %s." % (current_accuracy,
+                                                      max_accuracy[0]))
+            if current_accuracy > max_accuracy[0]:
+                max_accuracy[0] = current_accuracy
+                verbose("Pruning node %s." % node)
+                node.left = None
+                node.right = None
+            else:
+                node.pruned = False
+                prune_one(node.left)
+                prune_one(node.right)
 
         prune_one(tree)
         return tree
@@ -374,12 +379,13 @@ error.
     def train_one(training_data, pruning_data, validation_data):
         verbose("training data size: %s" % (size(training_data, 0)))
         verbose("validation data size: %s" % (size(validation_data, 0)))
-        dt = generate_tree(training_data, column_names, column_ids, 0.04, 0.002)
+        dt = generate_tree(training_data, column_names, column_ids, 0, 0)
 
         if 'original' in opts.dump_trees:
             dump_tree(dt)
 
-        dt = prune(dt, pruning_data)
+        if opts.prune:
+            dt = prune(dt, pruning_data)
 
         accuracy = calculate_accuracy(dt, validation_data)
         return [accuracy, dt]
@@ -421,5 +427,5 @@ error.
                 num_spam += 1
         print "Classified as spam: %d / %d" % (num_spam, len(classified))
         res = check_results(classified, data)
-        dump_results(res)
+        dump_results(res, give_diff=opts.diff)
         fp.close()
