@@ -1,3 +1,40 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage[tbtags]{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref, url}
+\usepackage{float}
+
+\usepackage{fancyvrb}
+
+\DefineVerbatimEnvironment {code}{Verbatim}
+   {%numbers=left,numbersep=2mm,
+     %frame=lines,framerule=0.1mm, 
+     fontsize=\small}
+\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}
+   {%numbers=left,numbersep=2mm,
+     frame=lines,framerule=0.1mm, fontsize=\small}
+\DefineVerbatimEnvironment {log}{Verbatim}
+  {frame=lines,framerule=0.1mm, fontsize=\small}
+
+\parindent 0mm
+\parskip 3mm
+
+% add your student number in parenthesis
+\title{T-61.3050 Exercise session 6/2011}
+\author{Sami J. Lehtinen (44814P)\\ 
+       {\tt sjl@iki.fi}}
+\begin{document}
+
+\floatstyle{plain}
+\newfloat{Listing}{t}{lol}
+\floatname{Listing}{Listing}
+
+\maketitle
+
 XXX prepruning
 
 XXX postpruning
@@ -10,3 +47,28 @@ Lessons learned:
 
 Check that classifying against a test set converges, i.e., doesn't
 fluctuate too much, after a stable algorithm is found.
+
+\begin{thebibliography}{9}
+\bibitem{alpaydin2004}
+  Ethem Alpaydin,
+  \emph{Introduction to Machine Learning}.
+  Massachusetts Institute of Technology, Cambridge, Massachusetts,
+  1st edition,
+  2004. 415 pages. ISBN 0-262-01211-1.
+%\bibitem{press07}
+%  William H. Press, Saul A. Teukolsky, William T. Vetterling, Brian P. Flannery,
+%  \emph{Numerical recipes - the art of scientific computing}.
+%  Cambridge University Press, New York,
+%  3rd edition,
+%  2007. 1235 pages. ISBN 978-0-521-88068-8.
+%\bibitem{mellin10a}
+%  Ilkka Mellin, 
+%  \emph{Todennäköisyyslaskenta ja tilastotiede: Kaavat}.
+%  Otaniemi, 2010. 390 pages.
+%\bibitem{mellin10b}
+%  Ilkka Mellin, 
+%  \emph{Tilastolliset taulukot}.
+%  Otaniemi, 2010. 13 pages.
+\end{thebibliography}
+
+\end{document}
