@@ -67,20 +67,22 @@ manage to avoid overfitting, which seemed like a plausible task to do once
 we would have a pure tree working.
 
 
-\section*{Principles of the Method (Decision Trees)}
+\section*{Principles of the method (decision trees)}
 
+
+\subsection*{Calculating impurity}
+
+\subsection*{Prepruning}
+
+\subsection*{Postpruning}
 
 \section*{Validation of our Approach}
 
-\section*{}
+\subsection*{K-fold cross validation}
 
-XXX prepruning
+We implemented 10-fold cross validation to our classifier.
 
-XXX postpruning
-
-\section{K-fold cross validation}
-
-We implemented 10-fold cross validation by default to our classifier.
+\subsection*{Dummy model}
 
 
 \section{Results with different training set sizes}
@@ -98,16 +100,25 @@ Validation:
  Precision: 0.981
  Recall: 0.974
 
-XXX dummy model
+6000 items in training set.
 
-Lessons learned:
+Chosen classifier has accuracy of 0.978333333333.
+Classified as spam: 2677 / 4000
+Validation:
+ Classified as spam: 2677 / 4000
+ Classified as spam in validation set: 2725 / 4000
+ Correctly classified: 3886
+ Correctly classified as spam: 2644
+ Accuracy: 0.972
+ Precision: 0.988
+ Recall: 0.970
 
-Check that classifying against a test set converges, i.e., doesn't
-fluctuate too much, after a stable algorithm is found.
+real	19m40.578s
+user	19m37.980s
+sys	0m1.100s
 
 \newpage
 \section*{Comments on Project Difficulty}
-
 
 
 
