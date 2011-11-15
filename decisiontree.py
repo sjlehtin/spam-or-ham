@@ -175,9 +175,10 @@ def generate_tree(data, column_names, column_ids, theta, min_row_ratio):
 
     return tree_node(data, column_ids, None)
 
-def dump_tree(dt):
-
-    fp = open("classified.dot", "w")
+def dump_tree(dt, suffix=""):
+    if suffix:
+        suffix = "-" + suffix
+    fp = open("classified%s.dot" % suffix, "w")
     cur_id = 1
     nodes = {}
     def output_header():
@@ -319,9 +320,31 @@ error.
     column_names[2:] = column_names[2:][indices]
 
     def check_results(validated, validation_data):
-        validated = numpy.array([node.is_spam()
-                                 for (row, (split, node)) in validated])
+        nodes = [node for (row, (split, node)) in validated]
+        validated = numpy.array([node.is_spam() for node in nodes])
+        probabilities = numpy.array([node.ratio() for node in nodes])
+        pis = numpy.zeros(len(nodes))
         from_data = validation_data[:, 1]
+
+        ind = (from_data == 0)
+        pis[:] = probabilities[:]
+        assert sum((probabilities > 1) * 1) == 0
+
+        ind = numpy.isnan(probabilities)
+        probabilities[ind] = 0.5
+
+        for ii, value in [pair for pair in enumerate(ind) if pair[1]]:
+            node = nodes[ii]
+            print "%s: %.3f %s" % (node, node.ratio(), node.can_decide())
+
+        assert sum(numpy.isnan(probabilities) * 1) == 0
+
+        pis[:, ind] = probabilities[:, ind] * -1 + 1
+        # Add a small value to make logarithms valid.
+        pis += numpy.finfo(numpy.float).eps
+        assert sum((pis < 0) * 1) == 0
+        assert sum(numpy.isnan(pis) * 1) == 0
+
         results = {}
         results['num_samples'] = size(validated)
         results['classified_as_spam'] = sum(validated)
@@ -335,6 +358,8 @@ error.
                              results['really_spam'])
         results['precision'] = (float(results['correctly_classified_as_spam'])/
                                 results['classified_as_spam'])
+        results['perplexity'] = numpy.exp(-numpy.mean(numpy.log(pis)))
+
         diff = []
         for (ii, got, exp) in zip(range(1, results['num_samples']),
                                   validated, from_data):
@@ -356,6 +381,7 @@ error.
         print " Accuracy: %.3f" % (results['accuracy'])
         print " Precision: %.3f" % (results['precision'])
         print " Recall: %.3f" % (results['recall'])
+        print " Perplexity: %.3f" % (results['perplexity'])
         if give_diff:
             print "Index:\tgot,\texpected"
             if results['differences']:
@@ -400,11 +426,13 @@ error.
         dt = generate_tree(training_data, column_names, column_ids, 0, 0)
 
         if 'original' in opts.dump_trees:
-            dump_tree(dt)
+            dump_tree(dt, "original")
 
         if opts.prune:
             dt = prune(dt, pruning_data)
 
+        if 'pruned' in opts.dump_trees:
+            dump_tree(dt, "pruned")
         accuracy = calculate_accuracy(dt, validation_data)
         return [accuracy, dt]
 
