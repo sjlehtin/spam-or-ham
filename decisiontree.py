@@ -326,12 +326,10 @@ error.
         pis = numpy.zeros(len(nodes))
         from_data = validation_data[:, 1]
 
-        ind = (from_data == 0)
         pis[:] = probabilities[:]
         assert sum((probabilities > 1) * 1) == 0
 
         ind = numpy.isnan(probabilities)
-        probabilities[ind] = 0.5
 
         for ii, value in [pair for pair in enumerate(ind) if pair[1]]:
             node = nodes[ii]
@@ -339,7 +337,9 @@ error.
 
         assert sum(numpy.isnan(probabilities) * 1) == 0
 
-        pis[:, ind] = probabilities[:, ind] * -1 + 1
+        classified_as_ham = (from_data == 0)
+        pis[:, classified_as_ham] = \
+            probabilities[:, classified_as_ham] * -1 + 1
         # Add a small value to make logarithms valid.
         pis += numpy.finfo(numpy.float).eps
         assert sum((pis < 0) * 1) == 0
