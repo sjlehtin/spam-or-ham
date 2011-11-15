@@ -324,8 +324,14 @@ error.
         results['classified_as_spam'] = sum(validated)
         results['really_spam'] = sum(from_data)
         results['correctly_classified'] = sum((validated == from_data) * 1)
+        results['correctly_classified_as_spam'] = \
+            sum(numpy.logical_and((validated == 1), (from_data == 1)) * 1)
         results['accuracy'] = (float(results['correctly_classified'])
                                / results['num_samples'])
+        results['recall'] = (float(results['correctly_classified_as_spam'])/
+                             results['really_spam'])
+        results['precision'] = (float(results['correctly_classified_as_spam'])/
+                                results['classified_as_spam'])
         diff = []
         for (ii, got, exp) in zip(range(1, results['num_samples']),
                                   validated, from_data):
@@ -342,9 +348,13 @@ error.
             results['really_spam'],
             results['num_samples'])
         print " Correctly classified:",  results['correctly_classified']
+        print " Correctly classified as spam:",  \
+            results['correctly_classified_as_spam']
         print " Accuracy: %.3f" % (results['accuracy'])
-        print "Index:\tgot,\texpected"
+        print " Precision: %.3f" % (results['precision'])
+        print " Recall: %.3f" % (results['recall'])
         if give_diff:
+            print "Index:\tgot,\texpected"
             if results['differences']:
                 for (ii, got, exp) in results['differences']:
                     print "%d:\t%d,\t%d" % (ii, got, exp)
