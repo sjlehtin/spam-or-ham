@@ -282,7 +282,12 @@ error.
     column_names = numpy.array(column_names)
 
     # Rows which have unknown spam-ham status cannot be used in
-    # training.
+    # training.  Currently relies on full_data.txt being loaded in which
+    # all the rows are correcly marked.  XXX if nan's are used to
+    # indicate unknown classification (as with data.txt), numpy will
+    # load the whole matrix as floats (unless a converter is used to
+    # force the nan to some integer value), which isn't very convenient
+    # with this type of data.
     training_data = data[0:opts.training_data_size, :]
     data = data[opts.training_data_size:,:]
 
