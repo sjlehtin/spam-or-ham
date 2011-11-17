@@ -5,8 +5,11 @@
 \usepackage{graphicx}
 \usepackage[tbtags]{amsmath}
 \usepackage{amssymb}
+\usepackage{amsbsy}
+\usepackage{eucal}
 \usepackage{hyperref, url}
 \usepackage{float}
+\usepackage{verbatim} % For verbatiminput.
 
 \usepackage{fancyvrb}
 
@@ -59,18 +62,28 @@ We trained a univariate binary classification tree to detect spam email.
 
 \section*{Why did we select Decision Trees}
 
-The choice of using decision trees to solve a task with boolean variables
-seemed natural. They could definitely match whatever complexity there would
-be in the data. %, as opposed to the naive Bayesian classifier. tai ei.
+The choice of using a decision tree to solve a task with boolean variables
+seemed natural. Such a tree could definitely match whatever complexity there
+would be in the training data.
 In fact we figured our success would be determined mainly by how we would
-manage to avoid overfitting, which seemed like a plausible task to do once
-we would have a pure tree working.
+manage to avoid overfitting.
 
 
 \section*{Principles of the method (decision trees)}
 
-
 \subsection*{Calculating impurity}
+
+We chose to measure impurity  with the entropy function (Quinlan 1986)
+% \log didn't work for some reason
+\begin{equation*}
+\begin{split}
+\mathcal{I}_m &= - \sum_{i=1}^K p_m^i log_2 p_m^i  \\
+\text{for a node} \quad & m  \\
+\text{where} \quad 0 log 0 &\equiv 0  \\
+p_m^i &= P(\text{Instance reaching node m belongs to class i})  \\
+K &= 2
+\end{split}
+\end{equation*}
 
 \subsection*{Prepruning}
 
@@ -85,10 +98,11 @@ We implemented 10-fold cross validation to our classifier.
 \subsection*{Dummy model}
 
 
-\section{Results with different training set sizes}
+\section*{Results with different training set sizes}
 
 1000 items.
 
+\begin{verbatim}
 Chosen classifier has accuracy of 1.0.
 Classified as spam: 5777 / 9000
 Validation:
@@ -103,9 +117,11 @@ Validation:
 real	0m44.221s
 user	0m44.040s
 sys	0m0.150s
+\end{verbatim}
 
 4000 items in training set.
 
+\begin{verbatim}
 Chosen classifier has accuracy of 0.9725.
 Classified as spam: 3984 / 6000
 Validation:
@@ -120,9 +136,11 @@ Validation:
 real	9m41.857s
 user	9m40.900s
 sys	0m0.520s
+\end{verbatim}
 
 6000 items in training set.
 
+\begin{verbatim}
 Chosen classifier has accuracy of 0.978333333333.
 Classified as spam: 2677 / 4000
 Validation:
@@ -137,10 +155,10 @@ Validation:
 real	19m40.578s
 user	19m37.980s
 sys	0m1.100s
+\end{verbatim}
 
 \newpage
 \section*{Comments on project difficulty}
-
 
 
 \begin{thebibliography}{9}
@@ -165,5 +183,10 @@ sys	0m1.100s
 %  \emph{Tilastolliset taulukot}.
 %  Otaniemi, 2010. 13 pages.
 \end{thebibliography}
+
+
+\newpage
+\section*{Code}
+\verbatiminput{decisiontree.py}
 
 \end{document}
