@@ -5,6 +5,7 @@ import sys
 import math
 import optparse
 from numpy import size # For conveniency.
+import os
 
 class TreeNode(object):
     cur_id = 0
@@ -175,10 +176,8 @@ def generate_tree(data, column_names, column_ids, theta, min_row_ratio):
 
     return tree_node(data, column_ids, None)
 
-def dump_tree(dt, suffix=""):
-    if suffix:
-        suffix = "-" + suffix
-    fp = open("classified%s.dot" % suffix, "w")
+def dump_tree(dt, filename):
+    fp = open(filename, "w")
     cur_id = 1
     nodes = {}
     def output_header():
@@ -388,10 +387,13 @@ error.
                 for (ii, got, exp) in results['differences']:
                     print "%d:\t%d,\t%d" % (ii, got, exp)
 
-    def calculate_accuracy(dt, validation_data):
+    def calculate_results(dt, validation_data):
         validated = classify(dt, validation_data)
         res = check_results(validated, validation_data)
-        return res['accuracy']
+        return res
+
+    def calculate_accuracy(dt, validation_data):
+        return calculate_results(dt, validation_data)['accuracy']
 
     def prune(tree, pruning_data):
         # The list here is a kludge to get around python scoping.
@@ -420,21 +422,26 @@ error.
         prune_one(tree)
         return tree
 
-    def train_one(training_data, pruning_data, validation_data):
+    def train_one(train_index, training_data, pruning_data, validation_data):
         verbose("training data size: %s" % (size(training_data, 0)))
         verbose("validation data size: %s" % (size(validation_data, 0)))
         dt = generate_tree(training_data, column_names, column_ids, 0, 0)
-
+        orig = None
+        pruned = None
         if 'original' in opts.dump_trees:
-            dump_tree(dt, "original")
+            orig = "classified-original-%d.dot" % train_index
+            dump_tree(dt, orig)
 
         if opts.prune:
             dt = prune(dt, pruning_data)
+            if 'pruned' in opts.dump_trees:
+                pruned = "classified-pruned-%d.dot" % train_index
+                dump_tree(dt, pruned)
 
-        if 'pruned' in opts.dump_trees:
-            dump_tree(dt, "pruned")
-        accuracy = calculate_accuracy(dt, validation_data)
-        return [accuracy, dt]
+        results = calculate_results(dt, validation_data)
+        results['original'] = orig
+        results['pruned'] = pruned
+        return [results, dt]
 
     def training_set_split(training_data):
         validation_set_size = size(training_data, 0)/opts.k
@@ -454,11 +461,20 @@ error.
 
             yield (train, prune, validation)
 
-    trees = [train_one(*train) for train in training_set_split(training_data)]
-    (accuracy, dt) = max(trees, key=lambda xx: xx[0])
+    trees = [train_one(ii, *train)
+             for (ii, train) in
+             enumerate([train
+                        for train in training_set_split(training_data)])]
+    (results, dt) = max(trees, key=lambda xx: xx[0]['accuracy'])
 
-    print "Chosen classifier has accuracy of %s." % accuracy
+    print "Chosen classifier has accuracy of %s." % results['accuracy']
 
+    orig = results['original']
+    if orig:
+        os.system("mv %s classified-original.dot" % orig)
+    pruned = results['pruned']
+    if pruned:
+        os.system("mv %s classified-pruned.dot" % pruned)
     if size(data, 0) > 0:
         classified = classify(dt, data)
 
