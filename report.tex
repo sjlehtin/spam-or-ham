@@ -10,13 +10,12 @@
 \usepackage{hyperref, url}
 \usepackage{float}
 \usepackage{verbatim} % For verbatiminput.
-
 \usepackage{fancyvrb}
 
 \pdfinfo{            
           /Title      (T-61.3050 Machine Learning: Basic Principles)
           /Author     ()
-          /Keywords   ()          
+          /Keywords   ()
 }
 
 \DefineVerbatimEnvironment {code}{Verbatim}
@@ -26,7 +25,7 @@
 \RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}
    {%numbers=left,numbersep=2mm,
      frame=lines,framerule=0.1mm, fontsize=\small}
-\DefineVerbatimEnvironment {log}{Verbatim}
+\DefineVerbatimEnvironment {outputlog}{Verbatim}
   {frame=lines,framerule=0.1mm, fontsize=\small}
 
 \parindent 0mm
@@ -37,7 +36,8 @@
 %------------------------------------------------------------------------------
 
 % add your student number in parenthesis
-\title{T-61.3050 Term Project, final report} % Dictated in instructions.
+\title{T-61.3050 Term Project, final report\\
+       Using decisiontrees for spam classification} % Dictated in instructions.
 \author{Jori Bomanson (81819F) \\
   {\tt jori.bomanson@aalto.fi} \\
   \\
@@ -51,16 +51,17 @@
 \floatname{Listing}{Listing}
 
 \maketitle
+\thispagestyle{empty}
+\pagebreak
+\pagenumbering{arabic}
 
-\section*{Abstract}
+\section{Abstract}
 % Include the key points of your work in a few sentences (including methods
 % used and conclusions).
 We trained a univariate binary classification tree to detect spam email.
 
 
-\section*{}
-
-\section*{Why did we select Decision Trees}
+\section{Why did we select Decision Trees}
 
 The choice of using a decision tree to solve a task with boolean variables
 seemed natural. Such a tree could definitely match whatever complexity there
@@ -68,41 +69,52 @@ would be in the training data.
 In fact we figured our success would be determined mainly by how we would
 manage to avoid overfitting.
 
+Decisiontrees were also tempting in that they are much easier to
+visualize than, e.g., naive bayes classifiers.
 
-\section*{Principles of the method (decision trees)}
+\section{Principles of decision trees}
 
-\subsection*{Calculating impurity}
+\subsection{Calculating impurity}
 
 We chose to measure impurity  with the entropy function (Quinlan 1986)
-% \log didn't work for some reason
 \begin{equation*}
 \begin{split}
-\mathcal{I}_m &= - \sum_{i=1}^K p_m^i log_2 p_m^i  \\
+\mathcal{I}_m &= - \sum_{i=1}^K p_m^i \log_2 p_m^i  \\
 \text{for a node} \quad & m  \\
-\text{where} \quad 0 log 0 &\equiv 0  \\
+\text{where} \quad 0 \log 0 &\equiv 0  \\
 p_m^i &= P(\text{Instance reaching node m belongs to class i})  \\
 K &= 2
 \end{split}
 \end{equation*}
 
-\subsection*{Prepruning}
+\subsection{Pruning the tree}
 
-\subsection*{Postpruning}
+\subsubsection{Prepruning}
 
-\section*{Validation of our Approach}
+\subsubsection{Postpruning}
+\label{sect:postpruning}
 
-\subsection*{K-fold cross validation}
+\section{Validation of our Approach}
 
-We implemented 10-fold cross validation to our classifier.
+\subsection{K-fold cross validation}
 
-\subsection*{Dummy model}
+We implemented 10-fold cross validation to our classifier.  This
+gave more stable values for generalization error when compared to
+repeatedly training the classifier without the cross validation.
+
+One part of the training data set was used for postpruning the tree, see
+section \ref{sect:postpruning}.
+
+\subsection{Dummy model}
 
 
-\section*{Results with different training set sizes}
+\section{Results with different training set sizes}
+
+XXX results to a table.
 
 1000 items.
 
-\begin{verbatim}
+\begin{outputlog}
 Chosen classifier has accuracy of 1.0.
 Classified as spam: 5777 / 9000
 Validation:
@@ -117,7 +129,7 @@ Validation:
 real	0m44.221s
 user	0m44.040s
 sys	0m0.150s
-\end{verbatim}
+\end{outputlog}
 
 4000 items in training set.
 
@@ -157,9 +169,7 @@ user	19m37.980s
 sys	0m1.100s
 \end{verbatim}
 
-\newpage
-\section*{Comments on project difficulty}
-
+\section{Comments on project difficulty}
 
 \begin{thebibliography}{9}
 \bibitem{alpaydin2004}
@@ -184,9 +194,8 @@ sys	0m1.100s
 %  Otaniemi, 2010. 13 pages.
 \end{thebibliography}
 
-
-\newpage
-\section*{Code}
+\appendix
+\section{Python code for the classifier}
 \verbatiminput{decisiontree.py}
 
 \end{document}
