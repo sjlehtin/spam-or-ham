@@ -28,6 +28,7 @@
 \DefineVerbatimEnvironment {outputlog}{Verbatim}
   {frame=lines,framerule=0.1mm, fontsize=\small}
 
+\newcommand{\XXX}[1]{{\bf XXX #1}}
 \parindent 0mm
 \parskip 3mm
 
@@ -61,7 +62,7 @@
 We trained a univariate binary classification tree to detect spam email.
 
 
-\section{Why did we select Decision Trees}
+\section{Rationale}
 
 The choice of using a decision tree to solve a task with boolean variables
 seemed natural. Such a tree could definitely match whatever complexity there
@@ -70,13 +71,19 @@ In fact we figured our success would be determined mainly by how we would
 manage to avoid overfitting.
 
 Decisiontrees were also tempting in that they are much easier to
-visualize than, e.g., naive bayes classifiers.
+visualize than, e.g., naive bayes classifiers.  For example, see
+\XXX{references to figures}
 
 \section{Principles of decision trees}
 
+Decision trees are a non-parametric method for data classification.
+They don't try to approximate any model behind the data, instead relying
+on tactic of ``similar inputs produce similar outputs''.
+
 \subsection{Calculating impurity}
 
-We chose to measure impurity  with the entropy function (Quinlan 1986)
+We chose to measure impurity with the entropy function \XXX{proper
+citing} (Quinlan 1986)
 \begin{equation*}
 \begin{split}
 \mathcal{I}_m &= - \sum_{i=1}^K p_m^i \log_2 p_m^i  \\
@@ -91,10 +98,24 @@ K &= 2
 
 \subsubsection{Prepruning}
 
+In our first versions of the classifier we only did prepruning, which
+resulted in very small and tidy trees, but the accuracy left a lot to be
+desired. \XXX{some data} Current model uses one of the suggested
+approaches from \cite{alpaydin2004}, where we make the tree as pure as
+possible (no prepruning) and handle overfitting by postpruning the tree.
+Removing prepruning didn't have an adverse effect for the final
+accuracy. \XXX{data}
+
+When prepruning, we stopped the algorithm by limiting by the results
+from the entropy calculation, by columns (features) and rows (messages)
+left in a recursion step.  For example, \XXX{more detailed explanation}.
+
 \subsubsection{Postpruning}
 \label{sect:postpruning}
 
-\section{Validation of our Approach}
+
+
+\section{Validation of our approach}
 
 \subsection{K-fold cross validation}
 
