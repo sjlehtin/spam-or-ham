@@ -37,8 +37,8 @@
 %------------------------------------------------------------------------------
 
 % add your student number in parenthesis
-\title{T-61.3050 Term Project, final report\\
-       Using decisiontrees for spam classification} % Dictated in instructions.
+\title{T-61.3050 Term Project, final report\\ % Dictated in instructions.
+       Using decision trees for spam classification}
 \author{Jori Bomanson (81819F) \\
   {\tt jori.bomanson@aalto.fi} \\
   \\
@@ -189,6 +189,22 @@ real	19m40.578s
 user	19m37.980s
 sys	0m1.100s
 \end{verbatim}
+
+\section{Conclusions}
+
+The chosen approach didn't achieve the same high marks for accuracy as
+the winners of the data challenge.  Tweaking of the approach is
+naturally possible, but it seems that decisiontrees are more suited in
+this as a part of combined classifier instead of on their own.  This
+does not mean that the approach is completely without merits; decision
+trees were applied here without prior knowledge to the distribution of
+the spam messages.  In the data challenge, the winning teams had tweaked
+the prior probabilities for spam to match the distribution in the data
+set.  In the decision tree model, this is not not necessary, or even
+possible.
+
+Looking at the generated decision trees, it is easy to follow the
+process by eye.  This, we think, helps a lot in validating the approach.
 
 \section{Comments on project difficulty}
 
