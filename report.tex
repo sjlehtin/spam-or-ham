@@ -70,7 +70,7 @@ would be in the training data.
 In fact we figured our success would be determined mainly by how we would
 manage to avoid overfitting.
 
-Decisiontrees were also tempting in that they are much easier to
+Decision trees were also tempting in that they are much easier to
 visualize than, e.g., naive bayes classifiers.  For example, see
 \XXX{references to figures}
 
@@ -96,7 +96,23 @@ K &= 2
 
 \subsection{Pruning the tree}
 
+Decision trees can be trained to perfectly match the training
+data\cite[\XXX{page number}]{alpaydin2004}.  This will lead the model to
+gross overfitting, which manifests as a large generalization error.
+This can be avoided by pruning the tree.  There are two non-exclusive
+approaches to pruning, prepruning and postpruning.
+
+Without pruning, a tree could look like \XXX{ref to non-pruned figure}
+with a training set size of 1000.  
+
+\XXX{figure of a tree without pruning}
+\XXX{table of errors with a tree without pruning}
+
 \subsubsection{Prepruning}
+
+In prepruning, the recursion of the training algorithm is stopped once
+certain limits are reached.  Examples include obtained impurity and number
+of data rows.
 
 In our first versions of the classifier we only did prepruning, which
 resulted in very small and tidy trees, but the accuracy left a lot to be
@@ -110,10 +126,18 @@ When prepruning, we stopped the algorithm by limiting by the results
 from the entropy calculation, by columns (features) and rows (messages)
 left in a recursion step.  For example, \XXX{more detailed explanation}.
 
+\XXX{figure of a tree with large values in prepruning}
+\XXX{table of errors with a prepruned tree}
+
 \subsubsection{Postpruning}
 \label{sect:postpruning}
 
+Postpruning is used to reduce generalization error by using a a special
+pruning data set to check whether removing a subtree from the decision
+tree will result in the same or smaller error against the pruning set.
 
+\XXX{figure of a postpruned tree}
+\XXX{table of errors with a postpruned tree}
 
 \section{Validation of our approach}
 
@@ -190,11 +214,13 @@ user	19m37.980s
 sys	0m1.100s
 \end{verbatim}
 
+\subsection{Training algorithm complexity}
+
 \section{Conclusions}
 
 The chosen approach didn't achieve the same high marks for accuracy as
 the winners of the data challenge.  Tweaking of the approach is
-naturally possible, but it seems that decisiontrees are more suited in
+naturally possible, but it seems that decision trees are more suited in
 this as a part of combined classifier instead of on their own.  This
 does not mean that the approach is completely without merits; decision
 trees were applied here without prior knowledge to the distribution of
