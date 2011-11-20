@@ -3,7 +3,7 @@
 CMD="./decisiontree.py --dump-tree original --dump-tree pruned"
 OUT="data.out"
 echo "Starting gathering..." > $OUT
-for ds in 1000 2000 4000 6000 8000; do
+for ds in 200 500 800 1000 2000 4000 6000 8000; do
     echo "" >> $OUT
     echo "**** $ds, postpruning only" >> $OUT
     CUR=out-$ds-$$.txt
