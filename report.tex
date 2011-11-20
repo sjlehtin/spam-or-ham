@@ -193,9 +193,11 @@ are introduced.
   \label{fig:pruning6000-training-time} 
 \end{figure}
 
-When prepruning, we stopped the algorithm by limiting by the results
-from the entropy calculation, by columns (features) and rows (messages)
-left in a recursion step.  For example, \XXX{more detailed explanation}.
+We implemented prepruning by having three different stopping criteria in
+our algorithm to limit the depth of the resulting tree.  The first sees
+that there's always atleast one feature to base a decision on, the second
+that there's enough messages and the third that there' enough entropy to
+warrant further recursion.  For example, \XXX{more detailed explanation}.
 
 1000 items in training set, theta = 0.04, min\_row\_ratio = 0.002
 
