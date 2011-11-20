@@ -391,10 +391,21 @@ section \ref{sect:postpruning}.
 
 \section{Results with different training set sizes}
 
+\begin{figure}[h]
+  \centering
+  \begin{minipage}[c]{1.0\textwidth}
+    \centering
+\includegraphics[width=130mm]{trsize-vs-accuracy.pdf}
+  \end{minipage}
+  \caption{Accuracy plotted as a function of training data size.}
+  \label{fig:trsize-vs-accuracy}
+\end{figure}
+
 As can be seen from figure \ref{tbl:classifiers}, training the
 classifier with 8000 items yields only approximately 1.5 percentage
-points better accuracy than training with 1000 items.  The elbow point
-is somewhere around 2000-3000 items in the training set.
+points better accuracy than training with 1000 items.  From figure
+\ref{fig:trsize-vs-accuracy}, the elbow point is somewhere around
+2000-3000 items in the training set.
 
 \subsection{Training algorithm complexity}
 
