@@ -1,0 +1,1212 @@
+digraph decisiontree {
+n2637 [label="ratio=0.6583 (4213/6400)\nHTML_MESSAGE (225)"];
+
+n2638 [label="ratio=0.9806 (3389/3456)\nNO_RELAYS (195)"];
+
+n2637 -> n2638 [label=Yes];
+
+n2639 [label="ratio=1.0000 (1682/1682)\n"];
+
+n2638 -> n2639 [label=Yes];
+
+n2638 -> n2640 [label=No];
+
+n2640 [label="ratio=0.9622 (1707/1774)\nENTITY_DEC_ALPHANUM (391)"];
+
+n2641 [label="ratio=0.3077 (4/13)\nBIZ_TLD (70)"];
+
+n2640 -> n2641 [label=Yes];
+
+n2642 [label="ratio=0.0000 (0/9)\n"];
+
+n2641 -> n2642 [label=Yes];
+
+n2641 -> n2643 [label=No];
+
+n2643 [label="ratio=1.0000 (4/4)\n"];
+
+n2640 -> n2644 [label=No];
+
+n2644 [label="ratio=0.9671 (1703/1761)\nHTML_TAG_EXIST_TBODY (395)"];
+
+n2645 [label="ratio=0.9003 (280/311)\nMIME_HTML_ONLY (330)"];
+
+n2644 -> n2645 [label=Yes];
+
+n2646 [label="ratio=0.7407 (80/108)\nMPART_ALT_DIFF (12)"];
+
+n2645 -> n2646 [label=Yes];
+
+n2647 [label="ratio=1.0000 (31/31)\n"];
+
+n2646 -> n2647 [label=Yes];
+
+n2646 -> n2648 [label=No];
+
+n2648 [label="ratio=0.6364 (49/77)\nMIME_HEADER_CTYPE_ONLY (167)"];
+
+n2649 [label="ratio=1.0000 (13/13)\n"];
+
+n2648 -> n2649 [label=Yes];
+
+n2648 -> n2650 [label=No];
+
+n2650 [label="ratio=0.5625 (36/64)\nRCVD_NUMERIC_HELO (176)"];
+
+n2651 [label="ratio=1.0000 (12/12)\n"];
+
+n2650 -> n2651 [label=Yes];
+
+n2650 -> n2652 [label=No];
+
+n2652 [label="ratio=0.4615 (24/52)\nFORGED_OUTLOOK_HTML (356)"];
+
+n2653 [label="ratio=1.0000 (8/8)\n"];
+
+n2652 -> n2653 [label=Yes];
+
+n2652 -> n2654 [label=No];
+
+n2654 [label="ratio=0.3636 (16/44)\nHTML_IMAGE_RATIO_02 (159)"];
+
+n2655 [label="ratio=1.0000 (4/4)\n"];
+
+n2654 -> n2655 [label=Yes];
+
+n2654 -> n2656 [label=No];
+
+n2656 [label="ratio=0.3000 (12/40)\nHTML_TEXT_AFTER_HTML (210)"];
+
+n2657 [label="ratio=1.0000 (3/3)\n"];
+
+n2656 -> n2657 [label=Yes];
+
+n2656 -> n2658 [label=No];
+
+n2658 [label="ratio=0.2432 (9/37)\nMIME_QP_LONG_LINE (148)"];
+
+n2659 [label="ratio=0.8000 (4/5)\nADVANCE_FEE_1 (238)"];
+
+n2658 -> n2659 [label=Yes];
+
+n2660 [label="ratio=0.5000 (1/2)\n"];
+
+n2659 -> n2660 [label=Yes];
+
+n2659 -> n2661 [label=No];
+
+n2661 [label="ratio=1.0000 (3/3)\n"];
+
+n2658 -> n2662 [label=No];
+
+n2662 [label="ratio=0.1562 (5/32)\nMSGID_FROM_MTA_ID (156)"];
+
+n2663 [label="ratio=1.0000 (2/2)\n"];
+
+n2662 -> n2663 [label=Yes];
+
+n2662 -> n2664 [label=No];
+
+n2664 [label="ratio=0.1000 (3/30)\nHTML_90_100 (351)"];
+
+n2665 [label="ratio=0.0000 (0/4)\n"];
+
+n2664 -> n2665 [label=Yes];
+
+n2664 -> n2666 [label=No];
+
+n2666 [label="ratio=0.1154 (3/26)\nFROM_LOCAL_NOVOWEL (65)"];
+
+n2667 [label="ratio=0.3333 (1/3)\nADVANCE_FEE_1 (238)"];
+
+n2666 -> n2667 [label=Yes];
+
+n2668 [label="ratio=0.0000 (0/2)\n"];
+
+n2667 -> n2668 [label=Yes];
+
+n2667 -> n2669 [label=No];
+
+n2669 [label="ratio=1.0000 (1/1)\n"];
+
+n2666 -> n2670 [label=No];
+
+n2670 [label="ratio=0.0870 (2/23)\n"];
+
+n2645 -> n2671 [label=No];
+
+n2671 [label="ratio=0.9852 (200/203)\nEXCUSE_10 (418)"];
+
+n2672 [label="ratio=0.0000 (0/2)\n"];
+
+n2671 -> n2672 [label=Yes];
+
+n2671 -> n2673 [label=No];
+
+n2673 [label="ratio=0.9950 (200/201)\nHTML_TAG_BALANCE_HEAD (442)"];
+
+n2674 [label="ratio=0.5000 (1/2)\nHTML_90_100 (351)"];
+
+n2673 -> n2674 [label=Yes];
+
+n2675 [label="ratio=0.5000 (1/2)\n"];
+
+n2674 -> n2675 [label=Yes];
+
+n2674 -> n2676 [label=No];
+
+n2676 [label="ratio=nan (0/0)\n"];
+
+n2673 -> n2677 [label=No];
+
+n2677 [label="ratio=1.0000 (199/199)\n"];
+
+n2644 -> n2678 [label=No];
+
+n2678 [label="ratio=0.9814 (1423/1450)\nMPART_ALT_DIFF (12)"];
+
+n2679 [label="ratio=1.0000 (425/425)\n"];
+
+n2678 -> n2679 [label=Yes];
+
+n2678 -> n2680 [label=No];
+
+n2680 [label="ratio=0.9737 (998/1025)\nHTML_SHOUTING5 (424)"];
+
+n2681 [label="ratio=0.0000 (0/2)\n"];
+
+n2680 -> n2681 [label=Yes];
+
+n2680 -> n2682 [label=No];
+
+n2682 [label="ratio=0.9756 (998/1023)\nINFO_TLD (213)"];
+
+n2683 [label="ratio=1.0000 (208/208)\n"];
+
+n2682 -> n2683 [label=Yes];
+
+n2682 -> n2684 [label=No];
+
+n2684 [label="ratio=0.9693 (790/815)\nMARKETING_PARTNERS (412)"];
+
+n2685 [label="ratio=0.6667 (4/6)\nMIME_HTML_ONLY (330)"];
+
+n2684 -> n2685 [label=Yes];
+
+n2686 [label="ratio=1.0000 (3/3)\n"];
+
+n2685 -> n2686 [label=Yes];
+
+n2685 -> n2687 [label=No];
+
+n2687 [label="ratio=0.3333 (1/3)\n"];
+
+n2684 -> n2688 [label=No];
+
+n2688 [label="ratio=0.9716 (786/809)\nRCVD_HELO_IP_MISMATCH (272)"];
+
+n2689 [label="ratio=1.0000 (91/91)\n"];
+
+n2688 -> n2689 [label=Yes];
+
+n2688 -> n2690 [label=No];
+
+n2690 [label="ratio=0.9680 (695/718)\nFROM_LOCAL_NOVOWEL (65)"];
+
+n2691 [label="ratio=0.8235 (14/17)\nMIME_QP_LONG_LINE (148)"];
+
+n2690 -> n2691 [label=Yes];
+
+n2692 [label="ratio=0.0000 (0/2)\n"];
+
+n2691 -> n2692 [label=Yes];
+
+n2691 -> n2693 [label=No];
+
+n2693 [label="ratio=0.9333 (14/15)\nMIME_HTML_ONLY (330)"];
+
+n2694 [label="ratio=0.8750 (7/8)\nHELO_DYNAMIC_IPADDR (265)"];
+
+n2693 -> n2694 [label=Yes];
+
+n2695 [label="ratio=1.0000 (4/4)\n"];
+
+n2694 -> n2695 [label=Yes];
+
+n2694 -> n2696 [label=No];
+
+n2696 [label="ratio=0.7500 (3/4)\nHTML_50_60 (297)"];
+
+n2697 [label="ratio=1.0000 (2/2)\n"];
+
+n2696 -> n2697 [label=Yes];
+
+n2696 -> n2698 [label=No];
+
+n2698 [label="ratio=0.5000 (1/2)\n"];
+
+n2693 -> n2699 [label=No];
+
+n2699 [label="ratio=1.0000 (7/7)\n"];
+
+n2690 -> n2700 [label=No];
+
+n2700 [label="ratio=0.9715 (681/701)\nMIME_QP_LONG_LINE (148)"];
+
+n2701 [label="ratio=0.9952 (209/210)\nMIME_HTML_ONLY (330)"];
+
+n2700 -> n2701 [label=Yes];
+
+n2702 [label="ratio=0.9804 (50/51)\nRATWARE_OUTLOOK_NONAME (62)"];
+
+n2701 -> n2702 [label=Yes];
+
+n2703 [label="ratio=1.0000 (16/16)\n"];
+
+n2702 -> n2703 [label=Yes];
+
+n2702 -> n2704 [label=No];
+
+n2704 [label="ratio=0.9714 (34/35)\nMIME_BOUND_MANY_HEX (368)"];
+
+n2705 [label="ratio=1.0000 (13/13)\n"];
+
+n2704 -> n2705 [label=Yes];
+
+n2704 -> n2706 [label=No];
+
+n2706 [label="ratio=0.9545 (21/22)\nHTML_50_60 (297)"];
+
+n2707 [label="ratio=1.0000 (9/9)\n"];
+
+n2706 -> n2707 [label=Yes];
+
+n2706 -> n2708 [label=No];
+
+n2708 [label="ratio=0.9231 (12/13)\nFORGED_YAHOO_RCVD (175)"];
+
+n2709 [label="ratio=1.0000 (4/4)\n"];
+
+n2708 -> n2709 [label=Yes];
+
+n2708 -> n2710 [label=No];
+
+n2710 [label="ratio=0.8889 (8/9)\nRCVD_DOUBLE_IP_SPAM (67)"];
+
+n2711 [label="ratio=1.0000 (3/3)\n"];
+
+n2710 -> n2711 [label=Yes];
+
+n2710 -> n2712 [label=No];
+
+n2712 [label="ratio=0.8333 (5/6)\nHTML_60_70 (135)"];
+
+n2713 [label="ratio=1.0000 (3/3)\n"];
+
+n2712 -> n2713 [label=Yes];
+
+n2712 -> n2714 [label=No];
+
+n2714 [label="ratio=0.6667 (2/3)\n"];
+
+n2701 -> n2715 [label=No];
+
+n2715 [label="ratio=1.0000 (159/159)\n"];
+
+n2700 -> n2716 [label=No];
+
+n2716 [label="ratio=0.9613 (472/491)\nMIME_HTML_ONLY (330)"];
+
+n2717 [label="ratio=0.9790 (326/333)\nSTRONG_BUY (63)"];
+
+n2716 -> n2717 [label=Yes];
+
+n2718 [label="ratio=0.5000 (1/2)\n"];
+
+n2717 -> n2718 [label=Yes];
+
+n2717 -> n2719 [label=No];
+
+n2719 [label="ratio=0.9819 (325/331)\nPRIORITY_NO_NAME (257)"];
+
+n2720 [label="ratio=0.5000 (1/2)\nMISSING_MIMEOLE (314)"];
+
+n2719 -> n2720 [label=Yes];
+
+n2721 [label="ratio=0.5000 (1/2)\n"];
+
+n2720 -> n2721 [label=Yes];
+
+n2720 -> n2722 [label=No];
+
+n2722 [label="ratio=nan (0/0)\n"];
+
+n2719 -> n2723 [label=No];
+
+n2723 [label="ratio=0.9848 (324/329)\nHTML_IMAGE_RATIO_04 (19)"];
+
+n2724 [label="ratio=0.6667 (2/3)\nHTML_90_100 (351)"];
+
+n2723 -> n2724 [label=Yes];
+
+n2725 [label="ratio=0.5000 (1/2)\n"];
+
+n2724 -> n2725 [label=Yes];
+
+n2724 -> n2726 [label=No];
+
+n2726 [label="ratio=1.0000 (1/1)\n"];
+
+n2723 -> n2727 [label=No];
+
+n2727 [label="ratio=0.9877 (322/326)\nFROM_LOCAL_HEX (281)"];
+
+n2728 [label="ratio=0.7500 (3/4)\nHTML_TEXT_AFTER_HTML (210)"];
+
+n2727 -> n2728 [label=Yes];
+
+n2729 [label="ratio=1.0000 (3/3)\n"];
+
+n2728 -> n2729 [label=Yes];
+
+n2728 -> n2730 [label=No];
+
+n2730 [label="ratio=0.0000 (0/1)\n"];
+
+n2727 -> n2731 [label=No];
+
+n2731 [label="ratio=0.9907 (319/322)\nHTML_TEXT_AFTER_HTML (210)"];
+
+n2732 [label="ratio=1.0000 (66/66)\n"];
+
+n2731 -> n2732 [label=Yes];
+
+n2731 -> n2733 [label=No];
+
+n2733 [label="ratio=0.9883 (253/256)\nRATWARE_MS_HASH (120)"];
+
+n2734 [label="ratio=1.0000 (51/51)\n"];
+
+n2733 -> n2734 [label=Yes];
+
+n2733 -> n2735 [label=No];
+
+n2735 [label="ratio=0.9854 (202/205)\nMIME_HEADER_CTYPE_ONLY (167)"];
+
+n2736 [label="ratio=1.0000 (40/40)\n"];
+
+n2735 -> n2736 [label=Yes];
+
+n2735 -> n2737 [label=No];
+
+n2737 [label="ratio=0.9818 (162/165)\nHTML_10_20 (381)"];
+
+n2738 [label="ratio=1.0000 (25/25)\n"];
+
+n2737 -> n2738 [label=Yes];
+
+n2737 -> n2739 [label=No];
+
+n2739 [label="ratio=0.9786 (137/140)\nDRUGS_ERECTILE (160)"];
+
+n2740 [label="ratio=1.0000 (22/22)\n"];
+
+n2739 -> n2740 [label=Yes];
+
+n2739 -> n2741 [label=No];
+
+n2741 [label="ratio=0.9746 (115/118)\nUNPARSEABLE_RELAY (243)"];
+
+n2742 [label="ratio=1.0000 (19/19)\n"];
+
+n2741 -> n2742 [label=Yes];
+
+n2741 -> n2743 [label=No];
+
+n2743 [label="ratio=0.9697 (96/99)\nHTML_20_30 (338)"];
+
+n2744 [label="ratio=1.0000 (16/16)\n"];
+
+n2743 -> n2744 [label=Yes];
+
+n2743 -> n2745 [label=No];
+
+n2745 [label="ratio=0.9639 (80/83)\nHTML_60_70 (135)"];
+
+n2746 [label="ratio=1.0000 (14/14)\n"];
+
+n2745 -> n2746 [label=Yes];
+
+n2745 -> n2747 [label=No];
+
+n2747 [label="ratio=0.9565 (66/69)\nFORGED_OUTLOOK_HTML (356)"];
+
+n2748 [label="ratio=1.0000 (12/12)\n"];
+
+n2747 -> n2748 [label=Yes];
+
+n2747 -> n2749 [label=No];
+
+n2749 [label="ratio=0.9474 (54/57)\nHELO_DYNAMIC_IPADDR (265)"];
+
+n2750 [label="ratio=1.0000 (9/9)\n"];
+
+n2749 -> n2750 [label=Yes];
+
+n2749 -> n2751 [label=No];
+
+n2751 [label="ratio=0.9375 (45/48)\nHTML_40_50 (7)"];
+
+n2752 [label="ratio=1.0000 (8/8)\n"];
+
+n2751 -> n2752 [label=Yes];
+
+n2751 -> n2753 [label=No];
+
+n2753 [label="ratio=0.9250 (37/40)\nINVALID_DATE (36)"];
+
+n2754 [label="ratio=1.0000 (8/8)\n"];
+
+n2753 -> n2754 [label=Yes];
+
+n2753 -> n2755 [label=No];
+
+n2755 [label="ratio=0.9062 (29/32)\nHTML_30_40 (370)"];
+
+n2756 [label="ratio=1.0000 (7/7)\n"];
+
+n2755 -> n2756 [label=Yes];
+
+n2755 -> n2757 [label=No];
+
+n2757 [label="ratio=0.8800 (22/25)\nHTML_50_60 (297)"];
+
+n2758 [label="ratio=1.0000 (6/6)\n"];
+
+n2757 -> n2758 [label=Yes];
+
+n2757 -> n2759 [label=No];
+
+n2759 [label="ratio=0.8421 (16/19)\nHTML_90_100 (351)"];
+
+n2760 [label="ratio=1.0000 (4/4)\n"];
+
+n2759 -> n2760 [label=Yes];
+
+n2759 -> n2761 [label=No];
+
+n2761 [label="ratio=0.8000 (12/15)\nHTML_00_10 (32)"];
+
+n2762 [label="ratio=1.0000 (2/2)\n"];
+
+n2761 -> n2762 [label=Yes];
+
+n2761 -> n2763 [label=No];
+
+n2763 [label="ratio=0.7692 (10/13)\nRCVD_FAKE_HELO_DOTCOM (101)"];
+
+n2764 [label="ratio=1.0000 (2/2)\n"];
+
+n2763 -> n2764 [label=Yes];
+
+n2763 -> n2765 [label=No];
+
+n2765 [label="ratio=0.7273 (8/11)\nHTML_IMAGE_ONLY_12 (344)"];
+
+n2766 [label="ratio=1.0000 (2/2)\n"];
+
+n2765 -> n2766 [label=Yes];
+
+n2765 -> n2767 [label=No];
+
+n2767 [label="ratio=0.6667 (6/9)\n"];
+
+n2716 -> n2768 [label=No];
+
+n2768 [label="ratio=0.9241 (146/158)\nMSGID_FROM_MTA_ID (156)"];
+
+n2769 [label="ratio=0.3333 (1/3)\nHTML_60_70 (135)"];
+
+n2768 -> n2769 [label=Yes];
+
+n2770 [label="ratio=0.5000 (1/2)\n"];
+
+n2769 -> n2770 [label=Yes];
+
+n2769 -> n2771 [label=No];
+
+n2771 [label="ratio=0.0000 (0/1)\n"];
+
+n2768 -> n2772 [label=No];
+
+n2772 [label="ratio=0.9355 (145/155)\nMIME_BOUND_NEXTPART (447)"];
+
+n2773 [label="ratio=1.0000 (33/33)\n"];
+
+n2772 -> n2773 [label=Yes];
+
+n2772 -> n2774 [label=No];
+
+n2774 [label="ratio=0.9180 (112/122)\nHTML_IMAGE_RATIO_02 (159)"];
+
+n2775 [label="ratio=0.5714 (4/7)\nFRONTPAGE (126)"];
+
+n2774 -> n2775 [label=Yes];
+
+n2776 [label="ratio=1.0000 (2/2)\n"];
+
+n2775 -> n2776 [label=Yes];
+
+n2775 -> n2777 [label=No];
+
+n2777 [label="ratio=0.4000 (2/5)\nHTML_90_100 (351)"];
+
+n2778 [label="ratio=0.3333 (1/3)\n"];
+
+n2777 -> n2778 [label=Yes];
+
+n2777 -> n2779 [label=No];
+
+n2779 [label="ratio=0.5000 (1/2)\n"];
+
+n2774 -> n2780 [label=No];
+
+n2780 [label="ratio=0.9391 (108/115)\nPRIORITY_NO_NAME (257)"];
+
+n2781 [label="ratio=1.0000 (12/12)\n"];
+
+n2780 -> n2781 [label=Yes];
+
+n2780 -> n2782 [label=No];
+
+n2782 [label="ratio=0.9320 (96/103)\nMAILTO_TO_REMOVE (290)"];
+
+n2783 [label="ratio=0.5000 (1/2)\n"];
+
+n2782 -> n2783 [label=Yes];
+
+n2782 -> n2784 [label=No];
+
+n2784 [label="ratio=0.9406 (95/101)\nUNPARSEABLE_RELAY (243)"];
+
+n2785 [label="ratio=0.7500 (3/4)\nMIME_HTML_MOSTLY (108)"];
+
+n2784 -> n2785 [label=Yes];
+
+n2786 [label="ratio=1.0000 (2/2)\n"];
+
+n2785 -> n2786 [label=Yes];
+
+n2785 -> n2787 [label=No];
+
+n2787 [label="ratio=0.5000 (1/2)\n"];
+
+n2784 -> n2788 [label=No];
+
+n2788 [label="ratio=0.9485 (92/97)\nMSGID_FROM_MTA_HEADER (369)"];
+
+n2789 [label="ratio=0.8000 (4/5)\nHTML_TEXT_AFTER_BODY (93)"];
+
+n2788 -> n2789 [label=Yes];
+
+n2790 [label="ratio=1.0000 (3/3)\n"];
+
+n2789 -> n2790 [label=Yes];
+
+n2789 -> n2791 [label=No];
+
+n2791 [label="ratio=0.5000 (1/2)\n"];
+
+n2788 -> n2792 [label=No];
+
+n2792 [label="ratio=0.9565 (88/92)\nHTML_50_60 (297)"];
+
+n2793 [label="ratio=0.9048 (19/21)\nSATIS_GUAR (133)"];
+
+n2792 -> n2793 [label=Yes];
+
+n2794 [label="ratio=1.0000 (7/7)\n"];
+
+n2793 -> n2794 [label=Yes];
+
+n2793 -> n2795 [label=No];
+
+n2795 [label="ratio=0.8571 (12/14)\nHELO_DYNAMIC_IPADDR (265)"];
+
+n2796 [label="ratio=1.0000 (3/3)\n"];
+
+n2795 -> n2796 [label=Yes];
+
+n2795 -> n2797 [label=No];
+
+n2797 [label="ratio=0.8182 (9/11)\nHOT_NASTY (22)"];
+
+n2798 [label="ratio=1.0000 (2/2)\n"];
+
+n2797 -> n2798 [label=Yes];
+
+n2797 -> n2799 [label=No];
+
+n2799 [label="ratio=0.7778 (7/9)\n"];
+
+n2792 -> n2800 [label=No];
+
+n2800 [label="ratio=0.9718 (69/71)\nHTML_30_40 (370)"];
+
+n2801 [label="ratio=0.8333 (5/6)\n"];
+
+n2800 -> n2801 [label=Yes];
+
+n2800 -> n2802 [label=No];
+
+n2802 [label="ratio=0.9846 (64/65)\nRCVD_NUMERIC_HELO (176)"];
+
+n2803 [label="ratio=0.9167 (11/12)\nFROM_EXCESS_QP (77)"];
+
+n2802 -> n2803 [label=Yes];
+
+n2804 [label="ratio=1.0000 (6/6)\n"];
+
+n2803 -> n2804 [label=Yes];
+
+n2803 -> n2805 [label=No];
+
+n2805 [label="ratio=0.8333 (5/6)\n"];
+
+n2802 -> n2806 [label=No];
+
+n2806 [label="ratio=1.0000 (53/53)\n"];
+
+n2637 -> n2807 [label=No];
+
+n2807 [label="ratio=0.2799 (824/2944)\nNO_RELAYS (195)"];
+
+n2808 [label="ratio=0.0024 (3/1244)\nPRIORITY_NO_NAME (257)"];
+
+n2807 -> n2808 [label=Yes];
+
+n2809 [label="ratio=1.0000 (3/3)\n"];
+
+n2808 -> n2809 [label=Yes];
+
+n2808 -> n2810 [label=No];
+
+n2810 [label="ratio=0.0000 (0/1241)\n"];
+
+n2807 -> n2811 [label=No];
+
+n2811 [label="ratio=0.4829 (821/1700)\nRCVD_NUMERIC_HELO (176)"];
+
+n2812 [label="ratio=1.0000 (169/169)\n"];
+
+n2811 -> n2812 [label=Yes];
+
+n2811 -> n2813 [label=No];
+
+n2813 [label="ratio=0.4259 (652/1531)\nADVANCE_FEE_1 (238)"];
+
+n2814 [label="ratio=0.9931 (143/144)\nADVANCE_FEE_2 (40)"];
+
+n2813 -> n2814 [label=Yes];
+
+n2815 [label="ratio=1.0000 (121/121)\n"];
+
+n2814 -> n2815 [label=Yes];
+
+n2814 -> n2816 [label=No];
+
+n2816 [label="ratio=0.9565 (22/23)\nINVESTMENT_ADVICE (20)"];
+
+n2817 [label="ratio=1.0000 (7/7)\n"];
+
+n2816 -> n2817 [label=Yes];
+
+n2816 -> n2818 [label=No];
+
+n2818 [label="ratio=0.9375 (15/16)\nINVALID_DATE (36)"];
+
+n2819 [label="ratio=1.0000 (5/5)\n"];
+
+n2818 -> n2819 [label=Yes];
+
+n2818 -> n2820 [label=No];
+
+n2820 [label="ratio=0.9091 (10/11)\nDEAR_SOMETHING (232)"];
+
+n2821 [label="ratio=1.0000 (3/3)\n"];
+
+n2820 -> n2821 [label=Yes];
+
+n2820 -> n2822 [label=No];
+
+n2822 [label="ratio=0.8750 (7/8)\nRCVD_FAKE_HELO_DOTCOM (101)"];
+
+n2823 [label="ratio=1.0000 (2/2)\n"];
+
+n2822 -> n2823 [label=Yes];
+
+n2822 -> n2824 [label=No];
+
+n2824 [label="ratio=0.8333 (5/6)\n"];
+
+n2813 -> n2825 [label=No];
+
+n2825 [label="ratio=0.3670 (509/1387)\nALL_TRUSTED (110)"];
+
+n2826 [label="ratio=0.0000 (0/174)\n"];
+
+n2825 -> n2826 [label=Yes];
+
+n2825 -> n2827 [label=No];
+
+n2827 [label="ratio=0.4196 (509/1213)\nRATWARE_MS_HASH (120)"];
+
+n2828 [label="ratio=1.0000 (73/73)\n"];
+
+n2827 -> n2828 [label=Yes];
+
+n2827 -> n2829 [label=No];
+
+n2829 [label="ratio=0.3825 (436/1140)\nINFO_TLD (213)"];
+
+n2830 [label="ratio=1.0000 (67/67)\n"];
+
+n2829 -> n2830 [label=Yes];
+
+n2829 -> n2831 [label=No];
+
+n2831 [label="ratio=0.3439 (369/1073)\nHELO_DYNAMIC_IPADDR (265)"];
+
+n2832 [label="ratio=1.0000 (44/44)\n"];
+
+n2831 -> n2832 [label=Yes];
+
+n2831 -> n2833 [label=No];
+
+n2833 [label="ratio=0.3158 (325/1029)\nINVESTMENT_ADVICE (20)"];
+
+n2834 [label="ratio=1.0000 (35/35)\n"];
+
+n2833 -> n2834 [label=Yes];
+
+n2833 -> n2835 [label=No];
+
+n2835 [label="ratio=0.2918 (290/994)\nREMOVE_BEFORE_LINK (166)"];
+
+n2836 [label="ratio=1.0000 (26/26)\n"];
+
+n2835 -> n2836 [label=Yes];
+
+n2835 -> n2837 [label=No];
+
+n2837 [label="ratio=0.2727 (264/968)\nHELO_DYNAMIC_IPADDR2 (145)"];
+
+n2838 [label="ratio=1.0000 (22/22)\n"];
+
+n2837 -> n2838 [label=Yes];
+
+n2837 -> n2839 [label=No];
+
+n2839 [label="ratio=0.2558 (242/946)\nMAILTO_TO_SPAM_ADDR (385)"];
+
+n2840 [label="ratio=0.9286 (26/28)\nFORGED_YAHOO_RCVD (175)"];
+
+n2839 -> n2840 [label=Yes];
+
+n2841 [label="ratio=1.0000 (7/7)\n"];
+
+n2840 -> n2841 [label=Yes];
+
+n2840 -> n2842 [label=No];
+
+n2842 [label="ratio=0.9048 (19/21)\nMAILTO_TO_REMOVE (290)"];
+
+n2843 [label="ratio=1.0000 (4/4)\n"];
+
+n2842 -> n2843 [label=Yes];
+
+n2842 -> n2844 [label=No];
+
+n2844 [label="ratio=0.8824 (15/17)\nSUBJ_ILLEGAL_CHARS (50)"];
+
+n2845 [label="ratio=1.0000 (2/2)\n"];
+
+n2844 -> n2845 [label=Yes];
+
+n2844 -> n2846 [label=No];
+
+n2846 [label="ratio=0.8667 (13/15)\nTO_CC_NONE (211)"];
+
+n2847 [label="ratio=1.0000 (2/2)\n"];
+
+n2846 -> n2847 [label=Yes];
+
+n2846 -> n2848 [label=No];
+
+n2848 [label="ratio=0.8462 (11/13)\n"];
+
+n2839 -> n2849 [label=No];
+
+n2849 [label="ratio=0.2353 (216/918)\nSUBJ_HAS_SPACES (164)"];
+
+n2850 [label="ratio=1.0000 (16/16)\n"];
+
+n2849 -> n2850 [label=Yes];
+
+n2849 -> n2851 [label=No];
+
+n2851 [label="ratio=0.2217 (200/902)\nMIME_BAD_ISO_CHARSET (384)"];
+
+n2852 [label="ratio=1.0000 (12/12)\n"];
+
+n2851 -> n2852 [label=Yes];
+
+n2851 -> n2853 [label=No];
+
+n2853 [label="ratio=0.2112 (188/890)\nDATE_IN_FUTURE_12_24 (230)"];
+
+n2854 [label="ratio=0.8824 (15/17)\nUNPARSEABLE_RELAY (243)"];
+
+n2853 -> n2854 [label=Yes];
+
+n2855 [label="ratio=0.0000 (0/2)\n"];
+
+n2854 -> n2855 [label=Yes];
+
+n2854 -> n2856 [label=No];
+
+n2856 [label="ratio=1.0000 (15/15)\n"];
+
+n2853 -> n2857 [label=No];
+
+n2857 [label="ratio=0.1982 (173/873)\nDATE_IN_FUTURE_06_12 (282)"];
+
+n2858 [label="ratio=1.0000 (11/11)\n"];
+
+n2857 -> n2858 [label=Yes];
+
+n2857 -> n2859 [label=No];
+
+n2859 [label="ratio=0.1879 (162/862)\nDATE_IN_PAST_03_06 (431)"];
+
+n2860 [label="ratio=1.0000 (9/9)\n"];
+
+n2859 -> n2860 [label=Yes];
+
+n2859 -> n2861 [label=No];
+
+n2861 [label="ratio=0.1794 (153/853)\nDATE_IN_PAST_06_12 (44)"];
+
+n2862 [label="ratio=0.8571 (12/14)\nINVALID_DATE (36)"];
+
+n2861 -> n2862 [label=Yes];
+
+n2863 [label="ratio=1.0000 (4/4)\n"];
+
+n2862 -> n2863 [label=Yes];
+
+n2862 -> n2864 [label=No];
+
+n2864 [label="ratio=0.8000 (8/10)\n"];
+
+n2861 -> n2865 [label=No];
+
+n2865 [label="ratio=0.1681 (141/839)\nDATE_IN_PAST_12_24 (429)"];
+
+n2866 [label="ratio=0.9091 (10/11)\n"];
+
+n2865 -> n2866 [label=Yes];
+
+n2865 -> n2867 [label=No];
+
+n2867 [label="ratio=0.1582 (131/828)\nFORGED_YAHOO_RCVD (175)"];
+
+n2868 [label="ratio=1.0000 (7/7)\n"];
+
+n2867 -> n2868 [label=Yes];
+
+n2867 -> n2869 [label=No];
+
+n2869 [label="ratio=0.1510 (124/821)\nDRUGS_ERECTILE (160)"];
+
+n2870 [label="ratio=1.0000 (6/6)\n"];
+
+n2869 -> n2870 [label=Yes];
+
+n2869 -> n2871 [label=No];
+
+n2871 [label="ratio=0.1448 (118/815)\nDEAR_SOMETHING (232)"];
+
+n2872 [label="ratio=1.0000 (5/5)\n"];
+
+n2871 -> n2872 [label=Yes];
+
+n2871 -> n2873 [label=No];
+
+n2873 [label="ratio=0.1395 (113/810)\nPRIORITY_NO_NAME (257)"];
+
+n2874 [label="ratio=1.0000 (5/5)\n"];
+
+n2873 -> n2874 [label=Yes];
+
+n2873 -> n2875 [label=No];
+
+n2875 [label="ratio=0.1342 (108/805)\nSUSPICIOUS_RECIPS (239)"];
+
+n2876 [label="ratio=1.0000 (4/4)\n"];
+
+n2875 -> n2876 [label=Yes];
+
+n2875 -> n2877 [label=No];
+
+n2877 [label="ratio=0.1298 (104/801)\nINVESTMENT_EXPERT (240)"];
+
+n2878 [label="ratio=1.0000 (4/4)\n"];
+
+n2877 -> n2878 [label=Yes];
+
+n2877 -> n2879 [label=No];
+
+n2879 [label="ratio=0.1255 (100/797)\nMAILTO_TO_REMOVE (290)"];
+
+n2880 [label="ratio=1.0000 (4/4)\n"];
+
+n2879 -> n2880 [label=Yes];
+
+n2879 -> n2881 [label=No];
+
+n2881 [label="ratio=0.1211 (96/793)\nSPOOF_NET2COM (400)"];
+
+n2882 [label="ratio=1.0000 (4/4)\n"];
+
+n2881 -> n2882 [label=Yes];
+
+n2881 -> n2883 [label=No];
+
+n2883 [label="ratio=0.1166 (92/789)\nFROM_LOCAL_NOVOWEL (65)"];
+
+n2884 [label="ratio=1.0000 (3/3)\n"];
+
+n2883 -> n2884 [label=Yes];
+
+n2883 -> n2885 [label=No];
+
+n2885 [label="ratio=0.1132 (89/786)\nTO_CC_NONE (211)"];
+
+n2886 [label="ratio=1.0000 (3/3)\n"];
+
+n2885 -> n2886 [label=Yes];
+
+n2885 -> n2887 [label=No];
+
+n2887 [label="ratio=0.1098 (86/783)\nENGLISH_UCE_SUBJECT (294)"];
+
+n2888 [label="ratio=1.0000 (3/3)\n"];
+
+n2887 -> n2888 [label=Yes];
+
+n2887 -> n2889 [label=No];
+
+n2889 [label="ratio=0.1064 (83/780)\nROUND_THE_WORLD_LOCAL (319)"];
+
+n2890 [label="ratio=1.0000 (3/3)\n"];
+
+n2889 -> n2890 [label=Yes];
+
+n2889 -> n2891 [label=No];
+
+n2891 [label="ratio=0.1030 (80/777)\nSUBJ_ALL_CAPS (80)"];
+
+n2892 [label="ratio=0.6667 (4/6)\nML_MARKETING (64)"];
+
+n2891 -> n2892 [label=Yes];
+
+n2893 [label="ratio=1.0000 (2/2)\n"];
+
+n2892 -> n2893 [label=Yes];
+
+n2892 -> n2894 [label=No];
+
+n2894 [label="ratio=0.5000 (2/4)\n"];
+
+n2891 -> n2895 [label=No];
+
+n2895 [label="ratio=0.0986 (76/771)\nBIZ_TLD (70)"];
+
+n2896 [label="ratio=0.7500 (3/4)\n"];
+
+n2895 -> n2896 [label=Yes];
+
+n2895 -> n2897 [label=No];
+
+n2897 [label="ratio=0.0952 (73/767)\nURI_NOVOWEL (131)"];
+
+n2898 [label="ratio=1.0000 (2/2)\n"];
+
+n2897 -> n2898 [label=Yes];
+
+n2897 -> n2899 [label=No];
+
+n2899 [label="ratio=0.0928 (71/765)\nMSGID_FROM_MTA_ID (156)"];
+
+n2900 [label="ratio=1.0000 (2/2)\n"];
+
+n2899 -> n2900 [label=Yes];
+
+n2899 -> n2901 [label=No];
+
+n2901 [label="ratio=0.0904 (69/763)\nBODY_ENHANCEMENT (183)"];
+
+n2902 [label="ratio=1.0000 (2/2)\n"];
+
+n2901 -> n2902 [label=Yes];
+
+n2901 -> n2903 [label=No];
+
+n2903 [label="ratio=0.0880 (67/761)\nHELO_DYNAMIC_DHCP (279)"];
+
+n2904 [label="ratio=1.0000 (2/2)\n"];
+
+n2903 -> n2904 [label=Yes];
+
+n2903 -> n2905 [label=No];
+
+n2905 [label="ratio=0.0856 (65/759)\nFROM_EXCESS_BASE64 (285)"];
+
+n2906 [label="ratio=1.0000 (2/2)\n"];
+
+n2905 -> n2906 [label=Yes];
+
+n2905 -> n2907 [label=No];
+
+n2907 [label="ratio=0.0832 (63/757)\nADDR_FREE (313)"];
+
+n2908 [label="ratio=1.0000 (2/2)\n"];
+
+n2907 -> n2908 [label=Yes];
+
+n2907 -> n2909 [label=No];
+
+n2909 [label="ratio=0.0808 (61/755)\nRCVD_ILLEGAL_IP (390)"];
+
+n2910 [label="ratio=1.0000 (2/2)\n"];
+
+n2909 -> n2910 [label=Yes];
+
+n2909 -> n2911 [label=No];
+
+n2911 [label="ratio=0.0784 (59/753)\nADDRESS_IN_SUBJECT (427)"];
+
+n2912 [label="ratio=1.0000 (2/2)\n"];
+
+n2911 -> n2912 [label=Yes];
+
+n2911 -> n2913 [label=No];
+
+n2913 [label="ratio=0.0759 (57/751)\nMIME_BOUND_NEXTPART (447)"];
+
+n2914 [label="ratio=1.0000 (2/2)\n"];
+
+n2913 -> n2914 [label=Yes];
+
+n2913 -> n2915 [label=No];
+
+n2915 [label="ratio=0.0734 (55/749)\nDATE_IN_FUTURE_03_06 (415)"];
+
+n2916 [label="ratio=0.5000 (2/4)\n"];
+
+n2915 -> n2916 [label=Yes];
+
+n2915 -> n2917 [label=No];
+
+n2917 [label="ratio=0.0711 (53/745)\nDATE_IN_PAST_24_48 (21)"];
+
+n2918 [label="ratio=0.5000 (1/2)\n"];
+
+n2917 -> n2918 [label=Yes];
+
+n2917 -> n2919 [label=No];
+
+n2919 [label="ratio=0.0700 (52/743)\nINVALID_MSGID (76)"];
+
+n2920 [label="ratio=0.5000 (1/2)\n"];
+
+n2919 -> n2920 [label=Yes];
+
+n2919 -> n2921 [label=No];
+
+n2921 [label="ratio=0.0688 (51/741)\nMISSING_SUBJECT (102)"];
+
+n2922 [label="ratio=0.5000 (1/2)\n"];
+
+n2921 -> n2922 [label=Yes];
+
+n2921 -> n2923 [label=No];
+
+n2923 [label="ratio=0.0677 (50/739)\nMANY_EXCLAMATIONS (219)"];
+
+n2924 [label="ratio=0.5000 (1/2)\n"];
+
+n2923 -> n2924 [label=Yes];
+
+n2923 -> n2925 [label=No];
+
+n2925 [label="ratio=0.0665 (49/737)\nUNPARSEABLE_RELAY (243)"];
+
+n2926 [label="ratio=0.1667 (3/18)\n"];
+
+n2925 -> n2926 [label=Yes];
+
+n2925 -> n2927 [label=No];
+
+n2927 [label="ratio=0.0640 (46/719)\nRCVD_BY_IP (386)"];
+
+n2928 [label="ratio=0.1250 (1/8)\n"];
+
+n2927 -> n2928 [label=Yes];
+
+n2927 -> n2929 [label=No];
+
+n2929 [label="ratio=0.0633 (45/711)\nMSGID_FROM_MTA_HEADER (369)"];
+
+n2930 [label="ratio=0.0000 (0/3)\n"];
+
+n2929 -> n2930 [label=Yes];
+
+n2929 -> n2931 [label=No];
+
+n2931 [label="ratio=0.0636 (45/708)\nSUB_HELLO (75)"];
+
+n2932 [label="ratio=0.0000 (0/2)\n"];
+
+n2931 -> n2932 [label=Yes];
+
+n2931 -> n2933 [label=No];
+
+n2933 [label="ratio=0.0637 (45/706)\nFROM_EXCESS_QP (77)"];
+
+n2934 [label="ratio=0.0000 (0/2)\n"];
+
+n2933 -> n2934 [label=Yes];
+
+n2933 -> n2935 [label=No];
+
+n2935 [label="ratio=0.0639 (45/704)\nDISGUISE_PORN (150)"];
+
+n2936 [label="ratio=0.0000 (0/2)\n"];
+
+n2935 -> n2936 [label=Yes];
+
+n2935 -> n2937 [label=No];
+
+n2937 [label="ratio=0.0641 (45/702)\nPLING_PLING (387)"];
+
+n2938 [label="ratio=0.0000 (0/2)\n"];
+
+n2937 -> n2938 [label=Yes];
+
+n2937 -> n2939 [label=No];
+
+n2939 [label="ratio=0.0643 (45/700)\n"];
+
+}

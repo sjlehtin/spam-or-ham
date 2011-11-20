@@ -1,0 +1,221 @@
+Starting gathering...
+
+**** 1000, postpruning only
+Min impurity: 0.334864, column PLING_PLING (218).
+Dropping 0 / 2 columns.
+Stopping recursion due to too few cols (2) after split with PLING_PLING.
+Dropping 0 / 2 columns.
+Stopping recursion due to too few cols (2) after split with PLING_PLING.
+Chosen classifier has accuracy of 0.99.
+Classified as spam: 5721 / 9000
+Validation:
+ Classified as spam: 5721 / 9000
+ Classified as spam in validation set: 5965 / 9000
+ Correctly classified: 8576
+ Correctly classified as spam: 5631
+ Accuracy: 0.953
+ Precision: 0.984
+ Recall: 0.944
+ Perplexity: 1.215
+
+real	0m37.825s
+user	0m37.212s
+sys	0m0.436s
+
+**** 1000, pre- and postpruned
+Starting impurity calculation, number of rows 118, columns 3.
+Min impurity: 0.394390, column DISGUISE_PORN (419).
+Stopping recursion due to no element being spam.
+Dropping 0 / 2 columns.
+Stopping recursion due to too few cols (2) after split with DISGUISE_PORN.
+Chosen classifier has accuracy of 0.97.
+Classified as spam: 5659 / 9000
+Validation:
+ Classified as spam: 5659 / 9000
+ Classified as spam in validation set: 5996 / 9000
+ Correctly classified: 8493
+ Correctly classified as spam: 5574
+ Accuracy: 0.944
+ Precision: 0.985
+ Recall: 0.930
+ Perplexity: 1.165
+
+real	0m38.110s
+user	0m37.393s
+sys	0m0.363s
+
+**** 2000, postpruning only
+Min impurity: 0.408971, column MSGID_FROM_MTA_HEADER (259).
+Dropping 0 / 2 columns.
+Stopping recursion due to too few cols (2) after split with MSGID_FROM_MTA_HEADER.
+Dropping 0 / 2 columns.
+Stopping recursion due to too few cols (2) after split with MSGID_FROM_MTA_HEADER.
+Chosen classifier has accuracy of 0.98.
+Classified as spam: 5127 / 8000
+Validation:
+ Classified as spam: 5127 / 8000
+ Classified as spam in validation set: 5281 / 8000
+ Correctly classified: 7686
+ Correctly classified as spam: 5047
+ Accuracy: 0.961
+ Precision: 0.984
+ Recall: 0.956
+ Perplexity: 1.194
+
+real	1m57.679s
+user	1m51.018s
+sys	0m6.216s
+
+**** 2000, pre- and postpruned
+Min impurity: 0.380517, column UNPARSEABLE_RELAY (271).
+Dropping 0 / 2 columns.
+Stopping recursion due to too few cols (2) after split with UNPARSEABLE_RELAY.
+Dropping 0 / 2 columns.
+Stopping recursion due to too few cols (2) after split with UNPARSEABLE_RELAY.
+Chosen classifier has accuracy of 0.99.
+Classified as spam: 5175 / 8000
+Validation:
+ Classified as spam: 5175 / 8000
+ Classified as spam in validation set: 5270 / 8000
+ Correctly classified: 7727
+ Correctly classified as spam: 5086
+ Accuracy: 0.966
+ Precision: 0.983
+ Recall: 0.965
+ Perplexity: 1.175
+
+real	1m52.731s
+user	1m46.594s
+sys	0m5.591s
+
+**** 4000, postpruning only
+Starting impurity calculation, number of rows 350, columns 3.
+Min impurity: 0.249521, column HOT_NASTY (418).
+Stopping recursion due to no element being spam.
+Dropping 0 / 2 columns.
+Stopping recursion due to too few cols (2) after split with HOT_NASTY.
+Chosen classifier has accuracy of 0.985.
+Classified as spam: 3932 / 6000
+Validation:
+ Classified as spam: 3932 / 6000
+ Classified as spam in validation set: 3969 / 6000
+ Correctly classified: 5825
+ Correctly classified as spam: 3863
+ Accuracy: 0.971
+ Precision: 0.982
+ Recall: 0.973
+ Perplexity: 1.141
+
+real	6m20.993s
+user	5m56.584s
+sys	0m22.214s
+
+**** 4000, pre- and postpruned
+Min impurity: 0.337775, column UNPARSEABLE_RELAY (20).
+Dropping 0 / 2 columns.
+Stopping recursion due to too few cols (2) after split with UNPARSEABLE_RELAY.
+Dropping 0 / 2 columns.
+Stopping recursion due to too few cols (2) after split with UNPARSEABLE_RELAY.
+Chosen classifier has accuracy of 0.975.
+Classified as spam: 3913 / 6000
+Validation:
+ Classified as spam: 3913 / 6000
+ Classified as spam in validation set: 3974 / 6000
+ Correctly classified: 5819
+ Correctly classified as spam: 3853
+ Accuracy: 0.970
+ Precision: 0.985
+ Recall: 0.970
+ Perplexity: 1.136
+
+real	6m19.848s
+user	5m54.769s
+sys	0m23.697s
+
+**** 6000, postpruning only
+Starting impurity calculation, number of rows 536, columns 3.
+Min impurity: 0.269821, column SUB_HELLO (328).
+Stopping recursion due to no element being spam.
+Dropping 0 / 2 columns.
+Stopping recursion due to too few cols (2) after split with SUB_HELLO.
+Chosen classifier has accuracy of 0.981666666667.
+Classified as spam: 2618 / 4000
+Validation:
+ Classified as spam: 2618 / 4000
+ Classified as spam in validation set: 2656 / 4000
+ Correctly classified: 3884
+ Correctly classified as spam: 2579
+ Accuracy: 0.971
+ Precision: 0.985
+ Recall: 0.971
+ Perplexity: 1.128
+
+real	11m23.385s
+user	10m35.080s
+sys	0m42.618s
+
+**** 6000, pre- and postpruned
+Starting impurity calculation, number of rows 538, columns 3.
+Min impurity: 0.308917, column SUB_HELLO (201).
+Stopping recursion due to too few rows (2) untagged after split with SUB_HELLO.
+Dropping 0 / 2 columns.
+Stopping recursion due to too few cols (2) after split with SUB_HELLO.
+Chosen classifier has accuracy of 0.98.
+Classified as spam: 2597 / 4000
+Validation:
+ Classified as spam: 2597 / 4000
+ Classified as spam in validation set: 2643 / 4000
+ Correctly classified: 3908
+ Correctly classified as spam: 2574
+ Accuracy: 0.977
+ Precision: 0.991
+ Recall: 0.974
+ Perplexity: 1.138
+
+real	11m8.900s
+user	10m14.320s
+sys	0m50.579s
+
+**** 8000, postpruning only
+Starting impurity calculation, number of rows 702, columns 3.
+Min impurity: 0.237921, column PLING_PLING (387).
+Stopping recursion due to no element being spam.
+Dropping 0 / 2 columns.
+Stopping recursion due to too few cols (2) after split with PLING_PLING.
+Chosen classifier has accuracy of 0.98625.
+Classified as spam: 1339 / 2000
+Validation:
+ Classified as spam: 1339 / 2000
+ Classified as spam in validation set: 1353 / 2000
+ Correctly classified: 1954
+ Correctly classified as spam: 1323
+ Accuracy: 0.977
+ Precision: 0.988
+ Recall: 0.978
+ Perplexity: 1.111
+
+real	18m32.156s
+user	16m57.795s
+sys	1m25.444s
+
+**** 8000, pre- and postpruned
+Starting impurity calculation, number of rows 721, columns 3.
+Min impurity: 0.258886, column MISSING_SUBJECT (299).
+Stopping recursion due to too few rows (2) untagged after split with MISSING_SUBJECT.
+Dropping 0 / 2 columns.
+Stopping recursion due to too few cols (2) after split with MISSING_SUBJECT.
+Chosen classifier has accuracy of 0.98125.
+Classified as spam: 1326 / 2000
+Validation:
+ Classified as spam: 1326 / 2000
+ Classified as spam in validation set: 1336 / 2000
+ Correctly classified: 1942
+ Correctly classified as spam: 1302
+ Accuracy: 0.971
+ Precision: 0.982
+ Recall: 0.975
+ Perplexity: 1.117
+
+real	17m12.541s
+user	15m46.478s
+sys	1m17.334s
