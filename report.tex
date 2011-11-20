@@ -396,6 +396,14 @@ section \ref{sect:postpruning}.
 
 \subsection{Dummy model}
 
+We can compare our classifier against a dummy model of the data, where
+the dummy would just classify messages as spam or based on the prior
+probability of a message being spam or ham.  In our case, the dummy
+would output ``SPAM'' with approximately 70\% chance, without looking at
+the features of the messages at all.  Such a classifier would have an
+accuracy of approximately 58\%.  A classifier which would just always
+output ``SPAM'' would have an accuracy of 70\%.  Our classifier beats
+both of these dummies.
 
 \section{Results with different training set sizes}
 
