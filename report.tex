@@ -73,7 +73,7 @@ manage to avoid overfitting.
 
 Decision trees were also tempting in that they are much easier to
 visualize than, e.g., naive bayes classifiers.  For example, see
-\ref{prune-both-pruned-6000}.
+figure \ref{fig:prune-both-pruned-6000}.
 
 One reason to study decision trees was that we assumed many groups would
 take on naive bayesian classifiers, and we wanted to do something a bit
@@ -85,10 +85,14 @@ Decision trees are a non-parametric method for data classification.
 They don't try to approximate any model behind the data, instead relying
 on a tactic of ``similar inputs produce similar outputs''.
 
+\XXX{description and pseudo-code for the algorithm}
+
 \subsection{Calculating impurity}
 
-We chose to measure impurity with the entropy function \XXX{proper
-citing} (Quinlan 1986)
+We chose to measure impurity with the entropy function
+\cite[p. 176]{alpaydin2004}\footnote{Alpaydin cites ``(Quinlan 1986)''
+  for the impurity algorithm.}.
+
 \begin{equation*}
 \begin{split}
 \mathcal{I}_m &= - \sum_{i=1}^K p_m^i \log_2 p_m^i  \\
@@ -102,7 +106,7 @@ K &= 2
 \subsection{Pruning the tree}
 
 Decision trees can be trained to perfectly match the training
-data\cite[\XXX{page number}]{alpaydin2004}.  This will lead the model to
+data\cite[p. 182]{alpaydin2004}.  This will lead the model to
 gross overfitting, which manifests as a large generalization error.
 This can be avoided by pruning the tree.  There are two non-exclusive
 approaches to pruning, prepruning and postpruning.
@@ -194,7 +198,7 @@ are introduced.
 \begin{tabular}{|l|c|c|c|c|}
 \hline
  & Training time in seconds \\ \hline
-6000, pre + port & 869 \\
+6000, pre + post & 869 \\
 6000, post & 3694 \\
 \hline
 \end{tabular}
@@ -283,7 +287,7 @@ tree will result in the same or smaller error against the pruning set.
 \includegraphics[width=130mm]{postpruned-pruned-6000.png}
   \end{minipage}
   \caption{Postpruned tree from a training set of 6000 elements.}
-  \label{fig:no-pruning-1000}
+  \label{fig:no-pruning-6000}
 \end{figure}
 
 % Postpruned, 1000 items.
@@ -360,7 +364,25 @@ Prepruned tree takes a hit in accuracy, but is much faster to train.
 
 The criteria for measuring the goodness of the classifier are the same
 as the ones used in the data challenge.  As described in
-\cite{termproject}, 
+\cite{termproject}, accuracy is the fraction of test set messages
+classified correctly.  The precision is the ratio of correctly
+classified spam messages to all messages classified as spam.  Recall is
+the ratio of correctly classified spam messages to all spam messages.
+
+Perplexity is calculated with
+
+\begin{equation}
+P = \exp(-\operatorname{mean}(\ln{Pi}))
+\end{equation}
+
+where $Pi$ is the probability of the email message being of the correct
+class.
+
+For the perplexity calculation, we return the probability that a message
+is spam based on the ratio of spam messages left at the leaf node that
+ends up deciding whether the message is spam or not.  This seems a
+decent metric for calculating perplexity, at least when comparing to
+what other groups reported in the data challenge.
 
 \subsection{K-fold cross validation}
 
