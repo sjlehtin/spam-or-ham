@@ -108,6 +108,17 @@ with a training set size of 1000.
 \XXX{figure of a tree without pruning}
 \XXX{table of errors with a tree without pruning}
 
+Classified as spam: 5556 / 9000
+Validation:
+ Classified as spam: 5556 / 9000
+ Classified as spam in validation set: 5989 / 9000
+ Correctly classified: 8499
+ Correctly classified as spam: 5522
+ Accuracy: 0.944
+ Precision: 0.994
+ Recall: 0.922
+ Perplexity: 1.324
+
 \subsubsection{Prepruning}
 
 In prepruning, the recursion of the training algorithm is stopped once
@@ -115,19 +126,46 @@ certain limits are reached.  Examples include obtained impurity and number
 of data rows.
 
 In our first versions of the classifier we only did prepruning, which
-resulted in very small and tidy trees, but the accuracy left a lot to be
-desired. \XXX{some data} Current model uses one of the suggested
+resulted in very small and tidy trees, but the accuracy left comething
+to be desired. \XXX{some data} Current model uses one of the suggested
 approaches from \cite{alpaydin2004}, where we make the tree as pure as
 possible (no prepruning) and handle overfitting by postpruning the tree.
 Removing prepruning didn't have an adverse effect for the final
-accuracy. \XXX{data}
+accuracy. \XXX{data contradicts, make a table.  Note training times for
+  large datasets.}
+
+Pre- and postpruned.
+
+Classified as spam: 5744 / 9000
+Validation:
+ Classified as spam: 5744 / 9000
+ Classified as spam in validation set: 5966 / 9000
+ Correctly classified: 8594
+ Correctly classified as spam: 5652
+ Accuracy: 0.955
+ Precision: 0.984
+ Recall: 0.947
+ Perplexity: 1.201
 
 When prepruning, we stopped the algorithm by limiting by the results
 from the entropy calculation, by columns (features) and rows (messages)
 left in a recursion step.  For example, \XXX{more detailed explanation}.
 
-\XXX{figure of a tree with large values in prepruning}
+\XXX{figure of a tree with large values in prepruning, prepruned-1000.dot}
 \XXX{table of errors with a prepruned tree}
+
+1000 items in training set, theta = 0.04, min\_row\_ratio = 0.002
+
+
+Validation:
+ Classified as spam: 5684 / 9000
+ Classified as spam in validation set: 5962 / 9000
+ Correctly classified: 8578
+ Correctly classified as spam: 5612
+ Accuracy: 0.953
+ Precision: 0.987
+ Recall: 0.941
+ Perplexity: 1.268
 
 \subsubsection{Postpruning}
 \label{sect:postpruning}
@@ -139,7 +177,71 @@ tree will result in the same or smaller error against the pruning set.
 \XXX{figure of a postpruned tree}
 \XXX{table of errors with a postpruned tree}
 
+1000 items.
+Chosen classifier has accuracy of 0.98.
+Classified as spam: 5709 / 9000
+Validation:
+ Classified as spam: 5709 / 9000
+ Classified as spam in validation set: 5952 / 9000
+ Correctly classified: 8579
+ Correctly classified as spam: 5620
+ Accuracy: 0.953
+ Precision: 0.984
+ Recall: 0.944
+ Perplexity: 1.182
+
+6000 items, pre- and postpruning.
+Validation:
+ Classified as spam: 2604 / 4000
+ Classified as spam in validation set: 2626 / 4000
+ Correctly classified: 3890
+ Correctly classified as spam: 2560
+ Accuracy: 0.973
+ Precision: 0.983
+ Recall: 0.975
+ Perplexity: 1.130
+
+6000 items, just postpruning.
+Validation:
+ Classified as spam: 2601 / 4000
+ Classified as spam in validation set: 2648 / 4000
+ Correctly classified: 3907
+ Correctly classified as spam: 2578
+ Accuracy: 0.977
+ Precision: 0.991
+ Recall: 0.974
+ Perplexity: 1.178
+
+It should be noted that training the set without prepruning takes many
+times longer than with it.
+
+real	61m33.824s
+user	57m22.444s
+sys	1m15.947s
+
+Prepruned tree takes a hit in accuracy, but is much faster to train.
+
+Validation:
+ Classified as spam: 2608 / 4000
+ Classified as spam in validation set: 2683 / 4000
+ Correctly classified: 3881
+ Correctly classified as spam: 2586
+ Accuracy: 0.970
+ Precision: 0.992
+ Recall: 0.964
+ Perplexity: 1.233
+
+real	14m28.909s
+user	12m18.457s
+sys	1m18.402s
+
 \section{Validation of our approach}
+
+\subsection{Accuracy, precision, recall, and perplexity}
+
+The criteria for measuring the goodness of the classifier are the same
+as the ones used in the data challenge.  As described in
+\cite{termproject}, 
 
 \subsection{K-fold cross validation}
 
@@ -241,6 +343,12 @@ process by eye.  This, we think, helps a lot in validating the approach.
   Massachusetts Institute of Technology, Cambridge, Massachusetts,
   1st edition,
   2004. 415 pages. ISBN 0-262-01211-1.
+\bibitem{termproject}
+  \emph{Term Project 2011: Spam or Ham?}.
+  \href{https://noppa.aalto.fi/noppa/kurssi/t-61.3050/term\_project}
+  {https://noppa.aalto.fi/noppa/kurssi/t-61.3050/term\_project}
+  [Web article]. 2011-11-6. [Cited 2011-11-19].
+
 %\bibitem{press07}
 %  William H. Press, Saul A. Teukolsky, William T. Vetterling, Brian P. Flannery,
 %  \emph{Numerical recipes - the art of scientific computing}.
