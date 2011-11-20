@@ -79,10 +79,10 @@ One reason to study decision trees was that we assumed many groups would
 take on naive bayesian classifiers, and we wanted to do something a bit
 different.
 
-When we started the project, we actually didn't realize we could use
-existing libraries for the job.  This led us to implement a decision
+When we started the project, we actually didn't realize that we could
+use existing libraries for the job.  This led us to implement a decision
 tree algorithm by hand instead of just taking, e.g., an existing
-$\mathcal{C5}$ implementation.
+$\mathcal{C5.0}$\cite{c50} implementation.
 
 \section{Principles of decision trees}
 
@@ -323,12 +323,31 @@ Tr. size & Training time & Accuracy \\ \hline
   \label{fig:training-data-size} 
 \end{figure}
 
+% 8000 data points, pre- and postpruned.
+% 
+% Validation:
+%  Classified as spam: 1314 / 2000
+%  Classified as spam in validation set: 1348 / 2000
+%  Correctly classified: 1938
+%  Correctly classified as spam: 1300
+%  Accuracy: 0.969
+%  Precision: 0.989
+%  Recall: 0.964
+%  Perplexity: 1.138
+% 
+% real	18m10.128s
+% user	16m16.994s
+% sys	1m16.932s
+% ~/s/prepruned/t-61.3050--spam-or-ham
+% midgard (15:36) >time ./decisiontree.py --preprune --training-data 8000 --dump-tree original --dump-tree pruned
+% 
+
 \subsection{Training algorithm complexity}
 
-Base on figure \ref{fig:training-data-size}, training algorithm looks
-strongly like a quadratic algorithm.  Training is much faster with
-modest prepruning parameters, which decrease the tree size by a factor
-of almost a hundred.
+Based on figure \ref{fig:training-data-size}, training algorithm looks
+strongly like a quadratic algorithm, at least without prepruning.
+Training is much faster with modest prepruning parameters, which
+decrease the tree size by a factor of almost a hundred.
 
 \section{Data challenge}
 
@@ -366,11 +385,40 @@ From the final results, we see (figure \ref{fig:pruning6000}) that we
 get the best accuracy 97.7\% with 6000 data points, but the increase in
 accuracy is obtained by a large hit in training time, as illustrated by
 the table in figure \ref{fig:training-data-size}.  By agreeing to take a
-relatively small hit in accuracy, prepruning can be enabled, which cuts
-the training time to a fraction (as seen in figure
-\ref{fig:pruning6000}).
+relatively small hit in accuracy (half a percentage point or less),
+prepruning can be enabled, which cuts the training time to a fraction
+(as seen in figure \ref{fig:pruning6000}).
+
+It would've been interesting to see how
+boosting\cite[p. 360]{alpaydin2004} would've affected the results;
+unfortunately, we didn't have time to try it.  Because our classifier
+was already producing quite good results, boosting might have given that
+extra percentage point or so.
 
 \section{Comments on project difficulty}
+
+Writing the classifier by hand took quite a bit of effort.  Even though
+the algorithm is simple in principle, testing it was perceived hard to
+automate.  As a result, testing was done ad-hoc by the developer, taking
+time off writing features (such as boosting).
+
+We underestimated the difficulty of the task, which became apparent when
+the results of the data challenge were published.
+
+The project was challenging, but not too much so.
+
+\begin{figure}
+  \centering
+\begin{tabular}{|l|c|c|}
+\hline
+ & Classifier & Report \\ \hline
+Sami & 32h & 8+h \\ % from git logs and calendar.
+Jori &  &  \\
+\hline
+\end{tabular}
+  \caption{Estimated hours for the project}
+  \label{fig:training-data-size} 
+\end{figure}
 
 \afterpage{\clearpage} % Flush all floats so that they won't mingle with
                        % the python code, below.
@@ -387,6 +435,11 @@ the training time to a fraction (as seen in figure
   \href{https://noppa.aalto.fi/noppa/kurssi/t-61.3050/term\_project}
   {https://noppa.aalto.fi/noppa/kurssi/t-61.3050/term\_project}
   [Web article]. 2011-11-6. [Cited 2011-11-19].
+\bibitem{c50}
+  \emph{Data Mining Tools See5 and C5.0}.
+  \href{http://rulequest.com/see5-info.html}
+  {http://rulequest.com/see5-info.html}
+  [Web article]. 2011-01. [Cited 2011-11-20].
 
 %\bibitem{press07}
 %  William H. Press, Saul A. Teukolsky, William T. Vetterling, Brian P. Flannery,
