@@ -3,7 +3,7 @@
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
-\usepackage[tbtags]{amsmath}
+\usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsbsy}
 \usepackage{eucal}
@@ -12,6 +12,7 @@
 \usepackage{verbatim} % For verbatiminput.
 \usepackage{fancyvrb}
 \usepackage{afterpage}
+\usepackage{program}
 
 \pdfinfo{            
           /Title      (T-61.3050 Machine Learning: Basic Principles)
@@ -96,21 +97,60 @@ on a tactic of ``similar inputs produce similar outputs''.
 
 \XXX{description and pseudo-code for the algorithm}
 
+\begin{figure}[th]
+  \centering
+  \begin{minipage}[c]{1.0\textwidth}
+\begin{program}
+  \PROC |generate_tree|(|data|) \BODY
+  |impurity| \leftarrow |MAX|
+  \FOR i:= 1 \TO |num_columns| \DO
+       |im| \leftarrow |calculate_impurity|(|data|, |column|)
+       \IF |im| < |impurity| 
+       \THEN
+          |impurity| \leftarrow |im|
+          |split_column| \leftarrow i
+       \FI
+       \OD
+  \IF |impurity| < \theta 
+  \THEN
+       |create_leaf_node|(column, |label|)
+       \rcomment { |label| will be the majority class in the |data|. }
+       \EXIT 
+       \FI
+  X_{tagged}, X_{untagged} \leftarrow |split|(|data|, |column|)
+  \COMMENT{Generate both child nodes by splitting with the chosen\
+    attribute, i.e., column.}
+  |generate_tree|(X_{tagged})
+  |generate_tree|(X_{untagged})
+  \ENDPROC
+  \PROC |calculate_impurity|(|data|, |column|) \BODY
+  X_{tagged}, X_{untagged} \leftarrow |split|(|data|, |column|)
+  |impurity|(X_{tagged}, X_{untagged})
+  \rcomment{Impurity is calculated using equation \ref{eqn:impurity}.}
+  \ENDPROC
+\end{program}
+  \end{minipage}
+  \caption{Pseudo-code for tree generation algorithm.}
+  \label{fig:tree-gen}
+\end{figure}
+
+
 \subsection{Calculating impurity}
 
 We chose to measure impurity with the entropy function
 \cite[p. 176]{alpaydin2004}\footnote{Alpaydin cites ``(Quinlan 1986)''
   for the impurity algorithm.}.
 
-\begin{equation*}
+\begin{equation}
 \begin{split}
-\mathcal{I}_m &= - \sum_{i=1}^K p_m^i \log_2 p_m^i  \\
+\mathcal{I}'_m &= - \sum_{j=1}^n\frac{N_{mj}}{N_m}\sum_{i=1}^K p_{mj}^i 
+    \log p_{mj}^i  \label{eqn:impurity} \\
 \text{for a node} \quad & m  \\
 \text{where} \quad 0 \log 0 &\equiv 0  \\
 p_m^i &= P(\text{Instance reaching node m belongs to class i})  \\
 K &= 2
 \end{split}
-\end{equation*}
+\end{equation}
 
 \subsection{Pruning the tree}
 
@@ -421,11 +461,11 @@ Jori &  &  \\
 \hline
 \end{tabular}
   \caption{Estimated hours for the project}
-  \label{fig:training-data-size} 
+  \label{fig:effort-estimate} 
 \end{figure}
 
-\afterpage{\clearpage} % Flush all floats so that they won't mingle with
-                       % the python code, below.
+%\afterpage{\clearpage} % Flush all floats so that they won't mingle with
+%                       % the python code, below.
 \pagebreak
 \begin{thebibliography}{9}
 \bibitem{alpaydin2004}
