@@ -206,6 +206,12 @@ a large training set (6000). {\XXX new results!}
 \hline
 Size & Pruning & Training time & Accuracy & Precision & Recall &
 Perplexity \\ \hline 
+200 & post & 10 & 0.919 & 0.984 & 0.892 & 1.247 \\
+200 & both & 11 & 0.931 & 0.981 & 0.914 & 1.332 \\
+500 & post & 19 & 0.939 & 0.984 & 0.923 & 1.203 \\
+500 & both & 16 & 0.936 & 0.983 & 0.920 & 1.258 \\
+800 & post & 28 & 0.952 & 0.984 & 0.943 & 1.214 \\
+800 & both & 28 & 0.948 & 0.984 & 0.938 & 1.207 \\
 1000 & post & 38 & 0.953 & 0.984 & 0.944 & 1.215 \\
 1000 & both & 38 & 0.944 & 0.985 & 0.930 & 1.165 \\
 2000 & post & 118 & 0.961 & 0.984 & 0.956 & 1.194 \\
@@ -274,7 +280,6 @@ reaching them\cite[p. 183]{alpaydin2004}.
   \label{fig:prune-both-pruned-6000}
 \end{figure}
 
-\XXX{table of errors with a postpruned tree}
 \begin{figure}[h]
   \centering
   \begin{minipage}[c]{1.0\textwidth}
@@ -285,10 +290,7 @@ reaching them\cite[p. 183]{alpaydin2004}.
   \label{fig:no-pruning-6000}
 \end{figure}
 
-It should be noted that training the set without prepruning takes
-slightly longer than with it.
-
-Prepruned tree takes a small hit in accuracy, but is slightly faster to
+Prepruned trees take a small hit in accuracy, but are slightly faster to
 train, both according to our observations and
 Alpaydin\cite[p. 182]{alpaydin2004}.
 
@@ -332,12 +334,18 @@ section \ref{sect:postpruning}.
 
 \section{Results with different training set sizes}
 
-
+As can be seen from figure \ref{tbl:classifiers}, training the
+classifier with 8000 items yields only approximately 1.5 percentage
+points better accuracy than training with 1000 items.  The elbow 
 \subsection{Training algorithm complexity}
 
 Based on figure \ref{tbl:classifiers}, training algorithm looks like a
 $O(n\log{n})$ algorithm.  Definitely not quadratic, although not linear,
 either.
+
+The time values for very small training set sizes have bias, as {\tt
+  numpy.loadtxt()} takes a long time (several seconds), to load the data
+set.
 
 \section{Data challenge}
 
@@ -347,7 +355,7 @@ The data challenge led us to realize that our - at the time merely
 prepruned - decision tree wasn't the magical black box method
 that would wipe the table that we hoped it would be.
 As a consequence we did the inevitable and gave postpruning,
-as well K-fold cross validation a try.
+as well as K-fold cross validation, a try.
 
 
 \section{Conclusions}
@@ -378,7 +386,10 @@ It would've been interesting to see how
 boosting\cite[p. 360]{alpaydin2004} would've affected the results;
 unfortunately, we didn't have time to try it.  Because our classifier
 was already producing quite good results, boosting might have given that
-extra percentage point or so.
+extra percentage point or so.  Because the classifier already hits the
+95\% accuracy with relatively small trainind data size, training an
+ensemble of trees would've been feasible and would have very likely
+improved the accuracy further.
 
 \section{Comments on project difficulty}
 
