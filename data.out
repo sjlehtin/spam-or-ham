@@ -1,5 +1,138 @@
 Starting gathering...
 
+**** 200, postpruning only
+Starting impurity calculation, number of rows 31, columns 3.
+Min impurity: 0.467332, column ALL_TRUSTED (140).
+Stopping recursion due to no element being spam.
+Dropping 0 / 2 columns.
+Stopping recursion due to too few cols (2) after split with ALL_TRUSTED.
+Chosen classifier has accuracy of 1.0.
+Classified as spam: 5888 / 9800
+Validation:
+ Classified as spam: 5888 / 9800
+ Classified as spam in validation set: 6499 / 9800
+ Correctly classified: 9005
+ Correctly classified as spam: 5796
+ Accuracy: 0.919
+ Precision: 0.984
+ Recall: 0.892
+ Perplexity: 1.247
+
+real	0m10.295s
+user	0m9.510s
+sys	0m0.269s
+
+**** 200, pre- and postpruned
+Starting impurity calculation, number of rows 29, columns 3.
+Min impurity: 0.578306, column ALL_TRUSTED (359).
+Stopping recursion due to no element being spam.
+Dropping 0 / 2 columns.
+Stopping recursion due to too few cols (2) after split with ALL_TRUSTED.
+Chosen classifier has accuracy of 1.0.
+Classified as spam: 6055 / 9800
+Validation:
+ Classified as spam: 6055 / 9800
+ Classified as spam in validation set: 6495 / 9800
+ Correctly classified: 9128
+ Correctly classified as spam: 5939
+ Accuracy: 0.931
+ Precision: 0.981
+ Recall: 0.914
+ Perplexity: 1.332
+
+real	0m10.621s
+user	0m10.273s
+sys	0m0.266s
+
+**** 500, postpruning only
+Min impurity: 0.474571, column UNPARSEABLE_RELAY (149).
+Dropping 0 / 2 columns.
+Stopping recursion due to too few cols (2) after split with UNPARSEABLE_RELAY.
+Dropping 0 / 2 columns.
+Stopping recursion due to too few cols (2) after split with UNPARSEABLE_RELAY.
+Chosen classifier has accuracy of 0.96.
+Classified as spam: 5896 / 9500
+Validation:
+ Classified as spam: 5896 / 9500
+ Classified as spam in validation set: 6287 / 9500
+ Correctly classified: 8925
+ Correctly classified as spam: 5804
+ Accuracy: 0.939
+ Precision: 0.984
+ Recall: 0.923
+ Perplexity: 1.203
+
+real	0m18.573s
+user	0m18.120s
+sys	0m0.302s
+
+**** 500, pre- and postpruned
+Starting impurity calculation, number of rows 51, columns 3.
+Min impurity: 0.458216, column MSGID_FROM_MTA_HEADER (133).
+Stopping recursion due to no element being spam.
+Dropping 0 / 2 columns.
+Stopping recursion due to too few cols (2) after split with MSGID_FROM_MTA_HEADER.
+Chosen classifier has accuracy of 0.98.
+Classified as spam: 5901 / 9500
+Validation:
+ Classified as spam: 5901 / 9500
+ Classified as spam in validation set: 6300 / 9500
+ Correctly classified: 8895
+ Correctly classified as spam: 5798
+ Accuracy: 0.936
+ Precision: 0.983
+ Recall: 0.920
+ Perplexity: 1.258
+
+real	0m16.325s
+user	0m15.958s
+sys	0m0.285s
+
+**** 800, postpruning only
+Starting impurity calculation, number of rows 71, columns 3.
+Min impurity: 0.467308, column MSGID_FROM_MTA_HEADER (197).
+Stopping recursion due to no element being spam.
+Dropping 0 / 2 columns.
+Stopping recursion due to too few cols (2) after split with MSGID_FROM_MTA_HEADER.
+Chosen classifier has accuracy of 0.9875.
+Classified as spam: 5841 / 9200
+Validation:
+ Classified as spam: 5841 / 9200
+ Classified as spam in validation set: 6095 / 9200
+ Correctly classified: 8754
+ Correctly classified as spam: 5745
+ Accuracy: 0.952
+ Precision: 0.984
+ Recall: 0.943
+ Perplexity: 1.214
+
+real	0m28.208s
+user	0m27.726s
+sys	0m0.340s
+
+**** 800, pre- and postpruned
+Starting impurity calculation, number of rows 88, columns 3.
+Min impurity: 0.434172, column HOT_NASTY (421).
+Stopping recursion due to no element being spam.
+Dropping 0 / 2 columns.
+Stopping recursion due to too few cols (2) after split with HOT_NASTY.
+Chosen classifier has accuracy of 0.975.
+Classified as spam: 5837 / 9200
+Validation:
+ Classified as spam: 5837 / 9200
+ Classified as spam in validation set: 6123 / 9200
+ Correctly classified: 8726
+ Correctly classified as spam: 5743
+ Accuracy: 0.948
+ Precision: 0.984
+ Recall: 0.938
+ Perplexity: 1.207
+
+real	0m28.167s
+user	0m27.678s
+sys	0m0.350s
+Starting gathering...
+
 **** 1000, postpruning only
 Min impurity: 0.334864, column PLING_PLING (218).
 Dropping 0 / 2 columns.
