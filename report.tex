@@ -11,6 +11,7 @@
 \usepackage{float}
 \usepackage{verbatim} % For verbatiminput.
 \usepackage{fancyvrb}
+\usepackage{afterpage}
 
 \pdfinfo{            
           /Title      (T-61.3050 Machine Learning: Basic Principles)
@@ -59,7 +60,7 @@
 \section{Abstract}
 % Include the key points of your work in a few sentences (including methods
 % used and conclusions).
-We trained a univariate binary classification tree to detect spam email.
+We trained a univariate binary classification tree to detect email spam.
 
 
 \section{Rationale}
@@ -72,13 +73,17 @@ manage to avoid overfitting.
 
 Decision trees were also tempting in that they are much easier to
 visualize than, e.g., naive bayes classifiers.  For example, see
-\XXX{references to figures}
+\ref{prune-both-pruned-6000}.
+
+One reason to study decision trees was that we assumed many groups would
+take on naive bayesian classifiers, and we wanted to do something a bit
+different.
 
 \section{Principles of decision trees}
 
 Decision trees are a non-parametric method for data classification.
 They don't try to approximate any model behind the data, instead relying
-on tactic of ``similar inputs produce similar outputs''.
+on a tactic of ``similar inputs produce similar outputs''.
 
 \subsection{Calculating impurity}
 
@@ -102,11 +107,22 @@ gross overfitting, which manifests as a large generalization error.
 This can be avoided by pruning the tree.  There are two non-exclusive
 approaches to pruning, prepruning and postpruning.
 
-Without pruning, a tree could look like \XXX{ref to non-pruned figure}
-with a training set size of 1000.  
+Without pruning, a tree with a training set size of 1000 looks like
+figure \ref{fig:no-pruning-1000}.
 
-\XXX{figure of a tree without pruning}
-\XXX{table of errors with a tree without pruning}
+\begin{figure}[h]
+  \centering
+  \begin{minipage}[c]{1.0\textwidth}
+    \centering
+\includegraphics[width=130mm]{no-pruning-1000.png}
+  \end{minipage}
+  \caption{Tree from training set of 1000 elements, that hasn't been
+    pruned.}
+  \label{fig:no-pruning-1000}
+\end{figure}
+
+Still, against the test set the non-pruned tree faired surprisingly
+well, achieving an accuracy of over 94 percent.
 
 % \begin{verbatim}
 % Classified as spam: 5556 / 9000
@@ -154,7 +170,7 @@ are introduced.
 \hline
 \end{tabular}
   \caption{Effects of pruning on accuracy and other characteristics,
-    1000 training data points}
+    1000 training data points.}
   \label{fig:pruning} 
 \end{figure}
 
@@ -168,7 +184,7 @@ are introduced.
 \hline
 \end{tabular}
   \caption{Effects of pruning on accuracy and other characteristics,
-    6000 training data points}
+    6000 training data points.}
   \label{fig:pruning6000} 
 \end{figure}
 
@@ -182,8 +198,7 @@ are introduced.
 6000, post & 3694 \\
 \hline
 \end{tabular}
-  \caption{Effects of pruning on training time
-    6000 training data points}
+\caption{Effects of pruning on training time 6000 training data points.}
   \label{fig:pruning6000-training-time} 
 \end{figure}
 
@@ -206,10 +221,17 @@ When prepruning, we stopped the algorithm by limiting by the results
 from the entropy calculation, by columns (features) and rows (messages)
 left in a recursion step.  For example, \XXX{more detailed explanation}.
 
-\XXX{figure of a tree with large values in prepruning, prepruned-1000.dot}
-\XXX{table of errors with a prepruned tree}
-
 1000 items in training set, theta = 0.04, min\_row\_ratio = 0.002
+
+\begin{figure}[h]
+  \centering
+  \begin{minipage}[c]{1.0\textwidth}
+    \centering
+\includegraphics[width=130mm]{prepruned-1000.pdf}
+  \end{minipage}
+  \caption{Prepruned tree from a training set of 1000 elements.}
+  \label{fig:prepruned-1000}
+\end{figure}
 
 %Prepruned, 1000 items.
 %\begin{verbatim}
@@ -238,7 +260,7 @@ tree will result in the same or smaller error against the pruning set.
 
 \includegraphics[width=130mm]{prune-both-original-6000.pdf}
   \end{minipage}
-  \caption{Prepruned tree from a training set of 6000 elements}
+  \caption{Prepruned tree from a training set of 6000 elements.}
   \label{fig:prune-both-original-6000}
 \end{figure}
 
@@ -249,11 +271,20 @@ tree will result in the same or smaller error against the pruning set.
 
 \includegraphics[width=130mm]{prune-both-pruned-6000.pdf}
   \end{minipage}
-  \caption{Pre- and postpruned tree from a training set of 6000 elements}
+  \caption{Pre- and postpruned tree from a training set of 6000 elements.}
   \label{fig:prune-both-pruned-6000}
 \end{figure}
 
 \XXX{table of errors with a postpruned tree}
+\begin{figure}[h]
+  \centering
+  \begin{minipage}[c]{1.0\textwidth}
+    \centering
+\includegraphics[width=130mm]{postpruned-pruned-6000.png}
+  \end{minipage}
+  \caption{Postpruned tree from a training set of 6000 elements.}
+  \label{fig:no-pruning-1000}
+\end{figure}
 
 % Postpruned, 1000 items.
 % \begin{verbatim}
@@ -434,11 +465,12 @@ does not mean that the approach is completely without merits; decision
 trees were applied here without prior knowledge to the distribution of
 the spam messages.  In the data challenge, the winning teams had tweaked
 the prior probabilities for spam to match the distribution in the data
-set.  In the decision tree model, this is not not necessary, or even
+set.  In the decision tree model, this is not necessary, or even
 possible.
 
 Looking at the generated decision trees, it is easy to follow the
-process by eye.  This, we think, helps a lot in validating the approach.
+process by eye (at least with the smaller trees).  This, we think, helps
+a lot in validating the approach.
 
 \section{Comments on project difficulty}
 
@@ -471,8 +503,16 @@ process by eye.  This, we think, helps a lot in validating the approach.
 %  Otaniemi, 2010. 13 pages.
 \end{thebibliography}
 
+\afterpage{\clearpage} % Flush all floats so that they won't mingle with
+                       % the python code, below.
+\pagebreak
 \appendix
 \section{Python code for the classifier}
+
+The code is also available at GitHub,
+\href{https://github.com/sjlehtin/spam-or-ham/blob/master/decisiontree.py}
+{https://github.com/sjlehtin/spam-or-ham/blob/master/decisiontree.py}.
+
 \verbatiminput{decisiontree.py}
 
 \end{document}
