@@ -101,6 +101,25 @@ We thought it would be a good idea to use the split entropy when
 checking for minimum entropy.  The pseudocode is listed in figure
 \ref{fig:tree-gen}.
 
+\subsection{Calculating impurity}
+
+We chose to measure impurity with the entropy function
+\cite[p. 176]{alpaydin2004}\footnote{Alpaydin cites ``(Quinlan 1986)''
+  for the impurity algorithm.}.
+
+\begin{equation}
+\begin{split}
+\text{Impurity on a node m} \quad
+\mathcal{I}'_m &= - \sum_{j=1}^n\frac{N_{mj}}{N_m}\sum_{i=1}^K p_{mj}^i 
+    \log p_{mj}^i  \label{eqn:impurity} \\
+%\text{for a node} \quad & m  \\
+\text{where} \quad 0 \log 0 &\equiv 0  \\
+p_m^i &= P(\text{Instance reaching node m belongs to class i})  \\
+K &= 2
+\end{split}
+\end{equation}
+
+
 \begin{figure}[th]
   \centering
   \begin{minipage}[c]{1.0\textwidth}
@@ -117,8 +136,8 @@ checking for minimum entropy.  The pseudocode is listed in figure
        \OD
   \IF |impurity| < \theta 
   \THEN
+       \COMMENT { |label| will be the majority class in the |data|. }
        |create_leaf_node|(column, |label|)
-       \rcomment { |label| will be the majority class in the |data|. }
        \EXIT 
        \FI
   X_{tagged}, X_{untagged} \leftarrow |split|(|data|, |column|)
@@ -129,31 +148,13 @@ checking for minimum entropy.  The pseudocode is listed in figure
   \ENDPROC
   \PROC |calculate_impurity|(|data|, |column|) \BODY
   X_{tagged}, X_{untagged} \leftarrow |split|(|data|, |column|)
-  |impurity|(X_{tagged}, X_{untagged})
-  \rcomment{Impurity is calculated using equation \ref{eqn:impurity}.}
+  |return impurity|\ref{eqn:impurity}(X_{tagged}, X_{untagged}) 
   \ENDPROC
 \end{program}
   \end{minipage}
   \caption{Pseudo-code for tree generation algorithm.}
   \label{fig:tree-gen}
 \end{figure}
-
-\subsection{Calculating impurity}
-
-We chose to measure impurity with the entropy function
-\cite[p. 176]{alpaydin2004}\footnote{Alpaydin cites ``(Quinlan 1986)''
-  for the impurity algorithm.}.
-
-\begin{equation}
-\begin{split}
-\mathcal{I}'_m &= - \sum_{j=1}^n\frac{N_{mj}}{N_m}\sum_{i=1}^K p_{mj}^i 
-    \log p_{mj}^i  \label{eqn:impurity} \\
-\text{for a node} \quad & m  \\
-\text{where} \quad 0 \log 0 &\equiv 0  \\
-p_m^i &= P(\text{Instance reaching node m belongs to class i})  \\
-K &= 2
-\end{split}
-\end{equation}
 
 \subsection{Pruning the tree}
 
