@@ -108,44 +108,99 @@ with a training set size of 1000.
 \XXX{figure of a tree without pruning}
 \XXX{table of errors with a tree without pruning}
 
-Classified as spam: 5556 / 9000
-Validation:
- Classified as spam: 5556 / 9000
- Classified as spam in validation set: 5989 / 9000
- Correctly classified: 8499
- Correctly classified as spam: 5522
- Accuracy: 0.944
- Precision: 0.994
- Recall: 0.922
- Perplexity: 1.324
+% \begin{verbatim}
+% Classified as spam: 5556 / 9000
+% Validation:
+%  Classified as spam: 5556 / 9000
+%  Classified as spam in validation set: 5989 / 9000
+%  Correctly classified: 8499
+%  Correctly classified as spam: 5522
+%  Accuracy: 0.944
+%  Precision: 0.994
+%  Recall: 0.922
+%  Perplexity: 1.324
+% \end{verbatim}
 
 \subsubsection{Prepruning}
 
 In prepruning, the recursion of the training algorithm is stopped once
-certain limits are reached.  Examples include obtained impurity and number
-of data rows.
+certain limits are reached.  Examples include impurity and number of
+data rows.
 
 In our first versions of the classifier we only did prepruning, which
 resulted in very small and tidy trees, but the accuracy left comething
-to be desired. \XXX{some data} Current model uses one of the suggested
+to be desired (94-95 percent).  We used one of the suggested
 approaches from \cite{alpaydin2004}, where we make the tree as pure as
 possible (no prepruning) and handle overfitting by postpruning the tree.
+
 Removing prepruning didn't have an adverse effect for the final
-accuracy. \XXX{data contradicts, make a table.  Note training times for
-  large datasets.}
+accuracy, indeed, accuracy increased by a couple percentage points with
+a large training set (6000).  The complexity of the tree is dramatically
+increased as a side effect, though; where a pre- and postpruned tree,
+trained with 6000 elements, has 59 nodes, the tree that was not
+prepruned contains nearly 7000 nodes.  Training time is also a lot
+longer without prepruning, which makes sense, given how many extra nodes
+are introduced.
 
-Pre- and postpruned.
+\begin{figure}
+  \centering
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+ & Accuracy & Precision & Recall & Perplexity \\ \hline
+1000, not pruned &  0.944 & 0.994 & 0.922 & 1.324 \\
+1000, pre & 0.953 & 0.987 & 0.941 & 1.268 \\
+1000, post & 0.953 & 0.984 &  0.944 & 1.182 \\
+1000, pre + post &  0.955 & 0.984 & 0.947 & 1.201 \\
+\hline
+\end{tabular}
+  \caption{Effects of pruning on accuracy and other characteristics,
+    1000 training data points}
+  \label{fig:pruning} 
+\end{figure}
 
-Classified as spam: 5744 / 9000
-Validation:
- Classified as spam: 5744 / 9000
- Classified as spam in validation set: 5966 / 9000
- Correctly classified: 8594
- Correctly classified as spam: 5652
- Accuracy: 0.955
- Precision: 0.984
- Recall: 0.947
- Perplexity: 1.201
+\begin{figure}
+  \centering
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+ & Accuracy & Precision & Recall & Perplexity \\ \hline
+6000, pre + post & 0.973 & 0.983 & 0.975 & 1.130 \\
+6000, post & 0.977 & 0.991 & 0.974 & 1.178 \\
+\hline
+\end{tabular}
+  \caption{Effects of pruning on accuracy and other characteristics,
+    6000 training data points}
+  \label{fig:pruning6000} 
+\end{figure}
+
+
+\begin{figure}
+  \centering
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+ & Training time in seconds \\ \hline
+6000, pre + port & 869 \\
+6000, post & 3694 \\
+\hline
+\end{tabular}
+  \caption{Effects of pruning on training time
+    6000 training data points}
+  \label{fig:pruning6000-training-time} 
+\end{figure}
+
+%Pre- and postpruned, 1000 items.
+%
+%\begin{verbatim}
+%Classified as spam: 5744 / 9000
+%Validation:
+% Classified as spam: 5744 / 9000
+% Classified as spam in validation set: 5966 / 9000
+% Correctly classified: 8594
+% Correctly classified as spam: 5652
+% Accuracy: 0.955
+% Precision: 0.984
+% Recall: 0.947
+% Perplexity: 1.201
+%\end{verbatim}
 
 When prepruning, we stopped the algorithm by limiting by the results
 from the entropy calculation, by columns (features) and rows (messages)
@@ -156,16 +211,18 @@ left in a recursion step.  For example, \XXX{more detailed explanation}.
 
 1000 items in training set, theta = 0.04, min\_row\_ratio = 0.002
 
-
-Validation:
- Classified as spam: 5684 / 9000
- Classified as spam in validation set: 5962 / 9000
- Correctly classified: 8578
- Correctly classified as spam: 5612
- Accuracy: 0.953
- Precision: 0.987
- Recall: 0.941
- Perplexity: 1.268
+%Prepruned, 1000 items.
+%\begin{verbatim}
+%Validation:
+% Classified as spam: 5684 / 9000
+% Classified as spam in validation set: 5962 / 9000
+% Correctly classified: 8578
+% Correctly classified as spam: 5612
+% Accuracy: 0.953
+% Precision: 0.987
+% Recall: 0.941
+% Perplexity: 1.268
+%\end{verbatim}
 
 \subsubsection{Postpruning}
 \label{sect:postpruning}
@@ -174,66 +231,97 @@ Postpruning is used to reduce generalization error by using a a special
 pruning data set to check whether removing a subtree from the decision
 tree will result in the same or smaller error against the pruning set.
 
-\XXX{figure of a postpruned tree}
+\begin{figure}[h]
+  \centering
+  \begin{minipage}[c]{1.0\textwidth}
+    \centering
+
+\includegraphics[width=130mm]{prune-both-original-6000.pdf}
+  \end{minipage}
+  \caption{Prepruned tree from a training set of 6000 elements}
+  \label{fig:prune-both-original-6000}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \begin{minipage}[c]{1.0\textwidth}
+    \centering
+
+\includegraphics[width=130mm]{prune-both-pruned-6000.pdf}
+  \end{minipage}
+  \caption{Pre- and postpruned tree from a training set of 6000 elements}
+  \label{fig:prune-both-pruned-6000}
+\end{figure}
+
 \XXX{table of errors with a postpruned tree}
 
-1000 items.
-Chosen classifier has accuracy of 0.98.
-Classified as spam: 5709 / 9000
-Validation:
- Classified as spam: 5709 / 9000
- Classified as spam in validation set: 5952 / 9000
- Correctly classified: 8579
- Correctly classified as spam: 5620
- Accuracy: 0.953
- Precision: 0.984
- Recall: 0.944
- Perplexity: 1.182
+% Postpruned, 1000 items.
+% \begin{verbatim}
+% 1000 items.
+% Chosen classifier has accuracy of 0.98.
+% Classified as spam: 5709 / 9000
+% Validation:
+%  Classified as spam: 5709 / 9000
+%  Classified as spam in validation set: 5952 / 9000
+%  Correctly classified: 8579
+%  Correctly classified as spam: 5620
+%  Accuracy: 0.953
+%  Precision: 0.984
+%  Recall: 0.944
+%  Perplexity: 1.182
+% \end{verbatim}
 
-6000 items, pre- and postpruning.
-Validation:
- Classified as spam: 2604 / 4000
- Classified as spam in validation set: 2626 / 4000
- Correctly classified: 3890
- Correctly classified as spam: 2560
- Accuracy: 0.973
- Precision: 0.983
- Recall: 0.975
- Perplexity: 1.130
+% \begin{verbatim}
+% 6000 items, pre- and postpruning.
+% Validation:
+%  Classified as spam: 2604 / 4000
+%  Classified as spam in validation set: 2626 / 4000
+%  Correctly classified: 3890
+%  Correctly classified as spam: 2560
+%  Accuracy: 0.973
+%  Precision: 0.983
+%  Recall: 0.975
+%  Perplexity: 1.130
+% \end{verbatim}
 
-6000 items, just postpruning.
-Validation:
- Classified as spam: 2601 / 4000
- Classified as spam in validation set: 2648 / 4000
- Correctly classified: 3907
- Correctly classified as spam: 2578
- Accuracy: 0.977
- Precision: 0.991
- Recall: 0.974
- Perplexity: 1.178
+% \begin{verbatim}
+% 6000 items, just postpruning.
+% Validation:
+%  Classified as spam: 2601 / 4000
+%  Classified as spam in validation set: 2648 / 4000
+%  Correctly classified: 3907
+%  Correctly classified as spam: 2578
+%  Accuracy: 0.977
+%  Precision: 0.991
+%  Recall: 0.974
+%  Perplexity: 1.178
+% \end{verbatim}
+% \begin{verbatim}
+% real	61m33.824s
+% user	57m22.444s
+% sys	1m15.947s
+% \end{verbatim}
 
 It should be noted that training the set without prepruning takes many
 times longer than with it.
 
-real	61m33.824s
-user	57m22.444s
-sys	1m15.947s
-
 Prepruned tree takes a hit in accuracy, but is much faster to train.
 
-Validation:
- Classified as spam: 2608 / 4000
- Classified as spam in validation set: 2683 / 4000
- Correctly classified: 3881
- Correctly classified as spam: 2586
- Accuracy: 0.970
- Precision: 0.992
- Recall: 0.964
- Perplexity: 1.233
-
-real	14m28.909s
-user	12m18.457s
-sys	1m18.402s
+% \begin{verbatim}
+% Validation:
+%  Classified as spam: 2608 / 4000
+%  Classified as spam in validation set: 2683 / 4000
+%  Correctly classified: 3881
+%  Correctly classified as spam: 2586
+%  Accuracy: 0.970
+%  Precision: 0.992
+%  Recall: 0.964
+%  Perplexity: 1.233
+% 
+% real	14m28.909s
+% user	12m18.457s
+% sys	1m18.402s
+% \end{verbatim}
 
 \section{Validation of our approach}
 
@@ -258,65 +346,83 @@ section \ref{sect:postpruning}.
 \section{Results with different training set sizes}
 
 XXX results to a table.
+\begin{figure}
+  \centering
+\begin{tabular}{|l|c|c|}
+\hline
+Tr. size & Training time & Accuracy \\ \hline
+1000 & 44 & 0.942 \\
+4000 & 581 & 0.966 \\
+6000 & 1180 & 0.972 \\
+\hline
+\end{tabular}
+  \caption{Effects of training set size, postpruned.}
+  \label{fig:training-data-size} 
+\end{figure}
 
-1000 items.
-
-\begin{outputlog}
-Chosen classifier has accuracy of 1.0.
-Classified as spam: 5777 / 9000
-Validation:
- Classified as spam: 5777 / 9000
- Classified as spam in validation set: 6134 / 9000
- Correctly classified: 8475
- Correctly classified as spam: 5693
- Accuracy: 0.942
- Precision: 0.985
- Recall: 0.928
-
-real	0m44.221s
-user	0m44.040s
-sys	0m0.150s
-\end{outputlog}
-
-4000 items in training set.
-
-\begin{verbatim}
-Chosen classifier has accuracy of 0.9725.
-Classified as spam: 3984 / 6000
-Validation:
- Classified as spam: 3984 / 6000
- Classified as spam in validation set: 4064 / 6000
- Correctly classified: 5798
- Correctly classified as spam: 3923
- Accuracy: 0.966
- Precision: 0.985
- Recall: 0.965
-
-real	9m41.857s
-user	9m40.900s
-sys	0m0.520s
-\end{verbatim}
-
-6000 items in training set.
-
-\begin{verbatim}
-Chosen classifier has accuracy of 0.978333333333.
-Classified as spam: 2677 / 4000
-Validation:
- Classified as spam: 2677 / 4000
- Classified as spam in validation set: 2725 / 4000
- Correctly classified: 3886
- Correctly classified as spam: 2644
- Accuracy: 0.972
- Precision: 0.988
- Recall: 0.970
-
-real	19m40.578s
-user	19m37.980s
-sys	0m1.100s
-\end{verbatim}
+% 1000 items.
+% 
+% \begin{verbatim}
+% Chosen classifier has accuracy of 1.0.
+% Classified as spam: 5777 / 9000
+% Validation:
+%  Classified as spam: 5777 / 9000
+%  Classified as spam in validation set: 6134 / 9000
+%  Correctly classified: 8475
+%  Correctly classified as spam: 5693
+%  Accuracy: 0.942
+%  Precision: 0.985
+%  Recall: 0.928
+% 
+% real	0m44.221s
+% user	0m44.040s
+% sys	0m0.150s
+% \end{verbatim}
+% 
+% 4000 items in training set.
+% 
+% \begin{verbatim}
+% Chosen classifier has accuracy of 0.9725.
+% Classified as spam: 3984 / 6000
+% Validation:
+%  Classified as spam: 3984 / 6000
+%  Classified as spam in validation set: 4064 / 6000
+%  Correctly classified: 5798
+%  Correctly classified as spam: 3923
+%  Accuracy: 0.966
+%  Precision: 0.985
+%  Recall: 0.965
+% 
+% real	9m41.857s
+% user	9m40.900s
+% sys	0m0.520s
+% \end{verbatim}
+% 
+% 6000 items in training set.
+% 
+% \begin{verbatim}
+% Chosen classifier has accuracy of 0.978333333333.
+% Classified as spam: 2677 / 4000
+% Validation:
+%  Classified as spam: 2677 / 4000
+%  Classified as spam in validation set: 2725 / 4000
+%  Correctly classified: 3886
+%  Correctly classified as spam: 2644
+%  Accuracy: 0.972
+%  Precision: 0.988
+%  Recall: 0.970
+% 
+% real	19m40.578s
+% user	19m37.980s
+% sys	0m1.100s
+% \end{verbatim}
 
 \subsection{Training algorithm complexity}
+
+Base on figure \ref{fig:training-data-size}, training algorithm looks
+strongly like a quadratic algorithm.  Training is much faster with
+modest prepruning parameters, which decrease the tree size by a factor
+of almost hundred.
 
 \section{Conclusions}
 
