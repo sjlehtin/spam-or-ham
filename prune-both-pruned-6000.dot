@@ -1,0 +1,236 @@
+digraph decisiontree {
+n398 [label="ratio=0.6729 (3230/4800)\nHTML_MESSAGE (358)"];
+
+n399 [label="ratio=0.9822 (2591/2638)\nPRIORITY_NO_NAME (215)"];
+
+n398 -> n399 [label=Yes];
+
+n398 -> n504 [label=No];
+
+n504 [label="ratio=0.2956 (639/2162)\nNO_RECEIVED (145)"];
+
+n505 [label="ratio=0.0033 (3/906)\nPRIORITY_NO_NAME (215)"];
+
+n504 -> n505 [label=Yes];
+
+n504 -> n506 [label=No];
+
+n506 [label="ratio=0.5064 (636/1256)\nRCVD_NUMERIC_HELO (418)"];
+
+n507 [label="ratio=1.0000 (136/136)\nPLING_PLING (2)"];
+
+n506 -> n507 [label=Yes];
+
+n506 -> n508 [label=No];
+
+n508 [label="ratio=0.4464 (500/1120)\nALL_TRUSTED (70)"];
+
+n509 [label="ratio=0.0000 (0/126)\n"];
+
+n508 -> n509 [label=Yes];
+
+n508 -> n510 [label=No];
+
+n510 [label="ratio=0.5030 (500/994)\nADVANCE_FEE_1 (186)"];
+
+n511 [label="ratio=0.9896 (95/96)\nADVANCE_FEE_2 (135)"];
+
+n510 -> n511 [label=Yes];
+
+n510 -> n512 [label=No];
+
+n512 [label="ratio=0.4510 (405/898)\nDRUGS_ERECTILE (317)"];
+
+n513 [label="ratio=1.0000 (58/58)\nINFO_TLD (16)"];
+
+n512 -> n513 [label=Yes];
+
+n512 -> n514 [label=No];
+
+n514 [label="ratio=0.4131 (347/840)\nHELO_DYNAMIC_IPADDR (343)"];
+
+n515 [label="ratio=1.0000 (45/45)\nRATWARE_RCVD_AT (3)"];
+
+n514 -> n515 [label=Yes];
+
+n514 -> n516 [label=No];
+
+n516 [label="ratio=0.3799 (302/795)\nRATWARE_MS_HASH (368)"];
+
+n517 [label="ratio=1.0000 (43/43)\nDATE_IN_PAST_06_12 (5)"];
+
+n516 -> n517 [label=Yes];
+
+n516 -> n518 [label=No];
+
+n518 [label="ratio=0.3444 (259/752)\nINVESTMENT_ADVICE (54)"];
+
+n519 [label="ratio=1.0000 (27/27)\nHELO_DYNAMIC_SPLIT_IP (119)"];
+
+n518 -> n519 [label=Yes];
+
+n518 -> n520 [label=No];
+
+n520 [label="ratio=0.3200 (232/725)\nINFO_TLD (16)"];
+
+n521 [label="ratio=1.0000 (19/19)\nDATE_IN_PAST_06_12 (5)"];
+
+n520 -> n521 [label=Yes];
+
+n520 -> n522 [label=No];
+
+n522 [label="ratio=0.3017 (213/706)\nFORGED_YAHOO_RCVD (52)"];
+
+n523 [label="ratio=1.0000 (18/18)\nTO_CC_NONE (30)"];
+
+n522 -> n523 [label=Yes];
+
+n522 -> n524 [label=No];
+
+n524 [label="ratio=0.2834 (195/688)\nMIME_BAD_ISO_CHARSET (303)"];
+
+n525 [label="ratio=1.0000 (13/13)\nRATWARE_RCVD_AT (3)"];
+
+n524 -> n525 [label=Yes];
+
+n524 -> n526 [label=No];
+
+n526 [label="ratio=0.2696 (182/675)\nDATE_IN_PAST_12_24 (101)"];
+
+n527 [label="ratio=0.9333 (14/15)\n"];
+
+n526 -> n527 [label=Yes];
+
+n526 -> n528 [label=No];
+
+n528 [label="ratio=0.2545 (168/660)\nENGLISH_UCE_SUBJECT (56)"];
+
+n529 [label="ratio=1.0000 (11/11)\nSUBJ_LIFE_INSURANCE (154)"];
+
+n528 -> n529 [label=Yes];
+
+n528 -> n530 [label=No];
+
+n530 [label="ratio=0.2419 (157/649)\nREMOVE_BEFORE_LINK (178)"];
+
+n531 [label="ratio=1.0000 (11/11)\nREPLICA_WATCH (98)"];
+
+n530 -> n531 [label=Yes];
+
+n530 -> n532 [label=No];
+
+n532 [label="ratio=0.2288 (146/638)\nMAILTO_TO_SPAM_ADDR (33)"];
+
+n533 [label="ratio=0.8667 (13/15)\nFORGED_HOTMAIL_RCVD2 (61)"];
+
+n532 -> n533 [label=Yes];
+
+n534 [label="ratio=1.0000 (3/3)\n"];
+
+n533 -> n534 [label=Yes];
+
+n533 -> n535 [label=No];
+
+n535 [label="ratio=0.8333 (10/12)\n"];
+
+n532 -> n536 [label=No];
+
+n536 [label="ratio=0.2135 (133/623)\nDATE_IN_PAST_06_12 (5)"];
+
+n537 [label="ratio=0.9167 (11/12)\nINVALID_DATE (231)"];
+
+n536 -> n537 [label=Yes];
+
+n538 [label="ratio=1.0000 (2/2)\n"];
+
+n537 -> n538 [label=Yes];
+
+n537 -> n539 [label=No];
+
+n539 [label="ratio=0.9000 (9/10)\nMISSING_SUBJECT (408)"];
+
+n540 [label="ratio=1.0000 (2/2)\n"];
+
+n539 -> n540 [label=Yes];
+
+n539 -> n541 [label=No];
+
+n541 [label="ratio=0.8750 (7/8)\n"];
+
+n536 -> n542 [label=No];
+
+n542 [label="ratio=0.1997 (122/611)\nBIZ_TLD (92)"];
+
+n543 [label="ratio=1.0000 (7/7)\n"];
+
+n542 -> n543 [label=Yes];
+
+n542 -> n544 [label=No];
+
+n544 [label="ratio=0.1904 (115/604)\nHELO_DYNAMIC_IPADDR2 (193)"];
+
+n545 [label="ratio=1.0000 (7/7)\n"];
+
+n544 -> n545 [label=Yes];
+
+n544 -> n546 [label=No];
+
+n546 [label="ratio=0.1809 (108/597)\nDATE_IN_FUTURE_06_12 (203)"];
+
+n547 [label="ratio=0.8889 (8/9)\n"];
+
+n546 -> n547 [label=Yes];
+
+n546 -> n548 [label=No];
+
+n548 [label="ratio=0.1701 (100/588)\nMISSING_MIMEOLE (376)"];
+
+n549 [label="ratio=1.0000 (6/6)\n"];
+
+n548 -> n549 [label=Yes];
+
+n548 -> n550 [label=No];
+
+n550 [label="ratio=0.1615 (94/582)\nDATE_IN_PAST_03_06 (273)"];
+
+n551 [label="ratio=1.0000 (4/4)\n"];
+
+n550 -> n551 [label=Yes];
+
+n550 -> n552 [label=No];
+
+n552 [label="ratio=0.1557 (90/578)\nMSGID_FROM_MTA_ID (287)"];
+
+n553 [label="ratio=1.0000 (4/4)\n"];
+
+n552 -> n553 [label=Yes];
+
+n552 -> n554 [label=No];
+
+n554 [label="ratio=0.1498 (86/574)\nDEAR_SOMETHING (383)"];
+
+n555 [label="ratio=1.0000 (4/4)\n"];
+
+n554 -> n555 [label=Yes];
+
+n554 -> n556 [label=No];
+
+n556 [label="ratio=0.1439 (82/570)\nDATE_IN_FUTURE_12_24 (189)"];
+
+n557 [label="ratio=0.7500 (6/8)\n"];
+
+n556 -> n557 [label=Yes];
+
+n556 -> n558 [label=No];
+
+n558 [label="ratio=0.1352 (76/562)\nTO_CC_NONE (30)"];
+
+n559 [label="ratio=1.0000 (3/3)\n"];
+
+n558 -> n559 [label=Yes];
+
+n558 -> n560 [label=No];
+
+n560 [label="ratio=0.1306 (73/559)\nSPOOF_NET2COM (71)"];
+
+}
