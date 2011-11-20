@@ -304,13 +304,12 @@ reaching them\cite[p. 194 mun kirjassa]{alpaydin2004}.
   \label{fig:no-pruning-6000}
 \end{figure}
 
+It should be noted that training the set without prepruning takes
+slightly longer than with it.
 
-It should be noted that training the set without prepruning takes many
-times longer than with it.
-
-Prepruned tree takes a small hit in accuracy, but is much faster to
-train, both according to our observations and 
-Alpaydin\cite[p. 195 mun kirjassa]{alpaydin2004}.
+Prepruned tree takes a small hit in accuracy, but is faster to train,
+both according to our observations and
+Alpaydin\cite[p. 182]{alpaydin2004}.
 
 \section{Validation of our approach}
 
@@ -367,24 +366,6 @@ Tr. size & Training time & Accuracy \\ \hline
   \label{fig:training-data-size} 
 \end{figure}
 
-% 8000 data points, pre- and postpruned.
-% 
-% Validation:
-%  Classified as spam: 1314 / 2000
-%  Classified as spam in validation set: 1348 / 2000
-%  Correctly classified: 1938
-%  Correctly classified as spam: 1300
-%  Accuracy: 0.969
-%  Precision: 0.989
-%  Recall: 0.964
-%  Perplexity: 1.138
-% 
-% real	18m10.128s
-% user	16m16.994s
-% sys	1m16.932s
-% ~/s/prepruned/t-61.3050--spam-or-ham
-% midgard (15:36) >time ./decisiontree.py --preprune --training-data 8000 --dump-tree original --dump-tree pruned
-% 
 
 \subsection{Training algorithm complexity}
 
@@ -677,6 +658,24 @@ The code is available for scrutiny at GitHub,
 % user	19m37.980s
 % sys	0m1.100s
 % \end{verbatim}
+% 8000 data points, pre- and postpruned.
+% 
+% Validation:
+%  Classified as spam: 1314 / 2000
+%  Classified as spam in validation set: 1348 / 2000
+%  Correctly classified: 1938
+%  Correctly classified as spam: 1300
+%  Accuracy: 0.969
+%  Precision: 0.989
+%  Recall: 0.964
+%  Perplexity: 1.138
+% 
+% real	18m10.128s
+% user	16m16.994s
+% sys	1m16.932s
+% ~/s/prepruned/t-61.3050--spam-or-ham
+% midgard (15:36) >time ./decisiontree.py --preprune --training-data 8000 --dump-tree original --dump-tree pruned
+% 
 
 
 % ****
