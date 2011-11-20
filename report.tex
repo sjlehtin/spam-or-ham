@@ -196,9 +196,10 @@ to be desired (94-95 percent).  We used one of the suggested
 approaches from \cite{alpaydin2004}, where we make the tree as pure as
 possible (no prepruning) and handle overfitting by postpruning the tree.
 
-Removing prepruning didn't have an adverse effect for the final
-accuracy, indeed, accuracy increased by a couple percentage points with
-a large training set (6000). {\XXX new results!}
+Comparing tables in figures \ref{tbl:classifiers-prune-both} and
+\ref{tbl:classifiers-postpruned}, removing prepruning didn't have a
+large effect for the final accuracy.  This is probably because our
+chosen prepruning parameters were so tight already.
 
 \begin{figure}
   \centering
@@ -245,7 +246,8 @@ Perplexity \\ \hline
 8000 & 1112 & 0.977 & 0.988 & 0.978 & 1.111 \\
 \hline
 \end{tabular}
-  \caption{Effect of training data size on postpruned trees.}
+  \caption{Effect of training data size on postpruned trees (part of
+    data from table in figure \ref{tbl:classifiers}).}
   \label{tbl:classifiers-postpruned} 
 \end{figure}
 
@@ -265,7 +267,8 @@ Perplexity \\ \hline
 8000 & 1033 & 0.971 & 0.982 & 0.975 & 1.117 \\
 \hline
 \end{tabular}
-  \caption{Effect of training data size on pre- and postpruned trees.}
+  \caption{Effect of training data size on pre- and postpruned trees (part of
+    data from table in figure \ref{tbl:classifiers}).}
   \label{tbl:classifiers-prune-both} 
 \end{figure}
 
