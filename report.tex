@@ -79,6 +79,11 @@ One reason to study decision trees was that we assumed many groups would
 take on naive bayesian classifiers, and we wanted to do something a bit
 different.
 
+When we started the project, we actually didn't realize we could use
+existing libraries for the job.  This led us to implement a decision
+tree algorithm by hand instead of just taking, e.g., an existing
+$\mathcal{C5}$ implementation.
+
 \section{Principles of decision trees}
 
 Decision trees are a non-parametric method for data classification.
@@ -352,6 +357,18 @@ possible.
 Looking at the generated decision trees, it is easy to follow the
 process by eye (at least with the smaller trees).  This, we think, helps
 a lot in validating the approach.
+
+We implemented the algorithm with Python and Numpy ourselves.  We think
+this gave us deeper insight into the inner workings of the algorithm
+than just using an existing software package.
+
+From the final results, we see (figure \ref{fig:pruning6000}) that we
+get the best accuracy 97.7\% with 6000 data points, but the increase in
+accuracy is obtained by a large hit in training time, as illustrated by
+the table in figure \ref{fig:training-data-size}.  By agreeing to take a
+relatively small hit in accuracy, prepruning can be enabled, which cuts
+the training time to a fraction (as seen in figure
+\ref{fig:pruning6000}).
 
 \section{Comments on project difficulty}
 
