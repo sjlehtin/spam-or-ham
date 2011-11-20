@@ -121,6 +121,13 @@ def generate_tree(data, column_names, column_ids, theta, min_row_ratio):
                    "after split with %s." % (rows, parent.name))
             return node
 
+        if node.num_tagged == node.num_elements:
+            print ("Stopping recursion due to all elements being spam.")
+            return node
+
+        if node.num_tagged == 0:
+            print ("Stopping recursion due to no element being spam.")
+            return node
 
         # Get the columns that have meaningful data.  If a parameter does
         # not have any instances in the training set, we cannot classify
@@ -411,7 +418,7 @@ error.
             current_accuracy = calculate_accuracy(tree, pruning_data)
             verbose("Got accurace %s, maximum %s." % (current_accuracy,
                                                       max_accuracy[0]))
-            if current_accuracy > max_accuracy[0]:
+            if current_accuracy >= max_accuracy[0]:
                 max_accuracy[0] = current_accuracy
                 verbose("Pruning node %s." % node)
                 node.left = None
