@@ -63,7 +63,7 @@
 % used and conclusions).
 We programmed and trained a univariate binary classification tree to detect
 spam email. We studied the importance of different training set sizes,
-10-fold cross validation as well as prepruning and postpruning techniques.
+as well as prepruning and postpruning techniques.
 
 \XXX{summary of conclusions and their importance}
 
@@ -293,7 +293,7 @@ warrant further recursion.  For example, \XXX{more detailed explanation}.
 Postpruning is used to reduce generalization error by using a special
 pruning data set to check whether removing a subtree from the decision
 tree will result in the same or smaller error against the pruning set.
-The complexity of such a subtree is deemed unjustified and we expect
+The complexity of such subtrees is deemed unjustified and we expect
 to avoid overfitting by substituting them with simple leaf nodes,
 labeled according to the majority class of the training instances
 reaching them\cite[p. 183]{alpaydin2004}.
@@ -340,9 +340,9 @@ reaching them\cite[p. 183]{alpaydin2004}.
   \label{fig:detail-postpruned-6000}
 \end{figure}
 
-Prepruned trees take a small hit in accuracy, but are slightly faster to
-train, both according to our observations and
-Alpaydin\cite[p. 182]{alpaydin2004}.
+Trees that are both pre- and postpruned take a small hit in accuracy
+in comparison to only postpruned trees, but are slightly faster to
+train according.
 
 \section{Validation of our approach}
 
