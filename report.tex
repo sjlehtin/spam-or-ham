@@ -317,6 +317,11 @@ strongly like a quadratic algorithm.  Training is much faster with
 modest prepruning parameters, which decrease the tree size by a factor
 of almost hundred.
 
+\section{Data challenge}
+
+% what did we do based on the results of the data challenge.
+
+
 \section{Conclusions}
 
 The chosen approach didn't achieve the same high marks for accuracy as
@@ -336,6 +341,9 @@ a lot in validating the approach.
 
 \section{Comments on project difficulty}
 
+\afterpage{\clearpage} % Flush all floats so that they won't mingle with
+                       % the python code, below.
+\pagebreak
 \begin{thebibliography}{9}
 \bibitem{alpaydin2004}
   Ethem Alpaydin,
@@ -365,17 +373,20 @@ a lot in validating the approach.
 %  Otaniemi, 2010. 13 pages.
 \end{thebibliography}
 
-\afterpage{\clearpage} % Flush all floats so that they won't mingle with
-                       % the python code, below.
-\pagebreak
 \appendix
 \section{Python code for the classifier}
 
-The code is also available at GitHub,
+The code is available for scrutiny at GitHub,
 \href{https://github.com/sjlehtin/spam-or-ham/blob/master/decisiontree.py}
 {https://github.com/sjlehtin/spam-or-ham/blob/master/decisiontree.py}.
 
-\verbatiminput{decisiontree.py}
+% From the term project page:
+% 
+% Please, do not hand in any programs or source code you may have
+% written. They will not be graded. (You should naturally include
+% pseudocode etc. to your report if it helps to understand what you have
+% done. Be sure to refer to pseudocode etc. in the text.)
+%\verbatiminput{decisiontree.py}
 
 % non-pruned, 1000 items.
 % \begin{verbatim}
