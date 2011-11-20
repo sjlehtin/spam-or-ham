@@ -60,7 +60,11 @@
 \section{Abstract}
 % Include the key points of your work in a few sentences (including methods
 % used and conclusions).
-We trained a univariate binary classification tree to detect email spam.
+We programmed and trained a univariate binary classification tree to detect
+spam email. We studied the importance of different training set sizes,
+10-fold cross validation as well as prepruning and postpruning techniques.
+
+\XXX{summary of conclusions and their importance}
 
 
 \section{Rationale}
@@ -199,7 +203,7 @@ are introduced.
 \end{figure}
 
 We implemented prepruning by having three different stopping criteria in
-our algorithm to limit the depth of the resulting tree.  The first sees
+our algorithm to limit the depth of the resulting tree.  The first ensures
 that there's always atleast one feature to base a decision on, the second
 that there's enough messages and the third that there' enough entropy to
 warrant further recursion.  For example, \XXX{more detailed explanation}.
