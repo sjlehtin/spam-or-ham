@@ -13,6 +13,7 @@
 \usepackage{fancyvrb}
 \usepackage{afterpage}
 \usepackage{program}
+\usepackage{wasysym} % for permil
 
 \pdfinfo{            
           /Title      (T-61.3050 Machine Learning: Basic Principles)
@@ -280,9 +281,16 @@ We implemented prepruning by having three different stopping criteria in
 our algorithm to limit the depth of the resulting tree.  The first ensures
 that there's always atleast one feature to base a decision on, the second
 that there's enough messages and the third that there's enough entropy to
-warrant further recursion.  For example, \XXX{more detailed explanation}.
+warrant further recursion.
 
-1000 items in training set, theta = 0.04, min\_row\_ratio = 0.002
+We ended up using rather marginal prepruning requirements.
+We required a minimum of 2\permil{} of 
+rows to have reached a node, and atleast 4\% impurity in
+order to split it further.
+This was enough to cut down the size of the resulting trees, but left
+significant emphasis to the postpruning step described in
+section \ref{sect:postpruning}.
+
 
 \begin{figure}[h]
   \centering
