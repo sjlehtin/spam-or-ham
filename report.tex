@@ -128,19 +128,6 @@ figure \ref{fig:no-pruning-1000}.
 Still, against the test set the non-pruned tree faired surprisingly
 well, achieving an accuracy of over 94 percent.
 
-% \begin{verbatim}
-% Classified as spam: 5556 / 9000
-% Validation:
-%  Classified as spam: 5556 / 9000
-%  Classified as spam in validation set: 5989 / 9000
-%  Correctly classified: 8499
-%  Correctly classified as spam: 5522
-%  Accuracy: 0.944
-%  Precision: 0.994
-%  Recall: 0.922
-%  Perplexity: 1.324
-% \end{verbatim}
-
 \subsubsection{Prepruning}
 
 In prepruning, the recursion of the training algorithm is stopped once
@@ -206,21 +193,6 @@ are introduced.
   \label{fig:pruning6000-training-time} 
 \end{figure}
 
-%Pre- and postpruned, 1000 items.
-%
-%\begin{verbatim}
-%Classified as spam: 5744 / 9000
-%Validation:
-% Classified as spam: 5744 / 9000
-% Classified as spam in validation set: 5966 / 9000
-% Correctly classified: 8594
-% Correctly classified as spam: 5652
-% Accuracy: 0.955
-% Precision: 0.984
-% Recall: 0.947
-% Perplexity: 1.201
-%\end{verbatim}
-
 When prepruning, we stopped the algorithm by limiting by the results
 from the entropy calculation, by columns (features) and rows (messages)
 left in a recursion step.  For example, \XXX{more detailed explanation}.
@@ -236,19 +208,6 @@ left in a recursion step.  For example, \XXX{more detailed explanation}.
   \caption{Prepruned tree from a training set of 1000 elements.}
   \label{fig:prepruned-1000}
 \end{figure}
-
-%Prepruned, 1000 items.
-%\begin{verbatim}
-%Validation:
-% Classified as spam: 5684 / 9000
-% Classified as spam in validation set: 5962 / 9000
-% Correctly classified: 8578
-% Correctly classified as spam: 5612
-% Accuracy: 0.953
-% Precision: 0.987
-% Recall: 0.941
-% Perplexity: 1.268
-%\end{verbatim}
 
 \subsubsection{Postpruning}
 \label{sect:postpruning}
@@ -290,73 +249,11 @@ tree will result in the same or smaller error against the pruning set.
   \label{fig:no-pruning-6000}
 \end{figure}
 
-% Postpruned, 1000 items.
-% \begin{verbatim}
-% 1000 items.
-% Chosen classifier has accuracy of 0.98.
-% Classified as spam: 5709 / 9000
-% Validation:
-%  Classified as spam: 5709 / 9000
-%  Classified as spam in validation set: 5952 / 9000
-%  Correctly classified: 8579
-%  Correctly classified as spam: 5620
-%  Accuracy: 0.953
-%  Precision: 0.984
-%  Recall: 0.944
-%  Perplexity: 1.182
-% \end{verbatim}
-
-% \begin{verbatim}
-% 6000 items, pre- and postpruning.
-% Validation:
-%  Classified as spam: 2604 / 4000
-%  Classified as spam in validation set: 2626 / 4000
-%  Correctly classified: 3890
-%  Correctly classified as spam: 2560
-%  Accuracy: 0.973
-%  Precision: 0.983
-%  Recall: 0.975
-%  Perplexity: 1.130
-% \end{verbatim}
-
-% \begin{verbatim}
-% 6000 items, just postpruning.
-% Validation:
-%  Classified as spam: 2601 / 4000
-%  Classified as spam in validation set: 2648 / 4000
-%  Correctly classified: 3907
-%  Correctly classified as spam: 2578
-%  Accuracy: 0.977
-%  Precision: 0.991
-%  Recall: 0.974
-%  Perplexity: 1.178
-% \end{verbatim}
-% \begin{verbatim}
-% real	61m33.824s
-% user	57m22.444s
-% sys	1m15.947s
-% \end{verbatim}
 
 It should be noted that training the set without prepruning takes many
 times longer than with it.
 
 Prepruned tree takes a hit in accuracy, but is much faster to train.
-
-% \begin{verbatim}
-% Validation:
-%  Classified as spam: 2608 / 4000
-%  Classified as spam in validation set: 2683 / 4000
-%  Correctly classified: 3881
-%  Correctly classified as spam: 2586
-%  Accuracy: 0.970
-%  Precision: 0.992
-%  Recall: 0.964
-%  Perplexity: 1.233
-% 
-% real	14m28.909s
-% user	12m18.457s
-% sys	1m18.402s
-% \end{verbatim}
 
 \section{Validation of our approach}
 
@@ -412,63 +309,6 @@ Tr. size & Training time & Accuracy \\ \hline
   \caption{Effects of training set size, postpruned.}
   \label{fig:training-data-size} 
 \end{figure}
-
-% 1000 items.
-% 
-% \begin{verbatim}
-% Chosen classifier has accuracy of 1.0.
-% Classified as spam: 5777 / 9000
-% Validation:
-%  Classified as spam: 5777 / 9000
-%  Classified as spam in validation set: 6134 / 9000
-%  Correctly classified: 8475
-%  Correctly classified as spam: 5693
-%  Accuracy: 0.942
-%  Precision: 0.985
-%  Recall: 0.928
-% 
-% real	0m44.221s
-% user	0m44.040s
-% sys	0m0.150s
-% \end{verbatim}
-% 
-% 4000 items in training set.
-% 
-% \begin{verbatim}
-% Chosen classifier has accuracy of 0.9725.
-% Classified as spam: 3984 / 6000
-% Validation:
-%  Classified as spam: 3984 / 6000
-%  Classified as spam in validation set: 4064 / 6000
-%  Correctly classified: 5798
-%  Correctly classified as spam: 3923
-%  Accuracy: 0.966
-%  Precision: 0.985
-%  Recall: 0.965
-% 
-% real	9m41.857s
-% user	9m40.900s
-% sys	0m0.520s
-% \end{verbatim}
-% 
-% 6000 items in training set.
-% 
-% \begin{verbatim}
-% Chosen classifier has accuracy of 0.978333333333.
-% Classified as spam: 2677 / 4000
-% Validation:
-%  Classified as spam: 2677 / 4000
-%  Classified as spam in validation set: 2725 / 4000
-%  Correctly classified: 3886
-%  Correctly classified as spam: 2644
-%  Accuracy: 0.972
-%  Precision: 0.988
-%  Recall: 0.970
-% 
-% real	19m40.578s
-% user	19m37.980s
-% sys	0m1.100s
-% \end{verbatim}
 
 \subsection{Training algorithm complexity}
 
@@ -536,5 +376,167 @@ The code is also available at GitHub,
 {https://github.com/sjlehtin/spam-or-ham/blob/master/decisiontree.py}.
 
 \verbatiminput{decisiontree.py}
+
+% non-pruned, 1000 items.
+% \begin{verbatim}
+% Classified as spam: 5556 / 9000
+% Validation:
+%  Classified as spam: 5556 / 9000
+%  Classified as spam in validation set: 5989 / 9000
+%  Correctly classified: 8499
+%  Correctly classified as spam: 5522
+%  Accuracy: 0.944
+%  Precision: 0.994
+%  Recall: 0.922
+%  Perplexity: 1.324
+% \end{verbatim}
+
+%Pre- and postpruned, 1000 items.
+%
+%\begin{verbatim}
+%Classified as spam: 5744 / 9000
+%Validation:
+% Classified as spam: 5744 / 9000
+% Classified as spam in validation set: 5966 / 9000
+% Correctly classified: 8594
+% Correctly classified as spam: 5652
+% Accuracy: 0.955
+% Precision: 0.984
+% Recall: 0.947
+% Perplexity: 1.201
+%\end{verbatim}
+
+%Prepruned, 1000 items.
+%\begin{verbatim}
+%Validation:
+% Classified as spam: 5684 / 9000
+% Classified as spam in validation set: 5962 / 9000
+% Correctly classified: 8578
+% Correctly classified as spam: 5612
+% Accuracy: 0.953
+% Precision: 0.987
+% Recall: 0.941
+% Perplexity: 1.268
+%\end{verbatim}
+
+% Postpruned, 1000 items.
+% \begin{verbatim}
+% 1000 items.
+% Chosen classifier has accuracy of 0.98.
+% Classified as spam: 5709 / 9000
+% Validation:
+%  Classified as spam: 5709 / 9000
+%  Classified as spam in validation set: 5952 / 9000
+%  Correctly classified: 8579
+%  Correctly classified as spam: 5620
+%  Accuracy: 0.953
+%  Precision: 0.984
+%  Recall: 0.944
+%  Perplexity: 1.182
+% \end{verbatim}
+
+% \begin{verbatim}
+% 6000 items, pre- and postpruning.
+% Validation:
+%  Classified as spam: 2604 / 4000
+%  Classified as spam in validation set: 2626 / 4000
+%  Correctly classified: 3890
+%  Correctly classified as spam: 2560
+%  Accuracy: 0.973
+%  Precision: 0.983
+%  Recall: 0.975
+%  Perplexity: 1.130
+% \end{verbatim}
+
+% \begin{verbatim}
+% 6000 items, just postpruning.
+% Validation:
+%  Classified as spam: 2601 / 4000
+%  Classified as spam in validation set: 2648 / 4000
+%  Correctly classified: 3907
+%  Correctly classified as spam: 2578
+%  Accuracy: 0.977
+%  Precision: 0.991
+%  Recall: 0.974
+%  Perplexity: 1.178
+% \end{verbatim}
+% \begin{verbatim}
+% real	61m33.824s
+% user	57m22.444s
+% sys	1m15.947s
+% \end{verbatim}
+
+% \begin{verbatim}
+% Validation:
+%  Classified as spam: 2608 / 4000
+%  Classified as spam in validation set: 2683 / 4000
+%  Correctly classified: 3881
+%  Correctly classified as spam: 2586
+%  Accuracy: 0.970
+%  Precision: 0.992
+%  Recall: 0.964
+%  Perplexity: 1.233
+% 
+% real	14m28.909s
+% user	12m18.457s
+% sys	1m18.402s
+% \end{verbatim}
+
+% 1000 items.
+% 
+% \begin{verbatim}
+% Chosen classifier has accuracy of 1.0.
+% Classified as spam: 5777 / 9000
+% Validation:
+%  Classified as spam: 5777 / 9000
+%  Classified as spam in validation set: 6134 / 9000
+%  Correctly classified: 8475
+%  Correctly classified as spam: 5693
+%  Accuracy: 0.942
+%  Precision: 0.985
+%  Recall: 0.928
+% 
+% real	0m44.221s
+% user	0m44.040s
+% sys	0m0.150s
+% \end{verbatim}
+% 
+% 4000 items in training set.
+% 
+% \begin{verbatim}
+% Chosen classifier has accuracy of 0.9725.
+% Classified as spam: 3984 / 6000
+% Validation:
+%  Classified as spam: 3984 / 6000
+%  Classified as spam in validation set: 4064 / 6000
+%  Correctly classified: 5798
+%  Correctly classified as spam: 3923
+%  Accuracy: 0.966
+%  Precision: 0.985
+%  Recall: 0.965
+% 
+% real	9m41.857s
+% user	9m40.900s
+% sys	0m0.520s
+% \end{verbatim}
+% 
+% 6000 items in training set.
+% 
+% \begin{verbatim}
+% Chosen classifier has accuracy of 0.978333333333.
+% Classified as spam: 2677 / 4000
+% Validation:
+%  Classified as spam: 2677 / 4000
+%  Classified as spam in validation set: 2725 / 4000
+%  Correctly classified: 3886
+%  Correctly classified as spam: 2644
+%  Accuracy: 0.972
+%  Precision: 0.988
+%  Recall: 0.970
+% 
+% real	19m40.578s
+% user	19m37.980s
+% sys	0m1.100s
+% \end{verbatim}
 
 \end{document}
