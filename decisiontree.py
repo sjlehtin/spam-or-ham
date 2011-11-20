@@ -268,7 +268,9 @@ error.
     parser.add_option("--data-file", dest="data_file",
                       default="full_data.txt", help="Data source to use.")
     parser.add_option("--disable-pruning", dest="prune", action="store_false",
-                      default=True, help="Disable post pruning.")
+                      default=True, help="Disable postpruning.")
+    parser.add_option("--preprune", dest="preprune", action="store_true",
+                      default=False, help="Enable prepruning.")
     parser.add_option("--diff", dest="diff", action="store_true",
                       default=False, help="Output list of misclassified "
                       "entries on the test set.")
@@ -425,7 +427,14 @@ error.
     def train_one(train_index, training_data, pruning_data, validation_data):
         verbose("training data size: %s" % (size(training_data, 0)))
         verbose("validation data size: %s" % (size(validation_data, 0)))
-        dt = generate_tree(training_data, column_names, column_ids, 0, 0)
+        theta = 0
+        min_row_ratio = 0
+        if opts.preprune:
+            theta = 0.04
+            min_row_ratio = 0.002
+            print "Prepruning, theta:", theta, "min_row_ratio:", min_row_ratio
+        dt = generate_tree(training_data, column_names, column_ids,
+                           theta, min_row_ratio)
         orig = None
         pruned = None
         if 'original' in opts.dump_trees:
