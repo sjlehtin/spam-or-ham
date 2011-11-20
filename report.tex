@@ -73,29 +73,29 @@ will require introducing other methods.
 The choice of using a decision tree to solve a task with boolean variables
 seemed natural. Such a tree could definitely match whatever complexity there
 would be in the training data.
-In fact we figured our success would be determined mainly by how we would
+In fact, we figured our success would be determined mainly by how we would
 manage to avoid overfitting.
 
 Decision trees were also tempting in that they are much easier to
-visualize than, e.g., naive bayes classifiers.  For example, see
+visualize than, e.g., naive Bayes classifiers.  For example, see
 figure \ref{fig:prune-both-pruned-6000}.
 
 One reason to study decision trees was that we assumed many groups would
-take on naive bayesian classifiers, and we wanted to do something a bit
+take on naive Bayesian classifiers, and we wanted to do something a bit
 different.
 
-When we started the project, we actually didn't realize that we could
+When we started the project, we actually did not realize that we could
 use existing libraries for the job.  This led us to implement a decision
 tree algorithm by hand instead of just taking, e.g., an existing
-$C5.0$\cite{c50} implementation.
+$C5.0$ \cite{c50} implementation.
 
 \section{Principles of decision trees}
 
 Decision trees are a non-parametric method for data classification.
-They don't try to approximate any model behind the data, instead relying
+They do not try to approximate any model behind the data, instead relying
 on a tactic of ``similar inputs produce similar outputs''.
 
-Our algorithm basically implements the classification tree construction
+Basically, our algorithm implements the classification tree construction
 algorithm in \cite[p. 179]{alpaydin2004}.  There is one change, however.
 We thought it would be a good idea to use the split entropy when
 checking for minimum entropy.  The pseudocode is listed in figure
@@ -159,7 +159,7 @@ K &= 2
 \subsection{Pruning the tree}
 
 Decision trees can be trained to perfectly match the training
-data\cite[p. 182]{alpaydin2004}.  This will lead the model to
+data \cite[p. 182]{alpaydin2004}.  This will lead the model to
 gross overfitting, which manifests as a large generalization error.
 This can be avoided by pruning the tree.  There are two non-exclusive
 approaches to pruning, prepruning and postpruning.
@@ -173,7 +173,7 @@ figure \ref{fig:no-pruning-1000}.
     \centering
 \includegraphics[width=130mm]{postpruned-original-1000.pdf}
   \end{minipage}
-  \caption{Tree from training set of 1000 elements, that hasn't been
+  \caption{Tree from a training set of 1000 elements that has not been
     pruned.}
   \label{fig:no-pruning-1000}
 \end{figure}
@@ -195,13 +195,13 @@ certain limits are reached.  Examples include impurity and number of
 data rows.
 
 In our first versions of the classifier we only did prepruning, which
-resulted in very small and tidy trees, but the accuracy left comething
+resulted in very small and tidy trees, but the accuracy left something
 to be desired (94-95 percent).  We used one of the suggested
 approaches from \cite{alpaydin2004}, where we make the tree as pure as
 possible (no prepruning) and handle overfitting by postpruning the tree.
 
-Comparing tables in figures \ref{tbl:classifiers-prune-both} and
-\ref{tbl:classifiers-postpruned}, removing prepruning didn't have a
+Comparing tables in figures \ref{tbl:classifiers-postpruned} and
+\ref{tbl:classifiers-prune-both}, removing prepruning did not have a
 large effect for the final accuracy.  This is probably because our
 chosen prepruning parameters were so tight already.
 
@@ -278,17 +278,16 @@ Perplexity \\ \hline
 
 We implemented prepruning by having three different stopping criteria in
 our algorithm to limit the depth of the resulting tree.  The first ensures
-that there's always atleast one feature to base a decision on, the second
-that there's enough messages and the third that there's enough entropy to
+that there is always at least one feature to base a decision on, the second
+that there are enough messages and the third that there is enough entropy to
 warrant further recursion.
 
-We ended up using rather marginal prepruning requirements.
-We required a minimum of 2\permil{} of 
-rows to have reached a node, and atleast 4\% impurity in
-order to split it further.
-This was enough to cut down the size of the resulting trees and speed up
-the training process, but left significant emphasis to the postpruning
-step described in section \ref{sect:postpruning}.
+We ended up using rather marginal prepruning requirements.  We required
+a minimum of 2\permil{} of rows to have reached a node and at least 4\%
+impurity in order to split it further.  This was enough to cut down the
+size of the resulting trees and speed up the training process, but left
+significant emphasis to the postpruning step described in section
+\ref{sect:postpruning}.
 
 
 \begin{figure}[h]
@@ -310,7 +309,7 @@ tree will result in the same or smaller error against the pruning set.
 The complexity of such subtrees is deemed unjustified and we expect
 to avoid overfitting by substituting them with simple leaf nodes,
 labeled according to the majority class of the training instances
-reaching them\cite[p. 183]{alpaydin2004}.
+reaching them \cite[p. 183]{alpaydin2004}.
 
 \begin{figure}[h]
   \centering
@@ -372,10 +371,10 @@ the ratio of correctly classified spam messages to all spam messages.
 Perplexity is calculated with
 
 \begin{equation}
-P = \exp(-\operatorname{mean}(\ln{Pi}))
+P = \exp(-\operatorname{mean}(\ln{P_i}))
 \end{equation}
 
-where $Pi$ is the probability of the email message being of the correct
+where $P_i$ is the probability of the email message being of the correct
 class.
 
 For the perplexity calculation, we return the probability that a message
@@ -396,7 +395,7 @@ section \ref{sect:postpruning}.
 \subsection{Dummy model}
 
 We can compare our classifier against a dummy model of the data, where
-the dummy would just classify messages as spam or based on the prior
+the dummy would just classify messages as spam based on the prior
 probability of a message being spam or ham.  In our case, the dummy
 would output ``SPAM'' with approximately 70\% chance, without looking at
 the features of the messages at all.  Such a classifier would have an
@@ -424,9 +423,9 @@ points better accuracy than training with 1000 items.  From figure
 
 \subsection{Training algorithm complexity}
 
-Based on figure \ref{tbl:classifiers}, the training algorithm looks like a
-$O(n\log{n})$ time algorithm.  Definitely not quadratic, although not linear
-either.
+Based on figure \ref{tbl:classifiers}, the training algorithm looks like
+a $O(n\log{n})$ time algorithm.  This is definitely not quadratic,
+although not linear either.
 
 The time values for very small training set sizes have bias, as {\tt
   numpy.loadtxt()} takes a long time (several seconds), to load the data
@@ -437,15 +436,15 @@ set.
 % what did we do based on the results of the data challenge.
 
 The data challenge led us to realize that our - at the time merely
-prepruned - decision tree wasn't the magical black box method
-that would wipe the table that we hoped it would be.
-As a consequence we did the inevitable and gave postpruning,
-as well as K-fold cross validation, a try.
+prepruned - decision tree was not the magical black box method that
+would wipe the table that we hoped it would be.  As a consequence, we
+did the inevitable and gave postpruning as well as K-fold cross
+validation a try.
 
 
 \section{Conclusions}
 
-The chosen approach didn't achieve the same high marks for accuracy as
+The chosen approach did not achieve the same high marks for accuracy as
 the winners of the data challenge.  Tweaking of the approach is
 naturally possible, but it seems that decision trees are more suited in
 this as a part of combined classifier instead of on their own.  This
@@ -453,7 +452,7 @@ does not mean that the approach is completely without merits; decision
 trees were applied here without prior knowledge to the distribution of
 the spam messages.  In the data challenge, the winning teams had tweaked
 the prior probabilities for spam to match the distribution in the data
-set.  In the decision tree model, this is not necessary, or even
+set.  In the decision tree model, this is not necessary or even
 possible.
 
 Looking at the generated decision trees, it is easy to follow the
@@ -465,22 +464,22 @@ this gave us deeper insight into the inner workings of the algorithm
 than just using an existing software package.
 
 From the final results, we see (figure \ref{tbl:classifiers}) that we
-get the best accuracy 97.7\% with 6000 data points.
+get the best accuracy, 97.7\%, with 6000 data points.
 
-It would've been interesting to see how
-boosting\cite[p. 360]{alpaydin2004} would've affected the results;
-unfortunately, we didn't have time to try it.  Because our classifier
+It would have been interesting to see how boosting
+\cite[p. 360]{alpaydin2004} would have affected the results;
+unfortunately, we did not have time to try it.  Because our classifier
 was already producing quite good results, boosting might have given that
 extra percentage point or so.  Because the classifier already hits the
-95\% accuracy with relatively small trainind data size, training an
-ensemble of trees would've been feasible and would have very likely
+95\% accuracy with relatively small training data size, training an
+ensemble of trees would have been feasible and would have very likely
 improved the accuracy further.
 
 \section{Comments on project difficulty}
 
 Writing the classifier by hand took quite a bit of effort.  Even though
 the algorithm is simple in principle, testing it was perceived hard to
-automate.  As a result, testing was done ad-hoc by the developer, taking
+automate.  As a result, testing was done adhoc by the developer, taking
 time off writing features (such as boosting).
 
 We underestimated the difficulty of the task, which became apparent when
