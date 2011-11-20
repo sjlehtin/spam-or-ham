@@ -418,7 +418,7 @@ error.
             current_accuracy = calculate_accuracy(tree, pruning_data)
             verbose("Got accurace %s, maximum %s." % (current_accuracy,
                                                       max_accuracy[0]))
-            if current_accuracy > max_accuracy[0]:
+            if current_accuracy >= max_accuracy[0]:
                 max_accuracy[0] = current_accuracy
                 verbose("Pruning node %s." % node)
                 node.left = None
