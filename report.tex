@@ -95,7 +95,11 @@ Decision trees are a non-parametric method for data classification.
 They don't try to approximate any model behind the data, instead relying
 on a tactic of ``similar inputs produce similar outputs''.
 
-\XXX{description and pseudo-code for the algorithm}
+Our algorithm basically implements the classification tree construction
+algorithm in \cite[p. 179]{alpaydin2004}.  There is one change, however.
+We thought it would be a good idea to use the split entropy when
+checking for minimum entropy.  The pseudocode is listed in figure
+\ref{fig:tree-gen}.
 
 \begin{figure}[th]
   \centering
@@ -133,7 +137,6 @@ on a tactic of ``similar inputs produce similar outputs''.
   \caption{Pseudo-code for tree generation algorithm.}
   \label{fig:tree-gen}
 \end{figure}
-
 
 \subsection{Calculating impurity}
 
@@ -191,55 +194,29 @@ possible (no prepruning) and handle overfitting by postpruning the tree.
 
 Removing prepruning didn't have an adverse effect for the final
 accuracy, indeed, accuracy increased by a couple percentage points with
-a large training set (6000).  The complexity of the tree is dramatically
-increased as a side effect, though; where a pre- and postpruned tree,
-trained with 6000 elements, has 59 nodes, the tree that was not
-prepruned contains nearly 7000 nodes.  Training time is also a lot
-longer without prepruning, which makes sense, given how many extra nodes
-are introduced.
+a large training set (6000). {\XXX new results!}
 
 \begin{figure}
   \centering
-\begin{tabular}{|l|c|c|c|c|}
+\begin{tabular}{|l|l|r|c|c|c|c|}
 \hline
- & Accuracy & Precision & Recall & Perplexity \\ \hline
-1000, not pruned &  0.944 & 0.994 & 0.922 & 1.324 \\
-1000, pre & 0.953 & 0.987 & 0.941 & 1.268 \\
-1000, post & 0.953 & 0.984 &  0.944 & 1.182 \\
-1000, pre + post &  0.955 & 0.984 & 0.947 & 1.201 \\
-\hline
-\end{tabular}
-  \caption{Effects of pruning on accuracy and other characteristics,
-    1000 training data points.}
-  \label{fig:pruning} 
-\end{figure}
-
-\begin{figure}
-  \centering
-\begin{tabular}{|l|c|c|c|c|}
-\hline
- & Accuracy & Precision & Recall & Perplexity \\ \hline
-6000, pre + post & 0.973 & 0.983 & 0.975 & 1.130 \\
-6000, post & 0.977 & 0.991 & 0.974 & 1.178 \\
+Size & Pruning & Training time & Accuracy & Precision & Recall &
+Perplexity \\ \hline 
+1000 & post & 38 & 0.953 & 0.984 & 0.944 & 1.215 \\
+1000 & both & 38 & 0.944 & 0.985 & 0.930 & 1.165 \\
+2000 & post & 118 & 0.961 & 0.984 & 0.956 & 1.194 \\
+2000 & both & 113 & 0.966 & 0.983 & 0.965 & 1.175 \\
+4000 & post & 381 & 0.971 & 0.982 & 0.973 & 1.141 \\
+4000 & both & 380 & 0.970 & 0.985 & 0.970 & 1.136 \\
+6000 & post & 683 & 0.971 & 0.985 & 0.971 & 1.128 \\
+6000 & both & 668 & 0.977 & 0.991 & 0.974 & 1.138 \\
+8000 & post & 1112 & 0.977 & 0.988 & 0.978 & 1.111 \\
+8000 & both & 1033 & 0.971 & 0.982 & 0.975 & 1.117 \\
 \hline
 \end{tabular}
-  \caption{Effects of pruning on accuracy and other characteristics,
-    6000 training data points.}
-  \label{fig:pruning6000} 
-\end{figure}
-
-
-\begin{figure}
-  \centering
-\begin{tabular}{|l|c|c|c|c|}
-\hline
- & Training time in seconds \\ \hline
-6000, pre + post & 869 \\
-6000, post & 3694 \\
-\hline
-\end{tabular}
-\caption{Effects of pruning on training time 6000 training data points.}
-  \label{fig:pruning6000-training-time} 
+  \caption{Effects of pruning on accuracy and other characteristics with
+    various training data sizes.}
+  \label{tbl:classifiers} 
 \end{figure}
 
 We implemented prepruning by having three different stopping criteria in
@@ -269,7 +246,7 @@ tree will result in the same or smaller error against the pruning set.
 The complexity of such a subtree is deemed unjustified and we expect
 to avoid overfitting by substituting them with simple leaf nodes,
 labeled according to the majority class of the training instances
-reaching them\cite[p. 194 mun kirjassa]{alpaydin2004}.
+reaching them\cite[p. 183]{alpaydin2004}.
 
 \begin{figure}[h]
   \centering
@@ -307,8 +284,8 @@ reaching them\cite[p. 194 mun kirjassa]{alpaydin2004}.
 It should be noted that training the set without prepruning takes
 slightly longer than with it.
 
-Prepruned tree takes a small hit in accuracy, but is faster to train,
-both according to our observations and
+Prepruned tree takes a small hit in accuracy, but is slightly faster to
+train, both according to our observations and
 Alpaydin\cite[p. 182]{alpaydin2004}.
 
 \section{Validation of our approach}
@@ -351,28 +328,12 @@ section \ref{sect:postpruning}.
 
 \section{Results with different training set sizes}
 
-XXX results to a table.
-\begin{figure}
-  \centering
-\begin{tabular}{|l|c|c|}
-\hline
-Tr. size & Training time & Accuracy \\ \hline
-1000 & 44 & 0.942 \\
-4000 & 581 & 0.966 \\
-6000 & 1180 & 0.972 \\
-\hline
-\end{tabular}
-  \caption{Effects of training set size, postpruned.}
-  \label{fig:training-data-size} 
-\end{figure}
-
 
 \subsection{Training algorithm complexity}
 
-Based on figure \ref{fig:training-data-size}, training algorithm looks
-strongly like a quadratic algorithm, at least without prepruning.
-Training is much faster with modest prepruning parameters, which
-decrease the tree size by a factor of almost a hundred.
+Based on figure \ref{tbl:classifiers}, training algorithm looks like a
+$O(n\log{n})$ algorithm.  Definitely not quadratic, although not linear,
+either.
 
 \section{Data challenge}
 
@@ -406,13 +367,8 @@ We implemented the algorithm with Python and Numpy ourselves.  We think
 this gave us deeper insight into the inner workings of the algorithm
 than just using an existing software package.
 
-From the final results, we see (figure \ref{fig:pruning6000}) that we
-get the best accuracy 97.7\% with 6000 data points, but the increase in
-accuracy is obtained by a large hit in training time, as illustrated by
-the table in figure \ref{fig:training-data-size}.  By agreeing to take a
-relatively small hit in accuracy (half a percentage point or less),
-prepruning can be enabled, which cuts the training time to a fraction
-(as seen in figure \ref{fig:pruning6000}).
+From the final results, we see (figure \ref{tbl:classifiers}) that we
+get the best accuracy 97.7\% with 6000 data points.
 
 It would've been interesting to see how
 boosting\cite[p. 360]{alpaydin2004} would've affected the results;
