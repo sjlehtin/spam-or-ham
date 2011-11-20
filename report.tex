@@ -214,9 +214,13 @@ warrant further recursion.  For example, \XXX{more detailed explanation}.
 \subsubsection{Postpruning}
 \label{sect:postpruning}
 
-Postpruning is used to reduce generalization error by using a a special
+Postpruning is used to reduce generalization error by using a special
 pruning data set to check whether removing a subtree from the decision
 tree will result in the same or smaller error against the pruning set.
+The complexity of such a subtree is deemed unjustified and we expect
+to avoid overfitting by substituting them with simple leaf nodes,
+labeled according to the majority class of the training instances
+reaching them\cite[p. 194 mun kirjassa]{alpaydin2004}.
 
 \begin{figure}[h]
   \centering
@@ -256,7 +260,8 @@ It should be noted that training the set without prepruning takes many
 times longer than with it.
 
 Prepruned tree takes a small hit in accuracy, but is much faster to
-train.
+train, both according to our observations and 
+Alpaydin\cite[p. 195 mun kirjassa]{alpaydin2004}.
 
 \section{Validation of our approach}
 
@@ -318,11 +323,17 @@ Tr. size & Training time & Accuracy \\ \hline
 Base on figure \ref{fig:training-data-size}, training algorithm looks
 strongly like a quadratic algorithm.  Training is much faster with
 modest prepruning parameters, which decrease the tree size by a factor
-of almost hundred.
+of almost a hundred.
 
 \section{Data challenge}
 
 % what did we do based on the results of the data challenge.
+
+The data challenge led us to realize that our - at the time merely
+prepruned - decision tree wasn't the magical black box method
+that would wipe the table that we hoped it would be.
+As a consequence we did the inevitable and gave postpruning,
+as well K-fold cross validation a try.
 
 
 \section{Conclusions}
